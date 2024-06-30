@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
+
+### Your Perspective frontend
 
 First, run the development server:
 
+### Prerequisites
+
+Ensure you have Node.js version ^20 and npm installed on your machine. You can check by running:
+
+### Installation
+
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+3. Install the project dependencies:
+
 ```bash
+# install dependencies
+npm install
+
+npm run build --production
+
+#run developement in local server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+#run production in local server
+npm run start
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Implementation items
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Tailwind (style)](https://nextjs.org/)
+- [Shadcn ui with tailwind (theme gray)](https://ui.shadcn.com/)
+- [NextJs + redux toolkit](https://redux-toolkit.js.org/tutorials/typescript)
+- [RTK Query](https://redux-toolkit.js.org/)
+- [React-icons - github](https://react-icons.github.io/react-icons/search/#q=arrow)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## To browse the development
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Describe how to use your application, including any key features or functionality.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Your Perspective Project Structure
 
-## Deploy on Vercel
+```
+public
+├── assets/
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+src
+├── app/
+│   └── page.tsx
+├── components/
+│   └── lib/
+│       └── store.ts
+├── services/
+    └── apiservices
+├── types/
+    └── Types.ts
+└── README.md
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
