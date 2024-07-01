@@ -1,15 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterSlice from "./features/counter/counterSlice";
-import { pokemonApi } from "@/services/pokemon";
+import { apiSlice } from "./apiSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       count: counterSlice,
-      [pokemonApi.reducerPath]: pokemonApi.reducer, // example
+      [apiSlice.reducerPath]: apiSlice.reducer,
     }, // all reducers, defined here!
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(pokemonApi.middleware),
+      getDefaultMiddleware().concat(apiSlice.middleware),
+
+    devTools: true,
   });
 };
 
