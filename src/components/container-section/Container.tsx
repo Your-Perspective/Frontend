@@ -5,5 +5,7 @@ export default function Container({
   children: React.ReactNode;
   classNames?: string;
 }>) {
-  return <section className={`${classNames} container my-5`}>{children}</section>;
+  return (
+    <section className={`${classNames} container px-2`}>{children}</section>
+  );
 }
