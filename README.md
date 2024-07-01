@@ -18,7 +18,8 @@ Ensure you have Node.js version ^20 and npm installed on your machine. You can c
 # install dependencies
 npm install
 
-npm run build --production
+# check for ready to run
+npm run build
 
 #run developement in local server
 npm run dev
