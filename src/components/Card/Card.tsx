@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContentsTypeProps } from "@/types/Types";
 import Image from "next/image";
@@ -5,8 +6,10 @@ import React from "react";
 import { MdOutlineUpdate } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
 import { AiOutlineLike } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 export default function ContentCard({
+  uuid,
   id,
   category,
   image,
@@ -17,9 +20,11 @@ export default function ContentCard({
   view,
   like,
 }: ContentsTypeProps) {
+  const router = useRouter();
+
   return (
     <Card
-      onClick={() => console.log("title")}
+      onClick={() => router.push(`/pages/blogs/${uuid}`)}
       key={id}
       className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer"
     >
@@ -30,7 +35,7 @@ export default function ContentCard({
           alt="title"
         />
         <div className="col-span-2 flex flex-col gap-4">
-          <small>Author: {author}</small>
+          <small className="capitalize">Author: {author}</small>
           <h3 className="font-medium">{title}</h3>
           <p className="text-gray-500 text-lg">{description}</p>
           <div className="flex gap-4 items-center">

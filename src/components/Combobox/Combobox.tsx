@@ -29,7 +29,7 @@ export function ClickToCommand({
     <>
       <Button
         onClick={() => setOpen((e) => !e)}
-        className="w-full rounded-full bg-gray-300/40 md:mx-10 mx-3 flex gap-5 items-center text-black hover:text-white dark:text-gray-300 dark:hover:text-black"
+        className="w-full rounded-full bg-gray-300/40 flex gap-5 items-center text-black hover:text-white dark:text-gray-300 dark:hover:text-black"
       >
         <FiSearch /> Search
       </Button>

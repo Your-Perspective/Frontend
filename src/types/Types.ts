@@ -6,6 +6,7 @@ export type Pokemon = {
 };
 
 export interface ContentsTypeProps {
+  uuid: string;
   id?: number;
   category?: string;
   image: string | StaticImport;
@@ -21,3 +22,8 @@ export interface SuggestionTypeProps {
   id: number;
   name: string;
 }
+
+export type TabItem = {
+  value: string;
+  label: string;
+};

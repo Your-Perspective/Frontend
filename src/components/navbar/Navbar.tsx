@@ -3,26 +3,30 @@ import { ThemesModeToggle } from "../darkmode-switcher/ThemesSwitcher";
 import Container from "../container-section/Container";
 import { ClickToCommand } from "../Combobox/Combobox";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import { Badge } from "../ui/badge";
 import logo from "@/assets/logo.jpg";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
     <nav className="py-4 container px-0">
-      <Container classNames="flex justify-between items-center">
-        <Image
-          width={60}
-          src={logo}
-          alt="your-perspective - logo"
-          className="rounded-full"
-        />
+      <Container classNames="flex justify-between items-center md:gap-10 gap-3">
+        <Link href={"/"} className="min-w-[55px]">
+          <Image
+            width={60}
+            src={logo}
+            alt="your-perspective - logo"
+            className="rounded-full"
+          />
+        </Link>
         <ClickToCommand />
-        <div className="flex gap-5 items-center">
-          <div className="relative">
-            <Badge className="rounded-full absolute -top-2 left-2">0</Badge>
-            <MdOutlineShoppingBag size={30} />
-          </div>
+        <div className="flex md:gap-3 gap-2 items-center">
+          <Button variant={"link"} className="relative" asChild>
+            <Link href={"/pages/shop"}>
+              <MdOutlineShoppingBag size={30} />
+            </Link>
+          </Button>
           <ThemesModeToggle />
         </div>
       </Container>

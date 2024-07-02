@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import StoreProvider from "@/lib/StoreProvider";
 import { ThemeProvider } from "@/components/ThemeProvider/theme-provider";
 import Navbar from "@/components/navbar/Navbar";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -30,15 +32,17 @@ export default function RootLayout({
         )}
       >
         <StoreProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Navbar />
-            {children}
-          </ThemeProvider>
+          <Suspense fallback={<Loading />}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              {children}
+            </ThemeProvider>
+          </Suspense>
         </StoreProvider>
       </body>
     </html>
