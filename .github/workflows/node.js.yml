@@ -29,13 +29,35 @@ jobs:
   notifyTelegram:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
       - name: Set up branch name
         id: get_branch
         run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      - name: Get commit details
+        if: github.event_name == 'push'
+        id: commit_details
+        run: |
+          COMMIT_HASH=$(git log -1 --pretty=format:'%H')
+          COMMIT_URL="https://github.com/${{ github.repository }}/commit/$COMMIT_HASH"
+          
+          # Use -G to grep in the diff for specific patterns
+          COMMIT_FILES=$(git log -p -G"pattern" --name-only | sed ':a;N;$!ba;s/\n/\\n/g')
+          
+          echo "COMMIT_URL=$COMMIT_URL" >> $GITHUB_ENV
+          echo "COMMIT_FILES=$COMMIT_FILES" >> $GITHUB_ENV
       - name: Send custom message
         env:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          COMMIT_URL: ${{ env.COMMIT_URL }}
+          COMMIT_FILES: ${{ env.COMMIT_FILES }}
         run: |
-          MESSAGE="The '${{ github.event_name }}' event was triggered on branch '${{ env.BRANCH_NAME }}' of the '${{ github.repository }}' repository by user '${{ github.actor }}'."
+          if [ "${{ github.event_name }}" == "push" ]; then
+            MESSAGE="✨A '${{ github.event_name }}' event was triggered on branch '${{ env.BRANCH_NAME }}' of the '${{ github.repository }}' repository.\n\n COMMIT_URL: $COMMIT_URL \n$COMMIT_FILES"
+          else
+            MESSAGE="✨A '${{ github.event_name }}' event was triggered on branch '${{ env.BRANCH_NAME }}' of the '${{ github.repository }}' repository."
+          fi
           curl -X POST -H 'Content-Type: application/json' -d "{\"chat_id\": \"${TELEGRAM_CHAT_ID}\", \"text\": \"$MESSAGE\"}" https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage
