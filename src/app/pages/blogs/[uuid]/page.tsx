@@ -2,7 +2,8 @@ import type { Metadata, ResolvingMetadata } from "next";
 import Container from "@/components/container-section/Container";
 import React from "react";
 import { Contents } from "@/constrain/Contents";
-import { ContentsTypeProps } from "@/types/Types";
+import BlogDetail from "@/components/Blog/BlogDetail";
+import BlogsLayout from "@/components/layout/blogsLayout";
 
 type Props = {
   params: { uuid: string };
@@ -18,8 +19,8 @@ export async function generateMetadata(
   const filterItems = Contents.filter((item) => item.uuid === uuid)[0];
 
   return {
-    title: filterItems.title,
-    description: filterItems.description,
+    title: `${filterItems?.title} | Your Perspective` || "404 not found",
+    description: filterItems?.description || "404 not found",
   };
 }
 
@@ -28,5 +29,11 @@ export default function BlogsDetailByUuid({
 }: {
   params: { uuid: string };
 }) {
-  return <Container>{params.uuid}</Container>;
+  return (
+    <Container>
+      <BlogsLayout>
+        <BlogDetail uuid={params.uuid} />
+      </BlogsLayout>
+    </Container>
+  );
 }

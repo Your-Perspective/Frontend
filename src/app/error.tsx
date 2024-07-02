@@ -5,6 +5,7 @@ import Container from "@/components/container-section/Container";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { FiRefreshCw } from "react-icons/fi";
+import AlertCompo from "@/components/Alert/AlertCompo";
 
 export default function Error({
   error,
@@ -20,7 +21,9 @@ export default function Error({
   return (
     <Container>
       <section className="flex flex-col justify-center items-center min-h-full gap-10 my-20">
-        <p className="text-9xl font-bold dark:text-white text-red-700 animate-pulse">500</p>
+        <p className="text-9xl font-bold dark:text-white text-red-700 animate-pulse">
+          500
+        </p>
         <p className="text-5xl font-bold uppercase">
           Something <span className="text-destructive">error!</span>
         </p>

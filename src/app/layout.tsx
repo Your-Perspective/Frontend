@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/ThemeProvider/theme-provider";
 import Navbar from "@/components/navbar/Navbar";
 import { Suspense } from "react";
 import Loading from "./loading";
+import AlertCompo from "@/components/Alert/AlertCompo";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -39,6 +40,10 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <AlertCompo
+                title="Hello!"
+                variant={"info"}
+              />
               <Navbar />
               {children}
             </ThemeProvider>

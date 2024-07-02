@@ -11,7 +11,7 @@ export default function notFoundPage() {
         <p className="text-9xl font-bold dark:text-white text-red-700 animate-pulse">404</p>
         <p className="text-5xl font-bold uppercase">Page not found!</p>
         <Button variant={"link"} className="font-bold capitalize" asChild>
-          <Link href={"/"} className="flex gap-5">
+          <Link href={"/"} className="flex gap-5 text-primary">
             <FiArrowLeft size={20} /> Back to homepage
           </Link>
         </Button>
