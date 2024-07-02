@@ -12,6 +12,7 @@ export default function ContentCard({
   uuid,
   id,
   category,
+  content,
   image,
   author,
   title,

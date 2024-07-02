@@ -8,7 +8,7 @@ export default function BlogsLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid lg:grid-cols-3 grid-cols-1 gap-5 mx-auto">
+    <div className="grid lg:grid-cols-3 grid-cols-1 gap-5 mx-auto my-5">
       <div className="col-span-2">{children}</div>
       <div className="col-span-1">
         <h2 className="font-medium">Recent post</h2>

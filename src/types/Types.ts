@@ -16,6 +16,7 @@ export interface ContentsTypeProps {
   date_post?: string;
   view?: string;
   like?: string;
+  content: string;
 }
 
 export interface SuggestionTypeProps {
@@ -27,3 +28,9 @@ export type TabItem = {
   value: string;
   label: string;
 };
+
+export interface AlertProps {
+  title: string;
+  content?: string;
+  variant?: "success" | "info" | "warning" | "error" | undefined;
+}

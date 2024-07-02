@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { Contents, tabs } from "@/constrain/Contents";
 import ContentCard from "../Card/Card";
 import { ContentsTypeProps } from "@/types/Types";
@@ -36,7 +35,7 @@ export default function TabsGategory() {
         ))}
       </TabsList>
       {tabs.map((item) => (
-        <TabsContent key={item.value} value={item.value} className="py-5">
+        <TabsContent key={item.value} value={item.value}>
           <BlogsLayout>
             <h2 className="font-medium">Blogs</h2>
             <div className="py-3">
@@ -47,6 +46,7 @@ export default function TabsGategory() {
             <div className="flex flex-col gap-4">
               {contentData.map((item: ContentsTypeProps) => (
                 <ContentCard
+                  content={item.content}
                   uuid={item.uuid}
                   category={item.category}
                   id={item.id}

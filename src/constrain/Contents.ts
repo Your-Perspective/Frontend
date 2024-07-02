@@ -9,6 +9,8 @@ export const Contents: ContentsTypeProps[] = [
     image: timeTravel,
     author: "Limhai",
     title: "Time travel Stock Photos",
+    content:
+      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     description:
       "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
     date_post: "Nov 22, 2023",
@@ -18,6 +20,8 @@ export const Contents: ContentsTypeProps[] = [
   {
     uuid: "14ed676c-5d93-46f3-87c5-5feb66ed3c67",
     id: 2,
+    content:
+      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     category: "following",
     image: timeTravel,
     author: "Seangleng",
@@ -33,6 +37,8 @@ export const Contents: ContentsTypeProps[] = [
     id: 3,
     category: "alien",
     image: timeTravel,
+    content:
+      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     author: "seangleng",
     title: "Time travel - 1",
     description:
@@ -47,6 +53,8 @@ export const Contents: ContentsTypeProps[] = [
     category: "foryou",
     image: timeTravel,
     author: "seangleng",
+    content:
+      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     title: "Time travel Photos",
     description:
       "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
