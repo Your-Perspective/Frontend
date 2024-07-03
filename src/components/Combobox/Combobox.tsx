@@ -42,14 +42,15 @@ export function ClickToCommand({
             {
               Contents.map((item) => (
                 <CommandItem
-                  className={"font-normal opacity-100"}
+                  className={"font-normal opacity-100 grid gap-1 justify-start"}
                   key={item.uuid}
                   onSelect={() => {
                     setOpen((e) => !e);
                     router.push(`/pages/blogs/${item.uuid}`)
                   }}
                 >
-                  <span>{item.title}</span>
+                  <p className="text-base font-medium">{item.title}</p>
+                  <p>{item.description}</p>
                 </CommandItem>
               ))
             }
