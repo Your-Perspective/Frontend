@@ -14,9 +14,7 @@ export default function BlogsLayout({
         <h2 className="font-medium">Recent post</h2>
         <p className="text-gray-500 mt-3">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut
-          consequuntur modi quia unde vero aliquam pariatur ea, deleniti
-          aspernatur, fuga omnis velit, recusandae odio molestiae repellendus
-          est officiis! A.
+          consequuntur modi quia unde vero aliquam pariatur ea.
         </p>
         <h3 className="font-medium mt-4">Suggestions</h3>
         <div className="flex flex-wrap gap-2 my-5">
