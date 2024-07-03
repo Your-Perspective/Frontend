@@ -34,3 +34,23 @@ export interface AlertProps {
   content?: string;
   variant?: "success" | "info" | "warning" | "error" | undefined;
 }
+
+export type DropdownSelectProps = {
+  display_name: string;
+  label: string;
+  items: Array<{
+    value: string;
+    label: string;
+  }>;
+};
+
+export type ProductCardProps = {
+  uuid: string;
+  thumbnail: string | StaticImport;
+  oldPrice?: number;
+  newPrice: number;
+  title: string;
+  description?: string;
+  type: string;
+  colors?: Array<string>;
+};
