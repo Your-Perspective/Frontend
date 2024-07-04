@@ -41,7 +41,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <AlertCompo
-                title="Hello!"
+                title="Alert bar!"
                 variant={"info"}
               />
               <Navbar />

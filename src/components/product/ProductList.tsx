@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
 import DropdownCompo from "../drop-down/DropdownCompo";
 import { Products, ProductsOptionsSelect } from "@/constrain/Products";
 import ProductCard from "./ProductCard";
+
 export default function ProductList() {
   return (
-    <div>
+    <section aria-label="products-list">
       <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-5">
         {ProductsOptionsSelect.map((item, index) => (
           <DropdownCompo
@@ -32,6 +32,6 @@ export default function ProductList() {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -46,11 +46,13 @@ export type DropdownSelectProps = {
 
 export type ProductCardProps = {
   uuid: string;
-  thumbnail: string | StaticImport;
+  thumbnail: StaticImport | string;
   oldPrice?: number;
   newPrice: number;
   title: string;
   description?: string;
   type: string;
   colors?: Array<string>;
+  size?: Array<string>;
+  stocked?: number;
 };

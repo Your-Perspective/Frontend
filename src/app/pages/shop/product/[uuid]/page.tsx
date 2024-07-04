@@ -2,6 +2,7 @@ import Container from "@/components/container-section/Container";
 import React from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { Products } from "@/constrain/Products";
+import ProductDetail from "@/components/product/ProductDetail";
 
 type Props = {
   params: { uuid: string };
@@ -28,8 +29,8 @@ export default function DetailProductPage({
   params: { uuid: string };
 }) {
   return (
-    <Container classNames="font-bold flex justify-center items-center min-h-[300px] text-lg animate-pulse">
-      On developing
+    <Container>
+      <ProductDetail uuid={params.uuid} />
     </Container>
   );
 }

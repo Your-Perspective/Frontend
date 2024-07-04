@@ -4,20 +4,20 @@ import profile from "@/assets/product.jpeg";
 
 export const ProductsOptionsSelect: DropdownSelectProps[] = [
   {
-    display_name: "Types",
-    label: "Types",
+    display_name: "Price",
+    label: "Price",
     items: [
       {
         label: "All",
         value: "all",
       },
       {
-        label: "Big",
-        value: "big",
+        label: "Lowest",
+        value: "lowest",
       },
       {
-        label: "Small",
-        value: "small",
+        label: "Highest",
+        value: "highest",
       },
     ],
   },
@@ -48,8 +48,8 @@ export const ProductsOptionsSelect: DropdownSelectProps[] = [
         value: "all",
       },
       {
-        label: "Large",
-        value: "large",
+        label: "S",
+        value: "s",
       },
       {
         label: "Bigger",
@@ -70,60 +70,72 @@ export const Products: ProductCardProps[] = [
     type: "Swag",
     colors: ["#7C91FB", "#575A68", "#BAC4FB"],
     thumbnail: profile,
+    size: ["S", "L", "XL", "XXL"],
+    stocked: 20,
   },
   {
     uuid: "2",
     title: "Slim Fit Denim Jacket",
     description:
-      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
+      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
     // oldPrice: 250,
     newPrice: 225,
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
+    size: ["S", "L", "XL", "XXL"],
+    stocked: 20,
   },
   {
     uuid: "3",
     title: "Slim Fit Denim Jacket",
     description:
-      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
+      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
     // oldPrice: 250,
     newPrice: 225,
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
+    size: ["S", "L", "XL", "XXL"],
+    stocked: 20,
   },
   {
     uuid: "4",
     title: "Slim Fit Denim Jacket",
     description:
-      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
+      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
     // oldPrice: 250,
     newPrice: 225,
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
+    size: ["S", "L", "XL", "XXL"],
+    stocked: 20,
   },
   {
     uuid: "5",
     title: "Slim Fit Denim Jacket",
     description:
-      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
+      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
     oldPrice: 250,
     newPrice: 225,
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
+    size: ["S", "L", "XL", "XXL"],
+    stocked: 20,
   },
   {
     uuid: "6",
     title: "Slim Fit Denim Jacket",
     description:
-      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
+      "Crafted from premium denim, this slim fit jacket offers a modern take on classic style.Crafted from premium denim, this slim fit jacket offers a modern take on classic style.",
     oldPrice: 250,
     newPrice: 225,
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
+    size: ["S", "L", "XL", "XXL"],
+    stocked: 20,
   },
 ];

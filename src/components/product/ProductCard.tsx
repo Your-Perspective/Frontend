@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
@@ -30,21 +30,19 @@ export default function ProductCard({
           alt="product-alt"
           className="w-full h-[320px] object-cover rounded-lg"
         />
-        <Badge className="w-fit py-2 px-3 border-0 rounded-full bg-white flex items-center gap-2 text-primary shadow-lg absolute top-1 right-2">
+      </CardHeader>
+      <CardContent className="p-0">
+        <p className="text-xl font-medium">{title}</p>
+        <div className="w-fit py-2 border-0 flex items-center gap-1 text-primary">
           {oldPrice && (
             <span className="line-through text-sm">${oldPrice}</span>
           )}
           {newPrice && (
-            <span className="text-primaryColor text-sm font-semibold">
+            <span className="text-primary text-lg font-semibold">
               ${newPrice}
             </span>
           )}
-        </Badge>
-      </CardHeader>
-      <CardContent className="p-0">
-        <p className="text-xl font-medium">{title}</p>
-        <p className="text-base text-gray-500">{description}</p>
-        {type && <p className="text-base font-medium">Type: {type}</p>}
+        </div>
         <div className="flex gap-1 flex-wrap mt-3">
           {colors?.map((color, index) => (
             <div
