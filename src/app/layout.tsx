@@ -17,6 +17,26 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "Your perspective",
   description: "Discover untold stories and whispered tales on our channel",
+  openGraph: {
+    title: "Your perspective",
+    description: "Discover untold stories and whispered tales on our channel",
+  },
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "website",
+  name: "Your perspective",
+  description: "Discover untold stories and whispered tales on our channel",
+  url: "http://localhost:3000",
+  publisher: {
+    "@type": "Organization",
+    name: "Your perspective",
+    logo: {
+      "@type": "ImageObject",
+      url: "", // Replace with your logo URL
+    },
+  },
 };
 
 export default function RootLayout({
@@ -26,6 +46,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

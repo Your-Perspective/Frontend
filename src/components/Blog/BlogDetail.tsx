@@ -92,12 +92,7 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
             </div>
           </div>
           <div>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut
-              consequuntur modi quia unde vero aliquam pariatur ea, deleniti
-              aspernatur, fuga omnis velit, recusandae odio molestiae
-              repellendus est officiis! A.
-            </p>
+            <p>{content?.auther_bio}</p>
           </div>
         </CardHeader>
       </Card>

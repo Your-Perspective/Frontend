@@ -9,6 +9,8 @@ export const Contents: ContentsTypeProps[] = [
     image: timeTravel,
     author: "Limhai",
     title: "Time travel Stock Photos",
+    auther_bio:
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
     content:
       "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     description:
@@ -20,6 +22,8 @@ export const Contents: ContentsTypeProps[] = [
   {
     uuid: "14ed676c-5d93-46f3-87c5-5feb66ed3c67",
     id: 2,
+    auther_bio:
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
     content:
       "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     category: "following",
@@ -37,6 +41,8 @@ export const Contents: ContentsTypeProps[] = [
     id: 3,
     category: "alien",
     image: timeTravel,
+    auther_bio:
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
     content:
       "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     author: "seangleng",
@@ -53,6 +59,8 @@ export const Contents: ContentsTypeProps[] = [
     category: "foryou",
     image: timeTravel,
     author: "seangleng",
+    auther_bio:
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
     content:
       "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
     title: "Time travel Photos",

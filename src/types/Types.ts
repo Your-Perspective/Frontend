@@ -11,6 +11,7 @@ export interface ContentsTypeProps {
   category?: string;
   image: string | StaticImport;
   author?: string;
+  auther_bio?: string;
   title?: string;
   description?: string;
   date_post?: string;
