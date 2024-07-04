@@ -15,7 +15,7 @@ export const Contents: ContentsTypeProps[] = [
       "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
     date_post: "Nov 22, 2023",
     view: "90",
-    like: "1000",
+    minute_read: "3",
   },
   {
     uuid: "14ed676c-5d93-46f3-87c5-5feb66ed3c67",
@@ -30,7 +30,7 @@ export const Contents: ContentsTypeProps[] = [
       "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
     date_post: "Nov 21, 2023",
     view: "100",
-    like: "1100",
+    minute_read: "1100",
   },
   {
     uuid: "de74ce9d-7193-48bd-bc0b-01c1adae1f66",
@@ -45,7 +45,7 @@ export const Contents: ContentsTypeProps[] = [
       "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
     date_post: "Nov 22, 2023",
     view: "90",
-    like: "1000",
+    minute_read: "3",
   },
   {
     uuid: "5528840d-a9c4-4855-ab5a-58db17cec379",
@@ -60,7 +60,7 @@ export const Contents: ContentsTypeProps[] = [
       "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
     date_post: "Nov 22, 2023",
     view: "90",
-    like: "1000",
+    minute_read: "3",
   },
 ];
 
@@ -84,6 +84,7 @@ export const SuggestionCategories: SuggestionTypeProps[] = [
 ];
 
 export const tabs: TabItem[] = [
+  { value: "all", label: "All" },
   { value: "foryou", label: "For you" },
   { value: "following", label: "Following" },
   { value: "alien", label: "Alien" },
