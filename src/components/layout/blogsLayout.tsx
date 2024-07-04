@@ -1,6 +1,7 @@
 import React from "react";
 import { Badge } from "../ui/badge";
 import { SuggestionCategories } from "@/constrain/Contents";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 export default function BlogsLayout({
   children,
@@ -14,8 +15,14 @@ export default function BlogsLayout({
       aria-label={arai_label}
       className="grid lg:grid-cols-3 grid-cols-1 gap-5 mx-auto my-5"
     >
-      <div className="col-span-2">{children}</div>
-      <div className="col-span-1">
+      <div className="col-span-2">
+        <ScrollArea className="w-full rounded-md h-screen relative">
+          <div className="max-h-screen">{children}</div>
+          <ScrollBar orientation="horizontal" className="hidden" />
+        </ScrollArea>
+      </div>
+      <div className="sticky top-0 z-10">
+        {" "}
         <h2 className="font-medium">Recent post</h2>
         <p className="text-gray-500 mt-3">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut
@@ -33,6 +40,7 @@ export default function BlogsLayout({
           ))}
         </div>
       </div>
+      <div className="col-span-1">{/* Other content */}</div>
     </section>
   );
 }

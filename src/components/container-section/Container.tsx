@@ -6,6 +6,6 @@ export default function Container({
   classNames?: string;
 }>) {
   return (
-    <section className={`${classNames} container px-2`}>{children}</section>
+    <section className={`${classNames} container px-2 text-primary`}>{children}</section>
   );
 }

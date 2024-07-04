@@ -8,13 +8,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { FiSearch } from "react-icons/fi";
-import {Contents} from "@/constrain/Contents";
+import { Contents } from "@/constrain/Contents";
 
 export function ClickToCommand({
   text,
@@ -39,23 +38,19 @@ export function ClickToCommand({
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup itemScope={true} heading="Blogs">
-            {
-              Contents.map((item) => (
-                <CommandItem
-                  className={"font-normal opacity-100 grid gap-1 justify-start"}
-                  key={item.uuid}
-                  onSelect={() => {
-                    setOpen((e) => !e);
-                    router.push(`/pages/blogs/${item.uuid}`)
-                  }}
-                >
-                  <p className="text-base font-medium">{item.title}</p>
-                  <p>{item.description}</p>
-                </CommandItem>
-              ))
-            }
-            
-            
+            {Contents.map((item) => (
+              <CommandItem
+                className={"font-normal opacity-100 grid gap-1 justify-start"}
+                key={item.uuid}
+                onSelect={() => {
+                  setOpen((e) => !e);
+                  router.push(`/pages/blogs/${item.uuid}`);
+                }}
+              >
+                <p className="text-base font-medium">{item.title}</p>
+                <p>{item.description}</p>
+              </CommandItem>
+            ))}
             <CommandSeparator />
           </CommandGroup>
         </CommandList>
