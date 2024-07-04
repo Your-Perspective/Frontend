@@ -1,6 +1,4 @@
-import { SuggestionCategories } from "@/constrain/Contents";
 import React from "react";
-import { Badge } from "../ui/badge";
 
 export default function BlogDetailLayout({
   children,
