@@ -2,8 +2,8 @@ import type { Metadata, ResolvingMetadata } from "next";
 import Container from "@/components/container-section/Container";
 import React from "react";
 import { Contents } from "@/constrain/Contents";
+import BlogDetailLayout from "@/components/layout/BlogDetail";
 import BlogDetail from "@/components/Blog/BlogDetail";
-import BlogsLayout from "@/components/layout/blogsLayout";
 
 type Props = {
   params: { uuid: string };
@@ -31,9 +31,9 @@ export default function BlogsDetailByUuid({
 }) {
   return (
     <Container>
-      <BlogsLayout>
+      <BlogDetailLayout>
         <BlogDetail uuid={params.uuid} />
-      </BlogsLayout>
+      </BlogDetailLayout>
     </Container>
   );
 }

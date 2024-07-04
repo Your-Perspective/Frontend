@@ -15,7 +15,7 @@ export interface ContentsTypeProps {
   description?: string;
   date_post?: string;
   view?: string;
-  like?: string;
+  minute_read?: string;
   content: string;
 }
 

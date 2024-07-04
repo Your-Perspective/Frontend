@@ -86,7 +86,7 @@
   }
 
   h3 {
-    @apply text-xl;
+    @apply md:text-xl text-lg leading-relaxed;
   }
 
   h4 {
