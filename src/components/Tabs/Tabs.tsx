@@ -5,9 +5,10 @@ import { Contents, tabs } from "@/constrain/Contents";
 import ContentCard from "../Card/Card";
 import { ContentsTypeProps } from "@/types/Types";
 import BlogsLayout from "../layout/blogsLayout";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 export default function TabsGategory() {
-  const [category, setCategory] = useState<string>("foryou");
+  const [category, setCategory] = useState<string>("all");
   const [contentData, setContentData] = useState<ContentsTypeProps[]>([]);
 
   const onTabChange = (value: string) => {
@@ -15,29 +16,40 @@ export default function TabsGategory() {
   };
 
   useEffect(() => {
-    const filteredContents = Contents.filter(
-      (item) => item.category === category
-    );
+    let filteredContents = null;
+    if (category !== "all") {
+      filteredContents = Contents.filter((item) => item.category === category);
+    } else {
+      filteredContents = Contents;
+    }
     setContentData(filteredContents);
   }, [category]);
 
   return (
-    <Tabs value={category} onValueChange={onTabChange} className="py-3">
+    <Tabs
+      aria-label="tabs-gategory"
+      value={category}
+      onValueChange={onTabChange}
+      className="py-3"
+    >
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
-        {tabs.map((item) => (
-          <TabsTrigger
-            className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none "
-            key={item.value}
-            value={item.value}
-          >
-            {item.label}
-          </TabsTrigger>
-        ))}
+        <ScrollArea className="w-full whitespace-nowrap rounded-md shadow-none">
+          {tabs.map((item) => (
+            <TabsTrigger
+              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none "
+              key={item.value}
+              value={item.value}
+            >
+              {item.label}
+            </TabsTrigger>
+          ))}
+          <ScrollBar orientation="horizontal" className="hidden" />
+        </ScrollArea>
       </TabsList>
       {tabs.map((item) => (
         <TabsContent key={item.value} value={item.value}>
-          <BlogsLayout>
-            <h2 className="font-medium">Blogs</h2>
+          <BlogsLayout arai_label={item.label}>
+            <h1 className="font-bold text-primary">{item.label}</h1>
             <div className="py-3">
               {contentData.length <= 0 && (
                 <p>Not found blogs of this category</p>
@@ -53,7 +65,7 @@ export default function TabsGategory() {
                   author={item.author}
                   date_post={item.date_post}
                   key={item.id}
-                  like={item.like}
+                  minute_read={item.minute_read}
                   view={item.view}
                   title={item.title}
                   description={item.description}

@@ -14,10 +14,10 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {BsFacebook} from "react-icons/bs";
+import { BsFacebook } from "react-icons/bs";
 import Link from "next/link";
-import {AiFillInstagram} from "react-icons/ai";
-import {BiLogoTwitter} from "react-icons/bi";
+import { AiFillInstagram } from "react-icons/ai";
+import { BiLogoTwitter } from "react-icons/bi";
 
 export default function BlogDetail({ uuid }: { uuid: string }) {
   const [content, setContentByUuid] = useState<ContentsTypeProps>();
@@ -28,7 +28,7 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
   }, [uuid]);
 
   return (
-    <section className={'flex flex-col gap-5'}>
+    <section aria-labelledby={content?.title} className={"flex flex-col gap-5"}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -40,11 +40,11 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Card>
-        <CardHeader>
+      <Card className="shadow-none border-0">
+        <CardHeader className="p-0">
           <h1 className="font-medium">{content?.title}</h1>
           <p className="leading-relax text-gray-500">{content?.description}</p>
-          <div className="flex items-center text-primary gap-5">
+          <div className="flex items-center text-primary gap-5 py-5">
             <Image
               src={profile}
               alt="autorr-profile"
@@ -62,22 +62,31 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
                   <IoEye size={20} />
                   {content?.view}
                 </p>
+                <p className="flex items-center gap-3">
+                  {content?.minute_read} min read
+                </p>
               </div>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="text-primary md:text-lg text-base">
+        <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">
           {content?.content}
         </CardContent>
       </Card>
-      <Card className={'text-primary'}>
-        <CardHeader>
-          <div className={'flex justify-between items-center'}>
+      <Card className={"text-primary shadow-none border-0 my-10"}>
+        <CardHeader className="p-0">
+          <div className={"flex justify-between items-center"}>
             <h3 className="font-medium">Written by:</h3>
-            <div className={'flex gap-3'}>
-              <Link href={'#'}><BsFacebook size={25} /></Link>
-              <Link href={'#'}><AiFillInstagram size={25} /></Link>
-              <Link href={'#'}><BiLogoTwitter size={25} /></Link>
+            <div className={"flex gap-3"}>
+              <Link href={"#"}>
+                <BsFacebook size={25} />
+              </Link>
+              <Link href={"#"}>
+                <AiFillInstagram size={25} />
+              </Link>
+              <Link href={"#"}>
+                <BiLogoTwitter size={25} />
+              </Link>
             </div>
           </div>
           <div className="flex items-center text-primary gap-5">
@@ -97,7 +106,11 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
             </div>
           </div>
           <div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut
+              consequuntur modi quia unde vero aliquam pariatur ea, deleniti
+              aspernatur, fuga omnis velit, recusandae odio molestiae
+              repellendus est officiis! A.
             </p>
           </div>
         </CardHeader>
