@@ -40,10 +40,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <AlertCompo
-                title="Alert bar!"
-                variant={"info"}
-              />
+              <AlertCompo title="Alert bar!" variant={"info"} />
               <Navbar />
               {children}
             </ThemeProvider>

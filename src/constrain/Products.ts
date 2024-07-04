@@ -52,8 +52,12 @@ export const ProductsOptionsSelect: DropdownSelectProps[] = [
         value: "s",
       },
       {
-        label: "Bigger",
-        value: "bigger",
+        label: "L",
+        value: "l",
+      },
+      {
+        label: "XL",
+        value: "xl",
       },
     ],
   },
@@ -70,7 +74,7 @@ export const Products: ProductCardProps[] = [
     type: "Swag",
     colors: ["#7C91FB", "#575A68", "#BAC4FB"],
     thumbnail: profile,
-    size: ["S", "L", "XL", "XXL"],
+    size: ["S", "L", "XL"],
     stocked: 20,
   },
   {
@@ -96,7 +100,7 @@ export const Products: ProductCardProps[] = [
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
-    size: ["S", "L", "XL", "XXL"],
+    size: ["S"],
     stocked: 20,
   },
   {
@@ -109,7 +113,7 @@ export const Products: ProductCardProps[] = [
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
-    size: ["S", "L", "XL", "XXL"],
+    size: ["S", "L"],
     stocked: 20,
   },
   {
@@ -120,9 +124,9 @@ export const Products: ProductCardProps[] = [
     oldPrice: 250,
     newPrice: 225,
     type: "Fashion",
-    colors: ["#3F51B5", "#FF5722", "#009688"],
+    colors: ["#3F51B5"],
     thumbnail: profile,
-    size: ["S", "L", "XL", "XXL"],
+    size: ["S", "L"],
     stocked: 20,
   },
   {
@@ -135,7 +139,7 @@ export const Products: ProductCardProps[] = [
     type: "Fashion",
     colors: ["#3F51B5", "#FF5722", "#009688"],
     thumbnail: profile,
-    size: ["S", "L", "XL", "XXL"],
+    size: ["XL", "XXL"],
     stocked: 20,
   },
 ];

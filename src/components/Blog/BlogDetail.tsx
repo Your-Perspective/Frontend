@@ -7,17 +7,11 @@ import { MdOutlineUpdate } from "react-icons/md";
 import profile from "@/assets/logo.jpg";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { BsFacebook } from "react-icons/bs";
 import Link from "next/link";
 import { AiFillInstagram } from "react-icons/ai";
 import { BiLogoTwitter } from "react-icons/bi";
+import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
 
 export default function BlogDetail({ uuid }: { uuid: string }) {
   const [content, setContentByUuid] = useState<ContentsTypeProps>();
@@ -29,17 +23,9 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
 
   return (
     <section aria-labelledby={content?.title} className={"flex flex-col gap-5"}>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink>{content?.title}</BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      {content?.title && (
+        <BreadcrumbCompo title={[{ label: content?.title, link: "#" }]} />
+      )}
       <Card className="shadow-none border-0">
         <CardHeader className="p-0">
           <h1 className="font-medium">{content?.title}</h1>

@@ -6,10 +6,13 @@ import ContentCard from "../Card/Card";
 import { ContentsTypeProps } from "@/types/Types";
 import BlogsLayout from "../layout/blogsLayout";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import NotFoundPage from "@/app/not-found";
+import Loading from "@/app/loading";
 
 export default function TabsGategory() {
   const [category, setCategory] = useState<string>("all");
   const [contentData, setContentData] = useState<ContentsTypeProps[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
 
   const onTabChange = (value: string) => {
     setCategory(value);
@@ -23,14 +26,19 @@ export default function TabsGategory() {
       filteredContents = Contents;
     }
     setContentData(filteredContents);
+    setLoading(false);
   }, [category]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Tabs
       aria-label="tabs-gategory"
       value={category}
       onValueChange={onTabChange}
-      className="py-3"
+      className="py-3 sticky top-0 z-10"
     >
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md shadow-none">
@@ -52,7 +60,7 @@ export default function TabsGategory() {
             <h1 className="font-bold text-primary">{item.label}</h1>
             <div className="py-3">
               {contentData.length <= 0 && (
-                <p>Not found blogs of this category</p>
+                <NotFoundPage text_display="Contents not found!" />
               )}
             </div>
             <div className="flex flex-col gap-4">

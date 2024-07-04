@@ -88,4 +88,5 @@ export const tabs: TabItem[] = [
   { value: "foryou", label: "For you" },
   { value: "following", label: "Following" },
   { value: "alien", label: "Alien" },
+  { value: "Technologies", label: "Technologies" },
 ];

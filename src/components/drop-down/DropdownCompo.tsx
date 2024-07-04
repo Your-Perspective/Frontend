@@ -23,9 +23,9 @@ export default function DropdownCompo({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="flex items-center gap-3 justify-between"
+          className="flex items-center gap-3 justify-between capitalize"
         >
-          {display_name} <IoIosArrowDown />{" "}
+          {display_name}: {position || ""} <IoIosArrowDown />{" "}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

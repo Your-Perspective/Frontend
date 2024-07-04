@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import ProductCard from "./ProductCard";
+import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
 
 export default function ProductDetail({ uuid }: { uuid: string }) {
   const [product, setProduct] = useState<ProductCardProps | undefined>();
@@ -24,8 +25,14 @@ export default function ProductDetail({ uuid }: { uuid: string }) {
 
   if (product) {
     return (
-      <section className="my-10">
-        <section className="grid md:grid-cols-2 grid-cols-1 gap-5">
+      <section aria-label={product.title} className="my-10">
+        <BreadcrumbCompo
+          title={[
+            { label: "shop", link: "/pages/shop" },
+            { label: product.title, link: "" },
+          ]}
+        />
+        <section className="grid md:grid-cols-2 grid-cols-1 gap-5 my-10">
           <Image
             src={product.thumbnail}
             alt={product.title}
