@@ -8,7 +8,7 @@ interface RootState {
 
 // Adjust the prepareHeaders function to accept a token parameter
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://pokeapi.co/api/v2/",
+  baseUrl: process.env.backend_url,
   // prepareHeaders: (headers, { getState }) => {
   //   const token = (getState() as RootState).auth.access;
   //   if (token) {
@@ -19,7 +19,7 @@ const baseQuery = fetchBaseQuery({
 });
 
 export const apiSlice = createApi({
-  reducerPath: 'apiSlice',
+  reducerPath: "apiSlice",
   baseQuery: baseQuery,
   tagTypes: ["user", "sample"],
   endpoints: (builder) => ({}),
