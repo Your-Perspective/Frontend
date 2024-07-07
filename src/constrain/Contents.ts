@@ -1,76 +1,4 @@
-import { ContentsTypeProps, SuggestionTypeProps, TabItem } from "@/types/Types";
-import timeTravel from "@/assets/time_travel.jpeg";
-
-export const Contents: ContentsTypeProps[] = [
-  {
-    uuid: "b6daa3fe-3ed1-42ad-a083-f7f18ac751a4",
-    id: 1,
-    category: "foryou",
-    image: timeTravel,
-    author: "Limhai",
-    title: "Time travel Stock Photos",
-    auther_bio:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
-    content:
-      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
-    description:
-      "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
-    date_post: "Nov 22, 2023",
-    view: "90",
-    minute_read: "3",
-  },
-  {
-    uuid: "14ed676c-5d93-46f3-87c5-5feb66ed3c67",
-    id: 2,
-    auther_bio:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
-    content:
-      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
-    category: "following",
-    image: timeTravel,
-    author: "Seangleng",
-    title: "Time travel",
-    description:
-      "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
-    date_post: "Nov 21, 2023",
-    view: "100",
-    minute_read: "1100",
-  },
-  {
-    uuid: "de74ce9d-7193-48bd-bc0b-01c1adae1f66",
-    id: 3,
-    category: "alien",
-    image: timeTravel,
-    auther_bio:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
-    content:
-      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
-    author: "seangleng",
-    title: "Time travel - 1",
-    description:
-      "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
-    date_post: "Nov 22, 2023",
-    view: "90",
-    minute_read: "3",
-  },
-  {
-    uuid: "5528840d-a9c4-4855-ab5a-58db17cec379",
-    id: 4,
-    category: "foryou",
-    image: timeTravel,
-    author: "seangleng",
-    auther_bio:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut consequuntur modi quia unde vero aliquam pariatur ea, deleniti aspernatur, fuga omnis velit, recusandae odio molestiae repellendus est officiis! A.",
-    content:
-      "lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu",
-    title: "Time travel Photos",
-    description:
-      "To understand what Spring Boot is and its features, we should get back to the Spring framework first.",
-    date_post: "Nov 22, 2023",
-    view: "90",
-    minute_read: "3",
-  },
-];
+import { SuggestionTypeProps } from "@/types/Types";
 
 export const SuggestionCategories: SuggestionTypeProps[] = [
   {
@@ -89,12 +17,4 @@ export const SuggestionCategories: SuggestionTypeProps[] = [
     id: 4,
     name: "Relationship",
   },
-];
-
-export const tabs: TabItem[] = [
-  { value: "all", label: "All" },
-  { value: "foryou", label: "For you" },
-  { value: "following", label: "Following" },
-  { value: "alien", label: "Alien" },
-  { value: "Technologies", label: "Technologies" },
 ];

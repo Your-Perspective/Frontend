@@ -1,7 +1,4 @@
 "use client";
-import { Contents } from "@/constrain/Contents";
-import { ContentsTypeProps } from "@/types/Types";
-import React, { useEffect, useState } from "react";
 import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
 import profile from "@/assets/logo.jpg";
@@ -12,24 +9,34 @@ import Link from "next/link";
 import { AiFillInstagram } from "react-icons/ai";
 import { BiLogoTwitter } from "react-icons/bi";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
+import { useGetBlogDetailByAuthorSlugQuery } from "@/lib/api/services/AllBlogs";
+import { DateFunction } from "@/constrain/DateFunction";
 
-export default function BlogDetail({ uuid }: { uuid: string }) {
-  const [content, setContentByUuid] = useState<ContentsTypeProps>();
-
-  useEffect(() => {
-    const contentDetail = Contents.filter((item) => item.uuid === uuid);
-    setContentByUuid(contentDetail[0]);
-  }, [uuid]);
+export default function BlogDetail({
+  slug,
+  username,
+}: {
+  slug: string;
+  username: string;
+}) {
+  const {
+    data: content,
+    isLoading,
+    error,
+  } = useGetBlogDetailByAuthorSlugQuery([slug, username]);
 
   return (
-    <section aria-labelledby={content?.title} className={"flex flex-col gap-5"}>
-      {content?.title && (
-        <BreadcrumbCompo title={[{ label: content?.title, link: "#" }]} />
+    <section
+      aria-labelledby={content?.blogTitle}
+      className={"flex flex-col gap-5"}
+    >
+      {content?.blogTitle && (
+        <BreadcrumbCompo title={[{ label: content?.blogTitle, link: "#" }]} />
       )}
       <Card className="shadow-none border-0">
         <CardHeader className="p-0">
-          <h1 className="font-medium">{content?.title}</h1>
-          <p className="leading-relax text-gray-500">{content?.description}</p>
+          <h1 className="font-medium">{content?.blogTitle}</h1>
+          <p className="leading-relax text-gray-500">{content?.summary}</p>
           <div className="flex items-center text-primary gap-5 py-5">
             <Image
               src={profile}
@@ -38,25 +45,27 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
               className="rounded-full"
             />
             <div className="flex flex-col gap-1">
-              <strong className="capitalize text-lg">{content?.author}</strong>
+              <strong className="capitalize text-lg">
+                {content?.author.userName}
+              </strong>
               <div className="flex gap-3 text-gray-500">
-                <p className="text-gray-500">{content?.category}</p>
                 <p className="flex gap-3 items-center">
-                  <MdOutlineUpdate size={20} /> {content?.date_post}
+                  <MdOutlineUpdate size={20} />{" "}
+                  {DateFunction({ date: content?.createdAt })}
                 </p>
                 <p className="flex gap-3 items-center">
                   <IoEye size={20} />
-                  {content?.view}
+                  {content?.countViewer}
                 </p>
                 <p className="flex items-center gap-3">
-                  {content?.minute_read} min read
+                  {content?.minRead} min read
                 </p>
               </div>
             </div>
           </div>
         </CardHeader>
         <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">
-          {content?.content}
+          {content?.blogContent}
         </CardContent>
       </Card>
       <Card className={"text-primary shadow-none border-0 my-10"}>
@@ -83,16 +92,19 @@ export default function BlogDetail({ uuid }: { uuid: string }) {
               className="rounded-full"
             />
             <div className="flex flex-col gap-1">
-              <strong className="capitalize text-lg">{content?.author}</strong>
+              <strong className="capitalize text-lg">
+                {content?.author.userName}
+              </strong>
               <div className="flex gap-3 text-gray-500">
                 <p className="flex gap-3 items-center">
-                  <MdOutlineUpdate size={20} /> {content?.date_post}
+                  <MdOutlineUpdate size={20} />{" "}
+                  {DateFunction({ date: content?.createdAt })}
                 </p>
               </div>
             </div>
           </div>
           <div>
-            <p>{content?.auther_bio}</p>
+            <p>{content?.author.userName}</p>
           </div>
         </CardHeader>
       </Card>

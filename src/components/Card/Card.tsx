@@ -22,13 +22,16 @@ export default function ContentCard({
 
   return (
     <Card
-      onClick={() => router.push(`/pages/blogs/${slug}`)}
+      onClick={() => router.push(`/pages/blogs/${author.userName}/${slug}`)}
       key={slug}
       className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer"
     >
       <CardContent className="grid grid-cols-3 gap-5 py-5 px-0 md:items-center items-start">
         <Image
-          src={thumbnail}
+          priority
+          width={300}
+          height={100}
+          src={"https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"}
           className="col-span-1 md:h-[200px] h-[100px] object-cover rounded-lg"
           alt="title"
         />
@@ -38,7 +41,7 @@ export default function ContentCard({
           <div className="flex flex-wrap gap-4 items-center text-gray-500">
             <p className="capitalize md:text-lg text-sm">{author.userName}</p>
             <div className="flex items-center gap-3 md:text-lg text-sm">
-              <MdOutlineUpdate /> {published}
+              <MdOutlineUpdate /> {createdAt}
             </div>
             <div className="flex items-center gap-3">
               <IoEye /> {countViewer}

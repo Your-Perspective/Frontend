@@ -7,17 +7,33 @@ export type Pokemon = {
 
 export interface ContentsTypeProps {
   slug: string;
-  thumbnail: string;
+  thumbnail?: string;
   summary: string;
   blogTitle: string;
   countViewer: number;
   minRead?: number;
-  published: boolean;
+  published?: boolean;
   author: {
     profileImage: string;
     userName: string;
   };
   createdAt?: string;
+}
+
+export interface BlogDetailsProps {
+  slug: string;
+  blogContent: string;
+  summary: string;
+  thumbnail?: string;
+  blogTitle: string;
+  countViewer: number;
+  minRead: number;
+  published: boolean;
+  author: {
+    profileImage: string;
+    userName: string;
+  };
+  createdAt: string;
 }
 
 export interface SuggestionTypeProps {
