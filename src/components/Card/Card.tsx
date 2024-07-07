@@ -6,6 +6,7 @@ import React from "react";
 import { MdOutlineUpdate } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import { DateFunction } from "@/constrain/DateFunction";
 
 export default function ContentCard({
   thumbnail,
@@ -31,7 +32,10 @@ export default function ContentCard({
           priority
           width={300}
           height={100}
-          src={"https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"}
+          src={
+            thumbnail ||
+            "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
+          }
           className="col-span-1 md:h-[200px] h-[100px] object-cover rounded-lg"
           alt="title"
         />
@@ -41,7 +45,7 @@ export default function ContentCard({
           <div className="flex flex-wrap gap-4 items-center text-gray-500">
             <p className="capitalize md:text-lg text-sm">{author.userName}</p>
             <div className="flex items-center gap-3 md:text-lg text-sm">
-              <MdOutlineUpdate /> {createdAt}
+              <MdOutlineUpdate /> {DateFunction({ date: createdAt })}
             </div>
             <div className="flex items-center gap-3">
               <IoEye /> {countViewer}

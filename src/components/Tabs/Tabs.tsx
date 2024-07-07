@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ContentCard from "../Card/Card";
 import { ContentsTypeProps, TabItem } from "@/types/Types";
@@ -17,7 +17,8 @@ export default function TabsGategory() {
     data: blogPosts,
     isLoading: BlogLoading,
     error: BlogsError,
-  } = useGetBlogsBySlugCategoryQuery(category === "all" ? "blogs/" : category);
+    refetch,
+  } = useGetBlogsBySlugCategoryQuery(category === "all" ? "" : category);
   const {
     data: categories,
     isLoading: categoriesLoading,
@@ -27,6 +28,10 @@ export default function TabsGategory() {
   const onTabChange = (value: string) => {
     setCategory(value);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   if (BlogLoading) {
     return <Loading />;

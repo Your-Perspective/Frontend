@@ -28,7 +28,7 @@ export default function BlogDetail({
   return (
     <section
       aria-labelledby={content?.blogTitle}
-      className={"flex flex-col gap-5"}
+      className={"flex flex-col gap-5 my-10"}
     >
       {content?.blogTitle && (
         <BreadcrumbCompo title={[{ label: content?.blogTitle, link: "#" }]} />
@@ -39,10 +39,11 @@ export default function BlogDetail({
           <p className="leading-relax text-gray-500">{content?.summary}</p>
           <div className="flex items-center text-primary gap-5 py-5">
             <Image
-              src={profile}
+              src={content?.author.profileImage || "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"}
               alt="autorr-profile"
               width={50}
-              className="rounded-full"
+              height={50}
+              className="rounded-full w-[50px] h-[50px] object-cover"
             />
             <div className="flex flex-col gap-1">
               <strong className="capitalize text-lg">
@@ -86,10 +87,11 @@ export default function BlogDetail({
           </div>
           <div className="flex items-center text-primary gap-5">
             <Image
-              src={profile}
+              src={content?.author.profileImage || "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"}
               alt="autorr-profile"
               width={50}
-              className="rounded-full"
+              height={50}
+              className="rounded-full w-[50px] h-[50px] object-cover"
             />
             <div className="flex flex-col gap-1">
               <strong className="capitalize text-lg">

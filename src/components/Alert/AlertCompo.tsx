@@ -6,8 +6,15 @@ import { Alert } from "../ui/alert";
 import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
 import { IoIosNotifications } from "react-icons/io";
+import Link from "next/link";
 
-export default function AlertCompo({ title, content, variant }: AlertProps) {
+export default function AlertCompo({
+  title,
+  content,
+  variant,
+  link_label,
+  url,
+}: AlertProps) {
   const [open, setOpen] = useState<boolean>(true);
 
   const handleClose = () => {
@@ -32,15 +39,18 @@ export default function AlertCompo({ title, content, variant }: AlertProps) {
 
   return (
     <Alert
-      className={`rounded-none dark:bg-black bg-gray-100 justify-between transition-all items-center py-0 border-none ${
+      className={`rounded-none mb-5 bg-gradient-to-r from-blue-950 to-primaryColor justify-between transition-all items-center border-none ${
         open ? "flex" : "hidden"
       }`}
     >
-      <div>
+      <div className="text-white">
         <IoIosNotifications size={25} />
       </div>
-      <p className="font-medium">{title}</p>
-      <Button variant={"ghost"} onClick={handleClose}>
+      <div className="flex gap-5 items-center">
+        <p className="font-medium text-lg text-white">{title}</p>
+        <Link className="underline text-white" href={url}>{link_label}</Link>
+      </div>
+      <Button className="text-white" variant={"ghost"} onClick={handleClose}>
         <IoClose size={25} />
       </Button>
     </Alert>

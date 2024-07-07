@@ -14,7 +14,7 @@ export interface ContentsTypeProps {
   minRead?: number;
   published?: boolean;
   author: {
-    profileImage: string;
+    profileImage?: string | StaticImport;
     userName: string;
   };
   createdAt?: string;
@@ -30,7 +30,7 @@ export interface BlogDetailsProps {
   minRead: number;
   published: boolean;
   author: {
-    profileImage: string;
+    profileImage?: string | StaticImport;
     userName: string;
   };
   createdAt: string;
@@ -49,6 +49,8 @@ export type TabItem = {
 
 export interface AlertProps {
   title: string;
+  link_label?: string;
+  url: string | "#";
   content?: string;
   variant?: "success" | "info" | "warning" | "error" | undefined;
 }

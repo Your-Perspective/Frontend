@@ -68,8 +68,13 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <AlertCompo title="Alert bar!" variant={"info"} />
               <Navbar />
+              <AlertCompo
+                url="#"
+                link_label="Contact!"
+                title="Contact us to advertisment"
+                variant={"info"}
+              />
               {children}
             </ThemeProvider>
           </Suspense>
