@@ -1,12 +1,12 @@
 import { apiSlice } from "@/lib/apiSlice";
-import { ContentsTypeProps, TabItem } from "@/types/Types";
+import { TabItem } from "@/types/Types";
 
 export const categoriesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllCategories: builder.query<TabItem[], string>({
       query: () => ({ url: `/categories` }),
       keepUnusedDataFor: 5,
-      providesTags: ["blogs"],
+      providesTags: ["tabs"],
     }),
   }),
 });
