@@ -10,10 +10,11 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="py-4 container px-0">
+    <nav className="py-4 px-0 sticky z-40 -top-1 bg-background">
       <Container classNames="flex justify-between items-center md:gap-10 gap-3">
         <Link href={"/"} className="min-w-[55px]">
           <Image
+            priority
             width={60}
             src={logo}
             alt="your-perspective - logo"

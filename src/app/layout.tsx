@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import StoreProvider from "@/lib/StoreProvider";
@@ -8,10 +7,13 @@ import Navbar from "@/components/navbar/Navbar";
 import { Suspense } from "react";
 import Loading from "./loading";
 import AlertCompo from "@/components/Alert/AlertCompo";
+import { Roboto } from "next/font/google";
 
-const fontSans = FontSans({
+const roboto = Roboto({
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
-  variable: "--font-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -55,7 +57,7 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          roboto.style
         )}
       >
         <StoreProvider>
@@ -66,8 +68,13 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <AlertCompo title="Alert bar!" variant={"info"} />
               <Navbar />
+              <AlertCompo
+                url="#"
+                link_label="Contact!"
+                title="Contact us to advertisment"
+                variant={"info"}
+              />
               {children}
             </ThemeProvider>
           </Suspense>

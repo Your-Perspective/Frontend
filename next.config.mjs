@@ -1,7 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '9290',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cpworldgroup.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   env: {
-    backend_url: "http://localhost:8080",
+    backend_url: "http://localhost:9290/api",
   },
 };
 

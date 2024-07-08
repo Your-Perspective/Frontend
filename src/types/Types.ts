@@ -6,18 +6,34 @@ export type Pokemon = {
 };
 
 export interface ContentsTypeProps {
-  uuid: string;
-  id?: number;
-  category?: string;
-  image: string | StaticImport;
-  author?: string;
-  auther_bio?: string;
-  title?: string;
-  description?: string;
-  date_post?: string;
-  view?: string;
-  minute_read?: string;
-  content: string;
+  slug: string;
+  thumbnail?: string;
+  summary: string;
+  blogTitle: string;
+  countViewer: number;
+  minRead?: number;
+  published?: boolean;
+  author: {
+    profileImage?: string | StaticImport;
+    userName: string;
+  };
+  createdAt?: string;
+}
+
+export interface BlogDetailsProps {
+  slug: string;
+  blogContent: string;
+  summary: string;
+  thumbnail?: string;
+  blogTitle: string;
+  countViewer: number;
+  minRead: number;
+  published: boolean;
+  author: {
+    profileImage?: string | StaticImport;
+    userName: string;
+  };
+  createdAt: string;
 }
 
 export interface SuggestionTypeProps {
@@ -26,12 +42,15 @@ export interface SuggestionTypeProps {
 }
 
 export type TabItem = {
-  value: string;
-  label: string;
+  id: number;
+  title: string;
+  slug: string;
 };
 
 export interface AlertProps {
   title: string;
+  link_label?: string;
+  url: string | "#";
   content?: string;
   variant?: "success" | "info" | "warning" | "error" | undefined;
 }
