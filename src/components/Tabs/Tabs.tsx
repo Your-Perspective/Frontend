@@ -23,7 +23,7 @@ export default function TabsGategory() {
     data: categories,
     isLoading: categoriesLoading,
     error: categoriesError,
-  } = useGetAllCategoriesQuery("");
+  } = useGetAllCategoriesQuery();
 
   const onTabChange = (value: string) => {
     setCategory(value);

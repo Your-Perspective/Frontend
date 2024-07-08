@@ -3,8 +3,8 @@ import { BlogDetailsProps, ContentsTypeProps } from "@/types/Types";
 
 export const blogsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllBlogs: builder.query<ContentsTypeProps[], string>({
-      query: () => ({ url: `/blogs/` }),
+    getAllBlogs: builder.query<ContentsTypeProps[], void>({
+      query: () => `/blogs/`,
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
     }),

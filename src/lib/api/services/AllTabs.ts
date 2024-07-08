@@ -3,8 +3,8 @@ import { TabItem } from "@/types/Types";
 
 export const categoriesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllCategories: builder.query<TabItem[], string>({
-      query: () => ({ url: `/categories` }),
+    getAllCategories: builder.query<TabItem[], void>({
+      query: () => `/categories`,
       keepUnusedDataFor: 5,
       providesTags: ["tabs"],
     }),

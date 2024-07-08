@@ -25,7 +25,7 @@ export function ClickToCommand({
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const { data: blogs, isLoading, error } = useGetAllBlogsQuery("");
+  const { data: blogs, isLoading, error } = useGetAllBlogsQuery();
 
   return (
     <>

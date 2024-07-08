@@ -11,6 +11,8 @@ import { BiLogoTwitter } from "react-icons/bi";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
 import { useGetBlogDetailByAuthorSlugQuery } from "@/lib/api/services/AllBlogs";
 import { DateFunction } from "@/constrain/DateFunction";
+import NotFoundPage from "@/app/not-found";
+import Loading from "@/app/loading";
 
 export default function BlogDetail({
   slug,
@@ -24,6 +26,10 @@ export default function BlogDetail({
     isLoading,
     error,
   } = useGetBlogDetailByAuthorSlugQuery([slug, username]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <section
@@ -39,7 +45,10 @@ export default function BlogDetail({
           <p className="leading-relax text-gray-500">{content?.summary}</p>
           <div className="flex items-center text-primary gap-5 py-5">
             <Image
-              src={content?.author.profileImage || "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"}
+              src={
+                content?.author.profileImage ||
+                "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
+              }
               alt="autorr-profile"
               width={50}
               height={50}
@@ -66,7 +75,14 @@ export default function BlogDetail({
           </div>
         </CardHeader>
         <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">
-          {content?.blogContent}
+          {content ? (
+            <div
+              className="leading-relaxed text-primary"
+              dangerouslySetInnerHTML={{ __html: content.blogContent }}
+            />
+          ) : (
+            <NotFoundPage text_display="content not found" />
+          )}
         </CardContent>
       </Card>
       <Card className={"text-primary shadow-none border-0 my-10"}>
@@ -87,7 +103,10 @@ export default function BlogDetail({
           </div>
           <div className="flex items-center text-primary gap-5">
             <Image
-              src={content?.author.profileImage || "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"}
+              src={
+                content?.author.profileImage ||
+                "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
+              }
               alt="autorr-profile"
               width={50}
               height={50}
