@@ -1,12 +1,11 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { ContentsTypeProps } from "@/types/Types";
+import { ExtendedContentsTypeProps } from "@/types/Types";
 import Image from "next/image";
-import React from "react";
 import { MdOutlineUpdate } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
-import { useRouter } from "next/navigation";
 import { DateFunction } from "@/constrain/DateFunction";
+import { HandleImage } from "@/constrain/HandleImage";
 
 export default function ContentCard({
   thumbnail,
@@ -18,33 +17,59 @@ export default function ContentCard({
   createdAt,
   minRead,
   published,
-}: ContentsTypeProps) {
-  const router = useRouter();
+  option = "grid",
+}: ExtendedContentsTypeProps) {
+  const handleRoute = () => {
+    if (window !== undefined) {
+      window.location.href = `/pages/blogs/${author.userName}/${slug}`;
+    }
+  };
 
   return (
     <Card
-      onClick={() => router.push(`/pages/blogs/${author.userName}/${slug}`)}
+      onClick={handleRoute}
       key={slug}
       className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer"
     >
-      <CardContent className="grid grid-cols-3 gap-5 py-5 px-0 md:items-center items-start">
+      <CardContent
+        className={`${
+          option.includes("grid") ? "grid grid-cols-3" : "flex flex-col"
+        } gap-5 py-5 px-0 md:items-center items-start`}
+      >
         <Image
           priority
           width={300}
           height={100}
-          src={
-            thumbnail ||
-            "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
-          }
-          className="col-span-1 md:h-[200px] h-[100px] object-cover rounded-lg"
+          src={HandleImage({ src: thumbnail })}
+          className={`${
+            option.includes("grid")
+              ? "md:h-[200px] h-[100px]"
+              : "md:h-[150px] h-[200px]"
+          } col-span-1 object-cover rounded-lg w-full`}
           alt="title"
         />
         <div className="col-span-2 flex flex-col gap-4">
-          <h3 className="font-medium">{blogTitle}</h3>
-          <p className="text-gray-500 md:text-lg text-sm">{summary}</p>
-          <div className="flex flex-wrap gap-4 items-center text-gray-500">
-            <p className="capitalize md:text-lg text-sm">{author.userName}</p>
-            <div className="flex items-center gap-3 md:text-lg text-sm">
+          <h3
+            className={`font-medium ${
+              option.includes("grid") ? "text-xl" : "text-base"
+            }`}
+          >
+            {blogTitle}
+          </h3>
+          <p
+            className={`text-gray-500 ${
+              option.includes("grid") ? "text-base" : "text-sm"
+            }`}
+          >
+            {summary}
+          </p>
+          <div
+            className={`flex flex-wrap gap-4 items-center text-gray-500 ${
+              option.includes("grid") ? "md:text-lg text-base" : "text-xs"
+            }`}
+          >
+            <p className="capitalize font-medium">{author.userName}</p>
+            <div className="flex items-center gap-3">
               <MdOutlineUpdate /> {DateFunction({ date: createdAt })}
             </div>
             <div className="flex items-center gap-3">

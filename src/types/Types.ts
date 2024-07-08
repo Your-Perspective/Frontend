@@ -7,7 +7,7 @@ export type Pokemon = {
 
 export interface ContentsTypeProps {
   slug: string;
-  thumbnail?: string;
+  thumbnail?: string | StaticImport | undefined;
   summary: string;
   blogTitle: string;
   countViewer: number;
@@ -20,11 +20,15 @@ export interface ContentsTypeProps {
   createdAt?: string;
 }
 
+export interface ExtendedContentsTypeProps extends ContentsTypeProps {
+  option?: "grid" | "column";
+}
+
 export interface BlogDetailsProps {
   slug: string;
   blogContent: string;
   summary: string;
-  thumbnail?: string;
+  thumbnail?: string | StaticImport | undefined;
   blogTitle: string;
   countViewer: number;
   minRead: number;

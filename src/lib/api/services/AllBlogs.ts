@@ -20,6 +20,11 @@ export const blogsApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
     }),
+    getRelatedBlogPostsBySlug: builder.query<ContentsTypeProps[], string[]>({
+      query: ([username, slug]) => `/blogs/@${username}/${slug}/more`,
+      keepUnusedDataFor: 5,
+      providesTags: ["blogs"],
+    }),
   }),
 });
 
@@ -27,4 +32,5 @@ export const {
   useGetAllBlogsQuery,
   useGetBlogsBySlugCategoryQuery,
   useGetBlogDetailByAuthorSlugQuery,
+  useGetRelatedBlogPostsBySlugQuery
 } = blogsApi;

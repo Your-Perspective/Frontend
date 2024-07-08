@@ -1,7 +1,6 @@
 "use client";
 import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
-import profile from "@/assets/logo.jpg";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { BsFacebook } from "react-icons/bs";
@@ -9,11 +8,15 @@ import Link from "next/link";
 import { AiFillInstagram } from "react-icons/ai";
 import { BiLogoTwitter } from "react-icons/bi";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
-import { useGetBlogDetailByAuthorSlugQuery } from "@/lib/api/services/AllBlogs";
+import {
+  useGetBlogDetailByAuthorSlugQuery,
+  useGetRelatedBlogPostsBySlugQuery,
+} from "@/lib/api/services/AllBlogs";
 import { DateFunction } from "@/constrain/DateFunction";
 import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
+import ContentCard from "../Card/Card";
 
 export default function BlogDetail({
   slug,
@@ -27,6 +30,12 @@ export default function BlogDetail({
     isLoading,
     error,
   } = useGetBlogDetailByAuthorSlugQuery([slug, username]);
+
+  const {
+    data: RelatedPost,
+    isLoading: RelatedPostLoading,
+    error: RelatedPostError,
+  } = useGetRelatedBlogPostsBySlugQuery([slug, username]);
 
   if (isLoading) {
     return <Loading />;
@@ -124,6 +133,30 @@ export default function BlogDetail({
           </div>
         </CardHeader>
       </Card>
+      <section aria-label="related-blogs">
+        <h2 className="font-semibold">Related</h2>
+        {RelatedPostLoading && <Loading />}
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-5 my-5">
+          {!RelatedPost ||
+            (RelatedPost.length === 0 && (
+              <NotFoundPage text_display="No related page" />
+            ))}
+          {RelatedPost?.map((item) => (
+            <ContentCard
+              key={item.slug}
+              author={item.author}
+              blogTitle={item.blogTitle}
+              countViewer={item.countViewer}
+              slug={item.slug}
+              summary={item.summary}
+              createdAt={item.createdAt}
+              published={item.published}
+              thumbnail={item.thumbnail}
+              option="column"
+            />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }
