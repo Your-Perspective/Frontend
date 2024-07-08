@@ -2,11 +2,11 @@ name: CI and Notify Telegram
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main", "dev"]
     paths-ignore:
-      - '**.md'
+      - "**.md"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
       - run: npm ci
       - run: npm run build --if-present
 
@@ -42,10 +42,10 @@ jobs:
         run: |
           COMMIT_HASH=$(git log -1 --pretty=format:'%H')
           COMMIT_URL="https://github.com/${{ github.repository }}/commit/$COMMIT_HASH"
-          
+
           # Use -G to grep in the diff for specific patterns
           COMMIT_FILES=$(git log -p -G"pattern" --name-only | sed ':a;N;$!ba;s/\n/\\n/g')
-          
+
           echo "COMMIT_URL=$COMMIT_URL" >> $GITHUB_ENV
           echo "COMMIT_FILES=$COMMIT_FILES" >> $GITHUB_ENV
       - name: Send custom message
