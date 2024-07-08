@@ -50,7 +50,7 @@ export default function TabsGategory() {
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md shadow-none">
           <TabsTrigger
-            className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            className="relative capitalize rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
             key={"all"}
             value={"all"}
           >
@@ -58,7 +58,7 @@ export default function TabsGategory() {
           </TabsTrigger>
           {categories?.map((item: TabItem) => (
             <TabsTrigger
-              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+              className="relative capitalize rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
               key={item.id}
               value={item.slug}
             >

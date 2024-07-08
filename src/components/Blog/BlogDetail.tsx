@@ -13,6 +13,7 @@ import { useGetBlogDetailByAuthorSlugQuery } from "@/lib/api/services/AllBlogs";
 import { DateFunction } from "@/constrain/DateFunction";
 import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
+import { HandleImage } from "@/constrain/HandleImage";
 
 export default function BlogDetail({
   slug,
@@ -45,10 +46,7 @@ export default function BlogDetail({
           <p className="leading-relax text-gray-500">{content?.summary}</p>
           <div className="flex items-center text-primary gap-5 py-5">
             <Image
-              src={
-                content?.author.profileImage ||
-                "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
-              }
+              src={HandleImage({ src: content?.author.profileImage })}
               alt="autorr-profile"
               width={50}
               height={50}
@@ -103,10 +101,7 @@ export default function BlogDetail({
           </div>
           <div className="flex items-center text-primary gap-5">
             <Image
-              src={
-                content?.author.profileImage ||
-                "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
-              }
+              src={HandleImage({ src: content?.author.profileImage })}
               alt="autorr-profile"
               width={50}
               height={50}
