@@ -36,36 +36,28 @@ export default function ContentCard({
           option.includes("grid") ? "grid grid-cols-3" : "flex flex-col"
         } gap-5 py-5 px-0 md:items-center items-start`}
       >
-        <Image
-          priority
-          width={300}
-          height={100}
-          src={HandleImage({ src: thumbnail })}
-          className={`${
-            option.includes("grid")
-              ? "md:h-[200px] h-[100px]"
-              : "md:h-[150px] h-[200px]"
-          } col-span-1 object-cover rounded-lg w-full`}
-          alt="title"
-        />
-        <div className="col-span-2 flex flex-col gap-4">
+        <div
+          className={`col-span-2 flex flex-col gap-4 ${
+            option.includes("grid") ? "order-1 md:w-[95%]" : "order-2"
+          }`}
+        >
           <h3
             className={`font-medium ${
-              option.includes("grid") ? "text-xl" : "text-base"
+              option.includes("grid") ? "md:text-xl text-base" : "text-base"
             }`}
           >
             {blogTitle}
           </h3>
           <p
             className={`text-gray-500 ${
-              option.includes("grid") ? "text-base" : "text-sm"
+              option.includes("grid") ? "lg:text-base text-xs" : "text-sm"
             }`}
           >
             {summary}
           </p>
           <div
-            className={`flex flex-wrap gap-4 items-center text-gray-500 ${
-              option.includes("grid") ? "md:text-lg text-base" : "text-xs"
+            className={`flex flex-wrap gap-2 items-center text-gray-500 ${
+              option.includes("grid") ? "lg:text-base text-sm" : "text-xs"
             }`}
           >
             <p className="capitalize font-medium">{author.userName}</p>
@@ -77,6 +69,18 @@ export default function ContentCard({
             </div>
           </div>
         </div>
+        <Image
+          priority
+          width={200}
+          height={100}
+          src={HandleImage({ src: thumbnail })}
+          className={`${
+            option.includes("grid")
+              ? "md:h-[150px] h-[100px] order-2 w-[250px] mx-auto"
+              : "lg:h-[150px] md:h-[200px] h-[250px] order-1"
+          } col-span-1 object-cover rounded-lg w-full`}
+          alt="title"
+        />
       </CardContent>
     </Card>
   );

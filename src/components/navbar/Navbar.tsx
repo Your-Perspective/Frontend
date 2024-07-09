@@ -11,7 +11,7 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <nav className="py-4 px-0 sticky z-40 -top-1 bg-background">
-      <Container classNames="flex justify-between items-center md:gap-10 gap-3">
+      <Container classNames="flex justify-between items-center md:gap-10 lg:gap-3 gap-2">
         <Link href={"/"} className="min-w-[55px]">
           <Image
             priority
@@ -23,9 +23,9 @@ export default function Navbar() {
         </Link>
         <ClickToCommand />
         <div className="flex md:gap-3 gap-2 items-center">
-          <Button variant={"link"} className="relative" asChild>
+          <Button variant={"link"} className="relative p-0" asChild>
             <Link href={"/pages/shop"}>
-              <MdOutlineShoppingBag size={30} />
+              <MdOutlineShoppingBag className="p-0" size={30} />
             </Link>
           </Button>
           <ThemesModeToggle />

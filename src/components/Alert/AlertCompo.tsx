@@ -46,9 +46,16 @@ export default function AlertCompo({
       <div className="text-white">
         <IoIosNotifications size={25} />
       </div>
-      <div className="flex gap-5 items-center">
-        <p className="font-medium text-lg text-white">{title}</p>
-        <Link className="underline text-white" href={url}>{link_label}</Link>
+      <div className="md:flex md:gap-2 gap-1 text-center justify-center items-center">
+        <p className="font-semibold md:text-lg text-center text-base text-white">
+          {title}
+        </p>
+        <Link
+          className="underline font-medium text-center w- text-white"
+          href={url}
+        >
+          {link_label}
+        </Link>
       </div>
       <Button className="text-white" variant={"ghost"} onClick={handleClose}>
         <IoClose size={25} />
