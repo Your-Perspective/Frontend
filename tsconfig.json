@@ -31,6 +31,6 @@
     ".next/types/**/*.ts",
     "*.pdf",
     "*.svg"
-  ],
+, ".next/types/app/pages/blogs/[...slug]/page.ts"  ],
   "exclude": ["node_modules"]
 }
