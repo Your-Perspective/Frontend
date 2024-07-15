@@ -76,7 +76,7 @@ export default function ContentCard({
           src={HandleImage({ src: thumbnail })}
           className={`${
             option.includes("grid")
-              ? "md:h-[150px] h-[100px] order-2 w-[250px] mx-auto"
+              ? "md:h-[200px] h-[100px] order-2 w-[250px] mx-auto"
               : "lg:h-[150px] md:h-[200px] h-[250px] order-1"
           } col-span-1 object-cover rounded-lg w-full`}
           alt="title"
