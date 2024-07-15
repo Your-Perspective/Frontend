@@ -5,7 +5,6 @@ import Container from "@/components/container-section/Container";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { FiRefreshCw } from "react-icons/fi";
-import AlertCompo from "@/components/Alert/AlertCompo";
 
 export default function Error({
   error,
