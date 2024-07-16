@@ -19,6 +19,14 @@ export default function ContentCard({
   published,
   option = "grid",
 }: ExtendedContentsTypeProps) {
+  const handleSummeryCharacters = (summary: string): string[] => {
+    const summaryChunks = [];
+    for (let i = 0; i < summary.length; i += 20) {
+      summaryChunks.push(summary.slice(i, i + 12));
+    }
+    return summaryChunks;
+  };
+
   const handleRoute = () => {
     if (window !== undefined) {
       window.location.href = `/pages/blogs/${author.userName}/${slug}`;
@@ -29,7 +37,7 @@ export default function ContentCard({
     <Card
       onClick={handleRoute}
       key={slug}
-      className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer"
+      className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 px-2"
     >
       <CardContent
         className={`${
@@ -50,10 +58,12 @@ export default function ContentCard({
           </h3>
           <p
             className={`text-gray-500 ${
-              option.includes("grid") ? "lg:text-base text-xs" : "text-sm"
+              option.includes("grid")
+                ? "lg:text-base text-xs"
+                : "text-sm md:text-clip"
             }`}
           >
-            {summary}
+            {handleSummeryCharacters(summary)}...
           </p>
           <div
             className={`flex flex-wrap gap-2 items-center text-gray-500 ${

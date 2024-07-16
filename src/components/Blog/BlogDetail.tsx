@@ -3,10 +3,6 @@ import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import { BsFacebook } from "react-icons/bs";
-import Link from "next/link";
-import { AiFillInstagram } from "react-icons/ai";
-import { BiLogoTwitter } from "react-icons/bi";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
 import {
   useGetBlogDetailByAuthorSlugQuery,
@@ -126,7 +122,7 @@ export default function BlogDetail({
         </CardHeader>
       </Card>
       <section aria-label="related-blogs">
-        <h2 className="font-semibold">Related</h2>
+        <h2 className="font-semibold">{RelatedPost ? "Related" : ""}</h2>
         {RelatedPostLoading && <Loading />}
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-5 my-5">
           {!RelatedPost ||
