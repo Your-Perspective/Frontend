@@ -1,7 +1,10 @@
+import { useGetRecentPostQuery } from "@/lib/api/services/AllBlogs";
 import { Badge } from "../ui/badge";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { useGetAllCategoriesQuery } from "@/lib/api/services/AllTabs";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 export default function BlogsLayout({
   children,
@@ -13,6 +16,12 @@ export default function BlogsLayout({
   classNames?: string;
 }>) {
   const { data, isLoading, error } = useGetAllCategoriesQuery();
+  const {
+    data: RecentPostData,
+    isLoading: LoadingRecentPost,
+    error: RecentPost,
+  } = useGetRecentPostQuery();
+
   const router = useRouter();
   const handleCategories = (categorySlug: string) => {
     router.push(`/pages/blogs/category/${categorySlug}`);
@@ -29,13 +38,29 @@ export default function BlogsLayout({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-      <div className="sticky top-0 z-10 col-span-1">
+      <div className="sticky top-0 z-10 lg:col-span-1 col-span-3">
         {" "}
         <h2 className="font-medium">Recent post</h2>
-        <p className="text-gray-500 mt-3">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ut
-          consequuntur modi quia unde vero aliquam pariatur ea.
-        </p>
+        <ul className="text-gray-500 mt-3">
+          {LoadingRecentPost ?? <p>Loading</p>}
+          {RecentPostData?.slice(0, 4).map((item) => (
+            <li
+              key={item.slug}
+              className="hover:text-primary my-2 p-2 border rounded-md"
+            >
+              <Link href={`/pages/blogs/${item.author.userName}/${item.slug}`}>
+                <div className="font-medium flex justify-between items-center">
+                  <p className="capitalize">{item.author.userName}</p>
+                  <p className="text-xs">{item.timeAgo}</p>
+                </div>
+                <p className="my-1 text-sm">{item.blogTitle}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Button className="w-full" variant={"default"} asChild>
+          <Link href={"/pages/blogs/category/all"}>All Posted</Link>
+        </Button>
         <h3 className="font-medium mt-4">Suggestions</h3>
         <div className="flex flex-wrap gap-2 my-5">
           {data?.map((item) => (

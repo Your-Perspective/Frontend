@@ -80,3 +80,13 @@ export type ProductCardProps = {
   size?: Array<string>;
   stocked?: number;
 };
+
+export interface RecentPostProps {
+  createdAt: string;
+  timeAgo: string;
+  author: {
+    userName: string;
+  };
+  slug: string;
+  blogTitle: string;
+}
