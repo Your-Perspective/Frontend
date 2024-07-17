@@ -18,7 +18,7 @@ export default function BlogsBySlugCategory({
   params: { slug: string };
 }) {
   const { data, isLoading, error } = useGetBlogsBySlugCategoryQuery(
-    params.slug
+    params.slug === "all" ? "" : params.slug
   );
 
   const [style, setStyle] = useState<"column" | "grid" | undefined>("column");
