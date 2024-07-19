@@ -3,6 +3,7 @@ import {
   BlogDetailsProps,
   ContentsTypeProps,
   RecentPostProps,
+  TopAuthorProps,
 } from "@/types/Types";
 
 export const blogsApi = apiSlice.injectEndpoints({
@@ -16,7 +17,7 @@ export const blogsApi = apiSlice.injectEndpoints({
       query: (slugGategory) => ({ url: `/blogs/${slugGategory}` }),
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
-    }), 
+    }),
     getBlogDetailByAuthorSlug: builder.query<BlogDetailsProps, string[]>({
       query: ([username, slug]) => ({
         url: `/blogs/@${username}/${slug}`,
@@ -34,6 +35,11 @@ export const blogsApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
     }),
+    getTopAuthors: builder.query<TopAuthorProps[], void>({
+      query: () => `/blogs/top-authors`,
+      keepUnusedDataFor: 5,
+      providesTags: ["blogs"],
+    }),
   }),
 });
 
@@ -42,5 +48,6 @@ export const {
   useGetBlogsBySlugCategoryQuery,
   useGetBlogDetailByAuthorSlugQuery,
   useGetRelatedBlogPostsBySlugQuery,
-  useGetRecentPostQuery
+  useGetRecentPostQuery,
+  useGetTopAuthorsQuery,
 } = blogsApi;

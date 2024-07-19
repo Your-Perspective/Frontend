@@ -90,3 +90,10 @@ export interface RecentPostProps {
   slug: string;
   blogTitle: string;
 }
+
+export interface TopAuthorProps {
+  username: string;
+  bio: string | null;
+  totalViews: 4750;
+  profileImage: StaticImport | string;
+}

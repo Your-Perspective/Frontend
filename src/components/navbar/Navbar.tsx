@@ -23,7 +23,7 @@ export default function Navbar() {
         </Link>
         <ClickToCommand />
         <div className="flex md:gap-3 gap-2 items-center">
-          <Button variant={"link"} className="relative p-0" asChild>
+          <Button variant={"link"} className="relative hidden p-0" asChild>
             <Link href={"/pages/shop"}>
               <MdOutlineShoppingBag className="p-0" size={30} />
             </Link>
