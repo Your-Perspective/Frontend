@@ -1,10 +1,15 @@
-import { useGetRecentPostQuery } from "@/lib/api/services/AllBlogs";
+import {
+  useGetRecentPostQuery,
+  useGetTopAuthorsQuery,
+} from "@/lib/api/services/AllBlogs";
 import { Badge } from "../ui/badge";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { useGetAllCategoriesQuery } from "@/lib/api/services/AllTabs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Image from "next/image";
+import DialogShow from "../Alert/AuthorsDialog";
 
 export default function BlogsLayout({
   children,
@@ -21,6 +26,12 @@ export default function BlogsLayout({
     isLoading: LoadingRecentPost,
     error: RecentPost,
   } = useGetRecentPostQuery();
+
+  const {
+    data: TopAuthor,
+    isLoading: LoadingTopAuthors,
+    error: TopAuthorsError,
+  } = useGetTopAuthorsQuery();
 
   const router = useRouter();
   const handleCategories = (categorySlug: string) => {
@@ -61,6 +72,32 @@ export default function BlogsLayout({
         <Button className="w-full" variant={"default"} asChild>
           <Link href={"/pages/blogs/category/all"}>All Posted</Link>
         </Button>
+        <h3 className="font-medium mt-4">Top Authors</h3>
+        <div className="flex flex-col gap-2 mt-3">
+          {TopAuthor?.slice(0, 4).map((item, index) => (
+            <DialogShow key={item.username + index}>
+              <div
+                key={item.username + index}
+                className="flex justify-start items-center gap-3"
+              >
+                <Image
+                  src={item.profileImage}
+                  width={50}
+                  height={50}
+                  className="w-[40px] h-[40px] rounded-full object-cover"
+                  alt={item.username + item.totalViews}
+                />
+                <div className="text-left">
+                  <p className="capitalize font-medium ">{item.username}</p>
+                  <p className="text-gray-500">
+                    {item.totalViews &&
+                      "View hits: " + item.totalViews + " views"}
+                  </p>
+                </div>
+              </div>
+            </DialogShow>
+          ))}
+        </div>
         <h3 className="font-medium mt-4">Suggestions</h3>
         <div className="flex flex-wrap gap-2 my-5">
           {data?.map((item) => (

@@ -14,6 +14,7 @@ import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
 import ContentCard from "../Card/Card";
 import { Button } from "../ui/button";
+import DialogShow from "../Alert/AuthorsDialog";
 
 export default function BlogDetail({
   slug,
@@ -113,11 +114,9 @@ export default function BlogDetail({
                 </div>
               </div>
             </div>
-            <Button>View profile</Button>
-          </div>
-
-          <div>
-            <p>{content?.author.userName}</p>
+            <DialogShow>
+              <Button>View profile</Button>
+            </DialogShow>
           </div>
         </CardHeader>
       </Card>
