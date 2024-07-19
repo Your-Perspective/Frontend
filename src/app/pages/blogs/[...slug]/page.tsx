@@ -29,7 +29,7 @@ export default function BlogsDetailByUuid({
   return (
     <Container>
       <BlogDetailLayout>
-        <BlogDetail slug={params.slug[0]} username={params.slug[1]} />
+        <BlogDetail username={params.slug[0]} slug={params.slug[1]} />
       </BlogDetailLayout>
     </Container>
   );

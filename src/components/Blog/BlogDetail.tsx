@@ -26,13 +26,13 @@ export default function BlogDetail({
     data: content,
     isLoading,
     error,
-  } = useGetBlogDetailByAuthorSlugQuery([slug, username]);
+  } = useGetBlogDetailByAuthorSlugQuery([username, slug]);
 
   const {
     data: RelatedPost,
     isLoading: RelatedPostLoading,
     error: RelatedPostError,
-  } = useGetRelatedBlogPostsBySlugQuery([slug, username]);
+  } = useGetRelatedBlogPostsBySlugQuery(username);
 
   if (isLoading) {
     return <Loading />;
