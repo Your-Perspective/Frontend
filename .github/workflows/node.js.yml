@@ -2,7 +2,7 @@ name: CI and Notify Telegram
 
 on:
   push:
-    branches: ["*"]
+    branches: ["dev", "main", "dashboard-dev"]
     paths-ignore:
       - "**.md"
   pull_request:
