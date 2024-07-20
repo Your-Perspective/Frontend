@@ -1,13 +1,12 @@
-"use client";
 import React from "react";
 import DashBoardLayout from "@/components/DashBoard/layout";
 
-const blog = () => {
-    return (
-        <div>
-            <DashBoardLayout>Blog</DashBoardLayout>
-        </div>
-    )
-}
+const Blog = () => {
+  return (
+    <div>
+      <DashBoardLayout>Blog</DashBoardLayout>
+    </div>
+  );
+};
 
-export default blog
+export default Blog;
