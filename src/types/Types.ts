@@ -97,3 +97,13 @@ export interface TopAuthorProps {
   totalViews: 4750;
   profileImage: StaticImport | string;
 }
+
+export interface AuthorDetailsProps {
+  id: number;
+  email: string;
+  userName: string;
+  bio: string;
+  profileImage: string | StaticImport | undefined;
+  totalViews: 0;
+  top3Count: number;
+}

@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import DialogShow from "../Alert/AuthorsDialog";
 import { useGetTopAuthorsQuery } from "@/lib/api/services/Author";
+import AuthorAboutDialog from "../Alert/AuthorAbout";
 
 export default function BlogsLayout({
   children,
@@ -73,7 +73,10 @@ export default function BlogsLayout({
         {TopAuthor && <h3 className="font-medium mt-4">Top Authors</h3>}
         <div className="flex flex-col gap-2 mt-3">
           {TopAuthor?.slice(0, 4).map((item, index) => (
-            <DialogShow key={item.username + index}>
+            <AuthorAboutDialog
+              key={item.username + index}
+              username={item.username}
+            >
               <div
                 key={item.username + index}
                 className="flex justify-start items-center gap-3"
@@ -93,7 +96,7 @@ export default function BlogsLayout({
                   </p>
                 </div>
               </div>
-            </DialogShow>
+            </AuthorAboutDialog>
           ))}
         </div>
         <h3 className="font-medium mt-4">Suggestions</h3>
