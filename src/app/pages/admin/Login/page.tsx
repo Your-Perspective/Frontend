@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,48 +7,40 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-const FormLogin = () => {
-  const onSave = () => {
-    console.log("hello");
-    // const emailValue = document.getElementById("email").value;
-    // const password = document.getElementById("password").value;
-    // console.log(emailValue);
-    // console.log(password);
-  };
-
+export default function LoginForm() {
   return (
-    <div className="w-full justify-center flex items-start h-[100vh]">
-      <Card className="w-[350px] h-fit">
-        <CardHeader>
-          <CardTitle>Sign up</CardTitle>
-          <CardDescription>Already have an account? Log in</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {/* <form>
-                        <div className="grid w-full items-center gap-4">
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" placeholder="please enter email" />
-                            </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="password">Password</Label>
-                                <Input type="password" id="password" placeholder="please enter password" />
-                            </div>
-                        </div>
-                    </form> */}
-          hello
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button className="w-full" onClick={onSave}>
-            Create account
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+    <html>
+      <body className="w-full h-screen justify-center flex items-center">
+        <Card className="w-full max-w-sm h-fit">
+          <CardHeader>
+            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardDescription>
+              Enter your email below to login to your account.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" required />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full">Sign in</Button>
+          </CardFooter>
+        </Card>
+      </body>
+    </html>
   );
-};
-
-export default FormLogin;
+}
