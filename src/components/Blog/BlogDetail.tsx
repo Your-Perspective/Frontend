@@ -14,7 +14,7 @@ import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
 import ContentCard from "../Card/Card";
 import { Button } from "../ui/button";
-import DialogShow from "../Alert/AuthorsDialog";
+import { useRouter } from "next/navigation";
 
 export default function BlogDetail({
   slug,
@@ -23,6 +23,8 @@ export default function BlogDetail({
   slug: string;
   username: string;
 }) {
+  const router = useRouter();
+
   const {
     data: content,
     isLoading,
@@ -114,9 +116,13 @@ export default function BlogDetail({
                 </div>
               </div>
             </div>
-            <DialogShow>
-              <Button>View profile</Button>
-            </DialogShow>
+            <Button
+              onClick={() =>
+                router.push(`/pages/author-detail/${content?.author.userName}`)
+              }
+            >
+              View profile
+            </Button>
           </div>
         </CardHeader>
       </Card>

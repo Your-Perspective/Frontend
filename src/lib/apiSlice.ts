@@ -1,4 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { isRejectedWithValue } from "@reduxjs/toolkit";
+import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 
 interface RootState {
   auth: {
@@ -24,3 +27,21 @@ export const apiSlice = createApi({
   tagTypes: ["blogs", "tabs", "authors"],
   endpoints: (builder) => ({}),
 });
+
+export const rtkQueryErrorLogger: Middleware =
+  (api: MiddlewareAPI) => (next) => (action) => {
+    if (isRejectedWithValue(action)) {
+      toast.error("Error not found!", {
+        description:
+          "data" in action.error
+            ? (action.error.data as { message: string }).message
+            : action.error.message,
+        action: {
+          label: "Undertand",
+          onClick: () => close(),
+        },
+      });
+    }
+
+    return next(action);
+  };

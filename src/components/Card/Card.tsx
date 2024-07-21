@@ -37,6 +37,7 @@ export default function ContentCard({
     <Card
       onClick={handleRoute}
       key={slug}
+      aria-labelledby={slug}
       className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 px-2"
     >
       <CardContent
@@ -70,7 +71,9 @@ export default function ContentCard({
               option.includes("grid") ? "lg:text-base text-sm" : "text-xs"
             }`}
           >
-            <p className="capitalize font-medium">{author.userName}</p>
+            <p className="capitalize font-medium text-primaryColor">
+              @{author.userName}
+            </p>
             <div className="flex items-center gap-3">
               <MdOutlineUpdate /> {DateFunction({ date: createdAt })}
             </div>

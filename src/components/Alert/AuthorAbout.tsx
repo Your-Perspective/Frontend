@@ -46,7 +46,7 @@ export default function AuthorAboutDialog({
                 priority
                 src={HandleImage({ src: AuthorDetail.profileImage })}
                 alt={AuthorDetail.userName}
-                className="rounded-full"
+                className="w-[50px] h-[50px] object-cover rounded-full"
               />
             )}
             <div className="flex flex-col gap-2">
