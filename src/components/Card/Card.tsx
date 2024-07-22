@@ -72,7 +72,7 @@ export default function ContentCard({
             }`}
           >
             <p className="capitalize font-medium text-primaryColor">
-              @{author.userName}
+              @{author ? author.userName : ""}
             </p>
             <div className="flex items-center gap-3">
               <MdOutlineUpdate /> {DateFunction({ date: createdAt })}

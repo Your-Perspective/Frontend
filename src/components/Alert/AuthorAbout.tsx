@@ -12,6 +12,8 @@ import { HandleImage } from "@/constrain/HandleImage";
 import { useGetAuthorAboutQuery } from "@/lib/api/services/Author";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 export const AuthorStarShow = ({ stars }: { stars: number }) => {
   return Array.from({ length: stars }).map((_, index) => (
@@ -26,6 +28,7 @@ export default function AuthorAboutDialog({
   username: string;
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const {
     data: AuthorDetail,
     isLoading,
@@ -61,6 +64,14 @@ export default function AuthorAboutDialog({
           <DialogDescription>
             <p>View hits: {AuthorDetail?.totalViews}</p>
             <p className="mt-2">{AuthorDetail?.bio}</p>
+            <Button
+              className="w-full mt-5"
+              onClick={() =>
+                router.push(`/pages/author-detail/${AuthorDetail?.userName}`)
+              }
+            >
+              View Detail
+            </Button>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

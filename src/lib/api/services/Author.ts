@@ -1,5 +1,9 @@
 import { apiSlice } from "@/lib/apiSlice";
-import { AuthorDetailsProps, TopAuthorProps } from "@/types/Types";
+import {
+  AuthorDetailsProps,
+  BlogByAuthors,
+  TopAuthorProps,
+} from "@/types/Types";
 
 const Authors = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,7 +17,16 @@ const Authors = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["authors"],
     }),
+    getBlogByAuthor: builder.query<BlogByAuthors[], string>({
+      query: (username) => `/author/${username}/pinned`,
+      keepUnusedDataFor: 5,
+      providesTags: ["authors"],
+    }),
   }),
 });
 
-export const { useGetTopAuthorsQuery, useGetAuthorAboutQuery } = Authors;
+export const {
+  useGetTopAuthorsQuery,
+  useGetAuthorAboutQuery,
+  useGetBlogByAuthorQuery,
+} = Authors;
