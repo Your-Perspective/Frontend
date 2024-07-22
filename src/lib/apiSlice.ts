@@ -11,7 +11,7 @@ interface RootState {
 
 // Adjust the prepareHeaders function to accept a token parameter
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.backend_url,
+  baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
   // prepareHeaders: (headers, { getState }) => {
   //   const token = (getState() as RootState).auth.access;
   //   if (token) {
