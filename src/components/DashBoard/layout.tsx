@@ -1,15 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CircleUser, Home, Menu, Package, Package2, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CircleUser, Menu, Package } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,8 +11,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import logo from "@/assets/logo.jpg";
+import { RiAccountPinCircleLine } from "react-icons/ri";
+import { TbSlideshow } from "react-icons/tb";
+import { TbLogin } from "react-icons/tb";
 
 export default function DashBoardLayout({
   children,
@@ -54,7 +50,7 @@ export default function DashBoardLayout({
                         : "text-muted-foreground hover:text-primary"
                     }`}
                   >
-                    <Home className="h-4 w-4" />
+                    <RiAccountPinCircleLine className="size-4" />
                     User
                   </Link>
                   <Link
@@ -76,26 +72,33 @@ export default function DashBoardLayout({
                         : "text-muted-foreground hover:text-primary"
                     }`}
                   >
-                    <Users className="h-4 w-4" />
+                    <TbSlideshow className="size-4" />
                     Banner
                   </Link>
                 </nav>
               </div>
-              <div className="p-4">
-                <Card x-chunk="dashboard-02-chunk-0">
-                  <CardHeader className="p-2 pt-0 md:p-4">
-                    <CardTitle>Upgrade to Pro</CardTitle>
-                    <CardDescription>
-                      Unlock all features and get unlimited access to our
-                      support team.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                    <Button size="sm" className="w-full">
-                      Upgrade
-                    </Button>
-                  </CardContent>
-                </Card>
+              <div className="text-sm font-medium p-4">
+                <div>
+                  <Link
+                    href="/"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-muted-foreground hover:text-primary"
+                  >
+                    <TbLogin className="size-4" />
+                    Logout
+                  </Link>
+                </div>
+                <div className="px-3 py-2 flex gap-2 items-center text-center">
+                  <div>
+                    <Image
+                      priority
+                      width={50}
+                      src={logo}
+                      alt="your-perspective - logo"
+                      className="rounded-full"
+                    />
+                  </div>
+                  <div>Your Perspective</div>
+                </div>
               </div>
             </div>
           </div>
@@ -130,7 +133,7 @@ export default function DashBoardLayout({
                           : "text-muted-foreground hover:text-primary"
                       }`}
                     >
-                      <Home className="h-4 w-4" />
+                      <RiAccountPinCircleLine className="size-5" />
                       User
                     </Link>
                     <Link
@@ -141,7 +144,7 @@ export default function DashBoardLayout({
                           : "text-muted-foreground hover:text-primary"
                       }`}
                     >
-                      <Package className="h-4 w-4" />
+                      <Package className="size-5" />
                       Blog
                     </Link>
                     <Link
@@ -152,26 +155,10 @@ export default function DashBoardLayout({
                           : "text-muted-foreground hover:text-primary"
                       }`}
                     >
-                      <Users className="h-4 w-4" />
+                      <TbSlideshow className="size-5" />
                       Banner
                     </Link>
                   </nav>
-                  <div>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Upgrade to Pro</CardTitle>
-                        <CardDescription>
-                          Unlock all features and get unlimited access to our
-                          support team.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button size="sm" className="w-full">
-                          Upgrade
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </div>
                 </SheetContent>
               </Sheet>
               <DropdownMenu>
