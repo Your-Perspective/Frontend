@@ -106,6 +106,7 @@ export interface AuthorDetailsProps {
   profileImage: string | StaticImport | undefined;
   totalViews: 0;
   top3Count: number;
+  about: string;
 }
 
 export interface BlogByAuthors {
