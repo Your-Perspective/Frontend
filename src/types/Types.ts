@@ -35,7 +35,7 @@ export interface BlogDetailsProps {
   published: boolean;
   author: {
     profileImage?: string | StaticImport;
-    userName: string;
+    userName?: string;
   };
   createdAt: string;
 }
@@ -96,4 +96,29 @@ export interface TopAuthorProps {
   bio: string | null;
   totalViews: 4750;
   profileImage: StaticImport | string;
+}
+
+export interface AuthorDetailsProps {
+  id: number;
+  email: string;
+  userName: string;
+  bio: string;
+  profileImage: string | StaticImport | undefined;
+  totalViews: 0;
+  top3Count: number;
+  about: string;
+}
+
+export interface BlogByAuthors {
+  id: number;
+  blogTitle: string;
+  published: boolean;
+  slug: string;
+  isPin: boolean;
+  countViewer: number;
+  thumbnail: string | StaticImport;
+  summary: string;
+  minRead: number;
+  isDeleted: boolean;
+  createdAt: string;
 }
