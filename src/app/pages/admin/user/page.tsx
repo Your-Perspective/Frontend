@@ -1,5 +1,5 @@
 import React from "react";
-import DashBoardLayout from "@/components/DashBoard/layout";
+import DashBoardLayout from "@/components/layout/layout";
 
 const User = () => {
   return (
