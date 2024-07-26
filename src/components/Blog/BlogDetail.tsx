@@ -17,7 +17,6 @@ import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
 import ContentCard from "../Card/Card";
-import { Button } from "../ui/button";
 
 export default function BlogDetail({
   slug,
@@ -95,31 +94,40 @@ export default function BlogDetail({
       </Card>
       <Card className={"text-primary shadow-none border-0 my-10"}>
         <CardHeader className="p-0">
-          <h3 className="font-medium">Written by:</h3>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center text-primary gap-5">
-              <Image
-                src={HandleImage({ src: content?.author.profileImage })}
-                alt="autorr-profile"
-                width={50}
-                height={50}
-                className="rounded-full w-[50px] h-[50px] object-cover"
-              />
-              <div className="flex flex-col gap-1">
-                <strong className="capitalize text-lg">
-                  {content?.author.userName}
-                </strong>
-                <div className="flex gap-3 text-gray-500">
-                  <p className="flex gap-3 items-center">
-                    <MdOutlineUpdate size={20} />{" "}
-                    {DateFunction({ date: content?.createdAt })}
-                  </p>
-                </div>
+          <div className={"flex justify-between items-center"}>
+            <h3 className="font-medium">Written by:</h3>
+            <div className={"flex gap-3"}>
+              <Link href={"#"}>
+                <BsFacebook size={25} />
+              </Link>
+              <Link href={"#"}>
+                <AiFillInstagram size={25} />
+              </Link>
+              <Link href={"#"}>
+                <BiLogoTwitter size={25} />
+              </Link>
+            </div>
+          </div>
+          <div className="flex items-center text-primary gap-5">
+            <Image
+              src={HandleImage({ src: content?.author.profileImage })}
+              alt="autorr-profile"
+              width={50}
+              height={50}
+              className="rounded-full w-[50px] h-[50px] object-cover"
+            />
+            <div className="flex flex-col gap-1">
+              <strong className="capitalize text-lg">
+                {content?.author.userName}
+              </strong>
+              <div className="flex gap-3 text-gray-500">
+                <p className="flex gap-3 items-center">
+                  <MdOutlineUpdate size={20} />{" "}
+                  {DateFunction({ date: content?.createdAt })}
+                </p>
               </div>
             </div>
-            <Button>View profile</Button>
           </div>
-
           <div>
             <p>{content?.author.userName}</p>
           </div>
