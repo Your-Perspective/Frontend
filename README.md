@@ -16,7 +16,7 @@ Ensure you have Node.js version ^20 and npm installed on your machine. You can c
 
 ```bash
 # install dependencies
-npm install
+npm install --save
 
 # check for ready to run
 npm run build
