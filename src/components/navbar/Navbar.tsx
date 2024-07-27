@@ -15,10 +15,10 @@ export default function Navbar() {
         <Link href={"/"} className="min-w-[55px]">
           <Image
             priority
-            width={60}
+            width={40}
             src={logo}
             alt="your-perspective - logo"
-            className="rounded-full"
+            className="rounded-full w-[45px] h-[45px] object-cover"
           />
         </Link>
         <ClickToCommand />
