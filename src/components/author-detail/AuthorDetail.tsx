@@ -61,9 +61,9 @@ export default function AuthorDetail({ username }: { username: string }) {
         <aside className="flex flex-col md:col-span-1 col-span-3 p-5 gap-4">
           <div className="flex justify-start items-center gap-5">
             <Image
-              width={100}
-              height={100}
-              className={"w-[100px] h-[100px] object-cover rounded-full"}
+              width={75}
+              height={75}
+              className={"w-[75px] h-[75px] object-cover rounded-full"}
               src={HandleImage({ src: AuthorDetail?.profileImage })}
               alt={AuthorDetail?.userName}
             />
@@ -78,7 +78,7 @@ export default function AuthorDetail({ username }: { username: string }) {
           </div>
           <div>
             {AuthorDetail && (
-              <p className="text-primary md:text-lg">
+              <p className="text-gray-500 md:text-lg">
                 View hits:{" "}
                 <span className="text-primaryColor font-medium">
                   {AuthorDetail.totalViews}
@@ -86,7 +86,7 @@ export default function AuthorDetail({ username }: { username: string }) {
               </p>
             )}
           </div>
-          <article>{AuthorDetail.bio}</article>
+          <article className="text-gray-500">{AuthorDetail.bio}</article>
         </aside>
         <Tabs defaultValue="all-post" className="w-full md:col-span-2 col-span-3">
           <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
@@ -134,7 +134,7 @@ export default function AuthorDetail({ username }: { username: string }) {
                         thumbnail={HandleImage({ src: author.thumbnail })}
                         slug={author.slug}
                         summary={author.summary}
-                        author={{ userName: AuthorDetail?.userName }}
+                        author={author.author}
                       />
                     ))}
                   </div>

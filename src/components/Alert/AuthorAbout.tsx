@@ -14,10 +14,17 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import TooltipComponent from "../tooltip/Tooltip";
 
 export const AuthorStarShow = ({ stars }: { stars: number }) => {
-  return Array.from({ length: stars }).map((_, index) => (
-    <FaStar key={index} className="text-yellow-500" />
+  const maxStarsToShow = Math.min(stars, 5);
+  return Array.from({ length: maxStarsToShow }).map((_, index) => (
+    <TooltipComponent
+      key={index + "star"}
+      content={"Star top author" + ` ${stars}`}
+    >
+      <FaStar key={index} className="text-yellow-500" />
+    </TooltipComponent>
   ));
 };
 
@@ -44,11 +51,12 @@ export default function AuthorAboutDialog({
           <DialogTitle className="flex items-center gap-3">
             {AuthorDetail && (
               <Image
-                width={40}
-                height={40}
+                width={50}
+                height={50}
                 priority
                 src={HandleImage({ src: AuthorDetail.profileImage })}
                 alt={AuthorDetail.userName}
+                objectFit="cover"
                 className="w-[50px] h-[50px] object-cover rounded-full"
               />
             )}
