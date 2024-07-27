@@ -14,7 +14,10 @@ export default function Navbar() {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    if (pathName.startsWith("/pages/admin")) {
+    if (
+      pathName.startsWith("/pages/admin/") ||
+      pathName.startsWith("/pages/auth-form/")
+    ) {
       setHide(true);
     } else {
       setHide(false);
