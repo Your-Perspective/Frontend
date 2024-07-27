@@ -134,7 +134,7 @@ export default function AuthorDetail({ username }: { username: string }) {
                         thumbnail={HandleImage({ src: author.thumbnail })}
                         slug={author.slug}
                         summary={author.summary}
-                        author={{ userName: username }}
+                        author={{ userName: AuthorDetail?.userName }}
                       />
                     ))}
                   </div>
