@@ -36,6 +36,7 @@ export interface BlogDetailsProps {
   author: {
     profileImage?: string | StaticImport;
     userName?: string;
+    bio: string;
   };
   createdAt: string;
 }
@@ -121,4 +122,8 @@ export interface BlogByAuthors {
   minRead: number;
   isDeleted: boolean;
   createdAt: string;
+  author: {
+    profileImage: string | StaticImport | undefined;
+    userName: string;
+  };
 }

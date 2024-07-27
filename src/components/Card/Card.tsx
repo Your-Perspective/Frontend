@@ -71,9 +71,20 @@ export default function ContentCard({
               option.includes("grid") ? "lg:text-base text-sm" : "text-xs"
             }`}
           >
-            <p className="capitalize font-medium text-primaryColor">
-              @{author ? author.userName : ""}
-            </p>
+            <div className="flex justify-center items-center gap-2">
+              <Image
+                priority
+                src={HandleImage({ src: author?.profileImage })}
+                alt={blogTitle}
+                width={20}
+                height={20}
+                objectFit="cover"
+                className="object-cover w-[20px] h-[20px] rounded-full"
+              />
+              <p className="capitalize font-medium text-primaryColor">
+                {author ? author.userName : ""}
+              </p>
+            </div>
             <div className="flex items-center gap-3">
               <MdOutlineUpdate /> {DateFunction({ date: createdAt })}
             </div>
