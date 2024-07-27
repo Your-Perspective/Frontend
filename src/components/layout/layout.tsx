@@ -14,6 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import logo from "@/assets/logo.jpg";
+import { ThemesModeToggle } from "../darkmode-switcher/ThemesSwitcher";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { TbLogin } from "react-icons/tb";
@@ -24,6 +25,26 @@ export default function DashBoardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const links = [
+    {
+      href: "/pages/admin/user",
+      icon: <RiAccountPinCircleLine className="size-4" />,
+      text: "User",
+      isActive: pathname === "/pages/admin/user",
+    },
+    {
+      href: "/pages/admin/blog",
+      icon: <Package className="h-4 w-4" />,
+      text: "Blog",
+      isActive: pathname === "/pages/admin/blog",
+    },
+    {
+      href: "/pages/admin/banner",
+      icon: <TbSlideshow className="size-4" />,
+      text: "Banner",
+      isActive: pathname === "/pages/admin/banner",
+    },
+  ];
 
   return (
     <section>
@@ -41,45 +62,26 @@ export default function DashBoardLayout({
             </div>
             <div className="flex-1">
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                <Link
-                  href="/pages/admin/user"
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                    pathname === "/pages/admin/user"
-                      ? "text-primary bg-muted"
-                      : "text-muted-foreground hover:text-primary"
-                  }`}
-                >
-                  <RiAccountPinCircleLine className="size-4" />
-                  User
-                </Link>
-                <Link
-                  href="/pages/admin/blog"
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                    pathname === "/pages/admin/blog"
-                      ? "text-primary bg-muted"
-                      : "text-muted-foreground hover:text-primary"
-                  }`}
-                >
-                  <Package className="h-4 w-4" />
-                  Blog
-                </Link>
-                <Link
-                  href="/pages/admin/banner"
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                    pathname === "/pages/admin/banner"
-                      ? "text-primary bg-muted"
-                      : "text-muted-foreground hover:text-primary"
-                  }`}
-                >
-                  <TbSlideshow className="size-4" />
-                  Banner
-                </Link>
+                {links.map((link, index) => (
+                  <Link
+                    key={index}
+                    href={link.href}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
+                      link.isActive
+                        ? "text-primary bg-muted"
+                        : "text-muted-foreground hover:text-primary"
+                    }`}
+                  >
+                    {link.icon}
+                    {link.text}
+                  </Link>
+                ))}
               </nav>
             </div>
             <div className="text-sm font-medium p-4">
               <div>
                 <Link
-                  href="/"
+                  href={"/pages/admin/Login"}
                   className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-muted-foreground hover:text-primary"
                 >
                   <TbLogin className="size-4" />
@@ -112,62 +114,47 @@ export default function DashBoardLayout({
                     className="rounded-full"
                   />
 
-                  <Link
-                    href="/pages/admin/user"
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                      pathname === "/pages/admin/user"
-                        ? "text-primary bg-muted"
-                        : "text-muted-foreground hover:text-primary"
-                    }`}
-                  >
-                    <RiAccountPinCircleLine className="size-5" />
-                    User
-                  </Link>
-                  <Link
-                    href="/pages/admin/blog"
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                      pathname === "/pages/admin/blog"
-                        ? "text-primary bg-muted"
-                        : "text-muted-foreground hover:text-primary"
-                    }`}
-                  >
-                    <Package className="size-5" />
-                    Blog
-                  </Link>
-                  <Link
-                    href="/pages/admin/banner"
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                      pathname === "/pages/admin/banner"
-                        ? "text-primary bg-muted"
-                        : "text-muted-foreground hover:text-primary"
-                    }`}
-                  >
-                    <TbSlideshow className="size-5" />
-                    Banner
-                  </Link>
+                  {links.map((link, index) => (
+                    <Link
+                      key={index}
+                      href={link.href}
+                      className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
+                        link.isActive
+                          ? "text-primary bg-muted"
+                          : "text-muted-foreground hover:text-primary"
+                      }`}
+                    >
+                      {link.icon}
+                      {link.text}
+                    </Link>
+                  ))}
                 </nav>
               </SheetContent>
             </Sheet>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full"
-                >
-                  <CircleUser className="h-5 w-5" />
-                  <span className="sr-only">Toggle user menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="rounded-full"
+                  >
+                    <CircleUser className="h-5 w-5" />
+                    <span className="sr-only">Toggle user menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem>Support</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <ThemesModeToggle />
+            </div>
           </header>
           <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             {children}
