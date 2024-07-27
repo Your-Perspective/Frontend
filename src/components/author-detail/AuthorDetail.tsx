@@ -16,6 +16,7 @@ import { Button } from "../ui/button";
 import { BsFillGridFill } from "react-icons/bs";
 import { HiViewColumns } from "react-icons/hi2";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { isBlog } from "../Tabs/Tabs";
 
 export default function AuthorDetail({ username }: { username: string }) {
   const {
@@ -88,7 +89,10 @@ export default function AuthorDetail({ username }: { username: string }) {
           </div>
           <article className="text-gray-500">{AuthorDetail.bio}</article>
         </aside>
-        <Tabs defaultValue="all-post" className="w-full md:col-span-2 col-span-3">
+        <Tabs
+          defaultValue="all-post"
+          className="w-full md:col-span-2 col-span-3"
+        >
           <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
             <TabsTrigger
               value="all-post"
@@ -124,17 +128,13 @@ export default function AuthorDetail({ username }: { username: string }) {
                         : ""
                     }`}
                   >
-                    {BlogByAuthor?.map((author) => (
+                    {BlogByAuthor?.map((item, index) => (
                       <ContentCard
-                        option={style}
-                        key={author.id}
-                        blogTitle={author.blogTitle}
-                        createdAt={author.createdAt}
-                        countViewer={author.countViewer}
-                        thumbnail={HandleImage({ src: author.thumbnail })}
-                        slug={author.slug}
-                        summary={author.summary}
-                        author={author.author}
+                        option={{
+                          option: style,
+                        }}
+                        props={{ ...item }}
+                        key={isBlog(item) ? item.slug : index.toString()}
                       />
                     ))}
                   </div>

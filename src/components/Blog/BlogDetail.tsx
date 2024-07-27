@@ -15,6 +15,7 @@ import { HandleImage } from "@/constrain/HandleImage";
 import ContentCard from "../Card/Card";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { isBlog } from "../Tabs/Tabs";
 
 export default function BlogDetail({
   slug,
@@ -139,18 +140,13 @@ export default function BlogDetail({
             (RelatedPost.length === 0 && (
               <NotFoundPage text_display="No related page" />
             ))}
-          {RelatedPost?.map((item) => (
+          {RelatedPost?.map((item, index) => (
             <ContentCard
-              key={item.slug}
-              author={item.author}
-              blogTitle={item.blogTitle}
-              countViewer={item.countViewer}
-              slug={item.slug}
-              summary={item.summary}
-              createdAt={item.createdAt}
-              published={item.published}
-              thumbnail={item.thumbnail}
-              option="column"
+              option={{
+                option: "column",
+              }}
+              props={{ ...item }}
+              key={isBlog(item) ? item.slug : index.toString()}
             />
           ))}
         </div>
