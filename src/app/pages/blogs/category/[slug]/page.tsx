@@ -11,6 +11,7 @@ import { HiViewColumns } from "react-icons/hi2";
 import { BsFillGridFill } from "react-icons/bs";
 import BlogsLayout from "@/components/layout/blogsLayout";
 import Container from "@/components/container-section/Container";
+import { isBlog } from "@/components/Tabs/Tabs";
 
 export default function BlogsBySlugCategory({
   params,
@@ -67,15 +68,11 @@ export default function BlogsBySlugCategory({
         >
           {data.map((item) => (
             <ContentCard
-              option={style}
-              blogTitle={item.blogTitle}
-              summary={item.summary}
-              author={item.author}
-              createdAt={item.createdAt}
-              countViewer={item.countViewer}
-              slug={item.slug}
-              thumbnail={item.thumbnail}
-              key={item.slug}
+              option={{
+                option: style,
+              }}
+              props={{ ...item }}
+              key={isBlog(item) ? item.slug : item.id.toString()}
             />
           ))}
         </section>
