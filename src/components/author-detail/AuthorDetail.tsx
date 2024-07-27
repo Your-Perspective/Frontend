@@ -88,7 +88,7 @@ export default function AuthorDetail({ username }: { username: string }) {
           </div>
           <article>{AuthorDetail.bio}</article>
         </aside>
-        <Tabs defaultValue="all-post" className="w-full col-span-2">
+        <Tabs defaultValue="all-post" className="w-full md:col-span-2 col-span-3">
           <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
             <TabsTrigger
               value="all-post"
