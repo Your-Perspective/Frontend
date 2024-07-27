@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import AlertCompo from "@/components/Alert/AlertCompo";
 import { Roboto } from "next/font/google";
+import { Toaster } from "sonner";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -47,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -68,6 +69,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <Toaster />
               <Navbar />
               <AlertCompo
                 url="#"

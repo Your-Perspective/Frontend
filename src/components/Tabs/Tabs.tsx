@@ -50,7 +50,7 @@ export default function TabsGategory() {
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md shadow-none">
           <TabsTrigger
-            className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            className="relative capitalize rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
             key={"all"}
             value={"all"}
           >
@@ -58,7 +58,7 @@ export default function TabsGategory() {
           </TabsTrigger>
           {categories?.map((item: TabItem) => (
             <TabsTrigger
-              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+              className="relative capitalize rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
               key={item.id}
               value={item.slug}
             >
@@ -69,7 +69,7 @@ export default function TabsGategory() {
         </ScrollArea>
       </TabsList>
       <TabsContent key={"all"} value={"all"}>
-        <BlogsLayout arai_label={"all-blogs"}>
+        <BlogsLayout arai_label={"all"}>
           <h1 className="font-bold text-primary">All</h1>
           <div className="py-3">
             {!blogPosts ||
@@ -77,7 +77,7 @@ export default function TabsGategory() {
                 <NotFoundPage text_display="Contents not found!" />
               ))}
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 w-[95%]">
             {blogPosts?.map((item: ContentsTypeProps) => (
               <ContentCard
                 blogTitle={item.blogTitle}
@@ -96,14 +96,14 @@ export default function TabsGategory() {
       {categories?.map((item) => (
         <TabsContent key={item.id} value={item.slug}>
           <BlogsLayout arai_label={item.title}>
-            <h1 className="font-bold text-primary">{item.title}</h1>
+            <h1 className="font-bold text-primary capitalize">{item.title}</h1>
             <div className="py-3">
               {!blogPosts ||
                 (blogPosts.length === 0 && (
                   <NotFoundPage text_display="Contents not found!" />
                 ))}
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 w-[95%]">
               {blogPosts?.map((item: ContentsTypeProps) => (
                 <ContentCard
                   blogTitle={item.blogTitle}

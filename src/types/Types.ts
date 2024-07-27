@@ -7,7 +7,7 @@ export type Pokemon = {
 
 export interface ContentsTypeProps {
   slug: string;
-  thumbnail?: string;
+  thumbnail?: string | StaticImport | undefined;
   summary: string;
   blogTitle: string;
   countViewer: number;
@@ -20,18 +20,22 @@ export interface ContentsTypeProps {
   createdAt?: string;
 }
 
+export interface ExtendedContentsTypeProps extends ContentsTypeProps {
+  option?: "grid" | "column";
+}
+
 export interface BlogDetailsProps {
   slug: string;
   blogContent: string;
   summary: string;
-  thumbnail?: string;
+  thumbnail?: string | StaticImport | undefined;
   blogTitle: string;
   countViewer: number;
   minRead: number;
   published: boolean;
   author: {
     profileImage?: string | StaticImport;
-    userName: string;
+    userName?: string;
   };
   createdAt: string;
 }
@@ -76,3 +80,45 @@ export type ProductCardProps = {
   size?: Array<string>;
   stocked?: number;
 };
+
+export interface RecentPostProps {
+  createdAt: string;
+  timeAgo: string;
+  author: {
+    userName: string;
+  };
+  slug: string;
+  blogTitle: string;
+}
+
+export interface TopAuthorProps {
+  username: string;
+  bio: string | null;
+  totalViews: 4750;
+  profileImage: StaticImport | string;
+}
+
+export interface AuthorDetailsProps {
+  id: number;
+  email: string;
+  userName: string;
+  bio: string;
+  profileImage: string | StaticImport | undefined;
+  totalViews: 0;
+  top3Count: number;
+  about: string;
+}
+
+export interface BlogByAuthors {
+  id: number;
+  blogTitle: string;
+  published: boolean;
+  slug: string;
+  isPin: boolean;
+  countViewer: number;
+  thumbnail: string | StaticImport;
+  summary: string;
+  minRead: number;
+  isDeleted: boolean;
+  createdAt: string;
+}

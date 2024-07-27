@@ -5,6 +5,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import React from "react";
 
 export default function BreadcrumbCompo({
   title,
@@ -17,11 +18,13 @@ export default function BreadcrumbCompo({
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
-        {title.map((item) => (
-          <BreadcrumbItem key={item.label}>
+        {title.map((item, index) => (
+          <React.Fragment key={index}>
             <BreadcrumbSeparator />
-            <BreadcrumbLink href={item.link}>{item.label}</BreadcrumbLink>
-          </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href={item.link}>{item.label}</BreadcrumbLink>
+            </BreadcrumbItem>
+          </React.Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
