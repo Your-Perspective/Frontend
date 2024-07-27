@@ -1,23 +1,24 @@
 import { apiSlice } from "@/lib/apiSlice";
 import {
   BlogDetailsProps,
+  BlogsProps,
   ContentsTypeProps,
   RecentPostProps,
 } from "@/types/Types";
 
 export const blogsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllBlogs: builder.query<ContentsTypeProps[], void>({
+    getAllBlogs: builder.query<BlogsProps[], void>({
       query: () => `/blogs/`,
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
     }),
-    getBlogsBySlugCategory: builder.query<ContentsTypeProps[], string>({
+    getBlogsBySlugCategory: builder.query<BlogsProps[], string>({
       query: (slugGategory) => ({ url: `/blogs/${slugGategory}` }),
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
     }),
-    getBlogDetailByAuthorSlug: builder.query<BlogDetailsProps, string[]>({
+    getBlogDetailByAuthorSlug: builder.query<BlogsProps, string[]>({
       query: ([username, slug]) => ({
         url: `/blogs/@${username}/${slug}`,
       }),

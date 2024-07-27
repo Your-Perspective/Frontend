@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ContentCard from "../Card/Card";
-import { ContentsTypeProps, TabItem } from "@/types/Types";
+import { BlogsProps, ContentsTypeProps, TabItem } from "@/types/Types";
 import BlogsLayout from "../layout/blogsLayout";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import NotFoundPage from "@/app/not-found";
@@ -11,8 +11,13 @@ import { useGetBlogsBySlugCategoryQuery } from "@/lib/api/services/AllBlogs";
 import { useGetAllCategoriesQuery } from "@/lib/api/services/AllTabs";
 import Error from "@/app/error";
 
+export const isBlog = (item: BlogsProps): item is ContentsTypeProps => {
+  return (item as ContentsTypeProps).slug !== undefined;
+};
+
 export default function TabsGategory() {
   const [category, setCategory] = useState<string>("all");
+
   const {
     data: blogPosts,
     isLoading: BlogLoading,
@@ -78,16 +83,13 @@ export default function TabsGategory() {
               ))}
           </div>
           <div className="flex flex-col gap-4 w-[95%]">
-            {blogPosts?.map((item: ContentsTypeProps) => (
+            {blogPosts?.map((item: BlogsProps) => (
               <ContentCard
-                blogTitle={item.blogTitle}
-                summary={item.summary}
-                author={item.author}
-                createdAt={item.createdAt}
-                countViewer={item.countViewer}
-                slug={item.slug}
-                thumbnail={item.thumbnail}
-                key={item.slug}
+                option={{
+                  option: "grid",
+                }}
+                props={{ ...item }}
+                key={isBlog(item) ? item.slug : item.id.toString()}
               />
             ))}
           </div>
@@ -104,16 +106,13 @@ export default function TabsGategory() {
                 ))}
             </div>
             <div className="flex flex-col gap-4 w-[95%]">
-              {blogPosts?.map((item: ContentsTypeProps) => (
+              {blogPosts?.map((item) => (
                 <ContentCard
-                  blogTitle={item.blogTitle}
-                  summary={item.summary}
-                  author={item.author}
-                  createdAt={item.createdAt}
-                  countViewer={item.countViewer}
-                  slug={item.slug}
-                  thumbnail={item.thumbnail}
-                  key={item.slug}
+                  option={{
+                    option: "grid",
+                  }}
+                  props={{ ...item }}
+                  key={isBlog(item) ? item.slug : item.id.toString()}
                 />
               ))}
             </div>
