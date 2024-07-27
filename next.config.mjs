@@ -16,6 +16,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "yp-backend.ddkhdev.lol",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "cpworldgroup.com",
         port: "",
         pathname: "/**",
