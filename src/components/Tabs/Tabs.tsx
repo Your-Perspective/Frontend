@@ -82,7 +82,7 @@ export default function TabsGategory() {
                 <NotFoundPage text_display="Contents not found!" />
               ))}
           </div>
-          <div className="flex flex-col gap-4 md:w-[95%] w-full">
+          <div className="flex flex-col gap-4 lg:w-[95%] w-full">
             {blogPosts?.map((item: BlogsProps) => (
               <ContentCard
                 option={{
@@ -105,7 +105,7 @@ export default function TabsGategory() {
                   <NotFoundPage text_display="Contents not found!" />
                 ))}
             </div>
-            <div className="flex flex-col gap-4 md:w-[95%] w-full">
+            <div className="flex flex-col gap-4 lg:w-[95%] w-full">
               {blogPosts?.map((item) => (
                 <ContentCard
                   option={{
