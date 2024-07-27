@@ -8,7 +8,12 @@ export const categoriesApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["tabs"],
     }),
+    getPopularCategories: builder.query<TabItem[], void>({
+      query: () => `/categories/blog-count`,
+      keepUnusedDataFor: 5,
+      providesTags: ["tabs"],
+    }),
   }),
 });
 
-export const { useGetAllCategoriesQuery } = categoriesApi;
+export const { useGetAllCategoriesQuery, useGetPopularCategoriesQuery } = categoriesApi;

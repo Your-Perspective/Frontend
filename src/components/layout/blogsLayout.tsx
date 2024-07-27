@@ -1,7 +1,7 @@
 import { useGetRecentPostQuery } from "@/lib/api/services/AllBlogs";
 import { Badge } from "../ui/badge";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { useGetAllCategoriesQuery } from "@/lib/api/services/AllTabs";
+import { useGetPopularCategoriesQuery } from "@/lib/api/services/AllTabs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -18,7 +18,7 @@ export default function BlogsLayout({
   arai_label?: string;
   classNames?: string;
 }>) {
-  const { data, isLoading, error } = useGetAllCategoriesQuery();
+  const { data, isLoading, error } = useGetPopularCategoriesQuery();
   const {
     data: RecentPostData,
     isLoading: LoadingRecentPost,
@@ -105,7 +105,7 @@ export default function BlogsLayout({
             <Badge
               onClick={() => handleCategories(item.slug)}
               key={item.id}
-              className="px-5 py-2 rounded-full text-sm dark:text-gray-300 dark:hover:text-black hover:text-white cursor-pointer text-gray-700 dark:bg-secondary bg-white"
+              className="capitalize px-5 py-2 rounded-full text-sm dark:text-gray-300 dark:hover:text-black hover:text-white cursor-pointer text-gray-700 dark:bg-secondary bg-white"
             >
               {item.title}
             </Badge>
