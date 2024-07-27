@@ -130,12 +130,11 @@ export default function ContentCard({
           option.option !== "grid" ? "grid" : "flex flex-col"
         } gap-5 py-5 px-0 md:items-center items-start`}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          // priority
-          // width={200}
-          // height={100}
-          src={props.imageUrl}
+        <Image
+          priority
+          width={200}
+          height={100}
+          src={HandleImage({ src: props.imageUrl })}
           className={`${
             option.option?.includes("grid")
               ? " md:h-[250px] h-[200px] order-2 w-[250px] mx-auto"

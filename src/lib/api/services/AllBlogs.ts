@@ -18,7 +18,7 @@ export const blogsApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
     }),
-    getBlogDetailByAuthorSlug: builder.query<BlogsProps, string[]>({
+    getBlogDetailByAuthorSlug: builder.query<BlogDetailsProps, string[]>({
       query: ([username, slug]) => ({
         url: `/blogs/@${username}/${slug}`,
       }),
