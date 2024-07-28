@@ -6,15 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import { useGetAuthConfirmPasswordMutation } from "@/lib/api/services/Auth-form";
 import { ConfirmPasswordAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
+import { toast } from "sonner";
 
 const ConfirmPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { toast } = useToast();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -30,6 +29,36 @@ const ConfirmPassword = () => {
     passwordConfirmation: "",
   });
 
+  const validateForm = () => {
+    const { password, passwordConfirmation } = formData;
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (password !== passwordConfirmation) {
+      toast("Error", {
+        description: "Passwords do not match.",
+        action: {
+          label: "Undo",
+          onClick: () => {},
+        },
+      });
+      return false;
+    }
+
+    if (!strongPasswordRegex.test(password)) {
+      toast("Error", {
+        description:
+          "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.",
+        action: {
+          label: "Undo",
+          onClick: () => {},
+        },
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -41,14 +70,13 @@ const ConfirmPassword = () => {
   const [getAuthConfirmPassword] = useGetAuthConfirmPasswordMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     try {
       await getAuthConfirmPassword(formData).unwrap();
       navigation("/pages/auth-form/login");
-    } catch (err) {
-      toast({
-        description: "Incorrect code or password not match",
-      });
-    }
+    } catch (err) {}
   };
 
   return (

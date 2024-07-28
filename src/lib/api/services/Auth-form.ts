@@ -10,7 +10,7 @@ export const authForm = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAuthRegister: builder.mutation<void, RegisterAuthForm>({
       query: (formData) => ({
-        url: `/author/register`,
+        url: `/auth/register`,
         method: "POST",
         body: formData,
       }),
@@ -18,24 +18,29 @@ export const authForm = apiSlice.injectEndpoints({
 
     getAuthLogin: builder.mutation<void, LoginAuthForm>({
       query: (formData) => ({
-        url: `/author/login`,
+        url: `/auth/login`,
         method: "POST",
         body: formData,
       }),
     }),
     getAuthForgetPassword: builder.mutation<void, ForgetPasswordAuthForm>({
       query: (formData) => ({
-        url: `/author/forgot-password`,
+        url: `/auth/forgot-password`,
         method: "POST",
         body: formData,
       }),
     }),
     getAuthConfirmPassword: builder.mutation<void, ConfirmPasswordAuthForm>({
-      query: (formData) => ({
-        url: `/author/reset-password`,
-        method: "POST",
-        body: formData,
-      }),
+      query: (formData) => {
+        const { token, ...restFormData } = formData;
+        return {
+          url: `/auth/reset-password?token=${token}`,
+          method: "POST",
+          body: {
+            ...restFormData,
+          },
+        };
+      },
     }),
   }),
 });

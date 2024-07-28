@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useGetAuthForgetPasswordMutation } from "@/lib/api/services/Auth-form";
 import { ForgetPasswordAuthForm } from "@/types/Types";
-import { useToast } from "@/components/ui/use-toast";
 import { navigation } from "@/app/action";
 
 export default function ForgetPassword() {
@@ -15,7 +14,6 @@ export default function ForgetPassword() {
     email: "",
   });
 
-  const { toast } = useToast();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -27,14 +25,11 @@ export default function ForgetPassword() {
   const [getAuthForgetPassword] = useGetAuthForgetPasswordMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     try {
       await getAuthForgetPassword(formData).unwrap();
       navigation("/pages/auth-form/confirm-pw");
-    } catch (err) {
-      toast({
-        description: "Email not found",
-      });
-    }
+    } catch (err) {}
   };
   return (
     <div className="w-full h-screen justify-center flex items-center">
@@ -48,12 +43,12 @@ export default function ForgetPassword() {
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="example@example.com"
                   required
                   name="email"
                   onChange={handleChange}
+                  value={formData.email}
                 />
               </div>
               <Button type="submit" className="w-full">

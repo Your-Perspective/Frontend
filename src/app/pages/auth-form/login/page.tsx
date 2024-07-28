@@ -14,12 +14,10 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { useGetAuthLoginMutation } from "@/lib/api/services/Auth-form";
 import { LoginAuthForm } from "@/types/Types";
-import { useToast } from "@/components/ui/use-toast";
 import { navigation } from "@/app/action";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -44,11 +42,7 @@ export default function LoginForm() {
     try {
       await getAuthLogin(formData).unwrap();
       navigation("/pages/admin/user");
-    } catch (err) {
-      toast({
-        description: "Incorrect Email or Password",
-      });
-    }
+    } catch (err) {}
   };
 
   return (
@@ -69,7 +63,7 @@ export default function LoginForm() {
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="m@example.com"
+                  placeholder="example@example.com"
                   required
                   value={formData.email}
                   onChange={handleChange}

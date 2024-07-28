@@ -14,11 +14,10 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useGetAuthRegisterMutation } from "@/lib/api/services/Auth-form";
 import { RegisterAuthForm } from "@/types/Types";
-import { useToast } from "@/components/ui/use-toast";
 import { navigation } from "@/app/action";
+import { toast } from "sonner";
 
 export default function SignUpForm() {
-  const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -45,20 +44,46 @@ export default function SignUpForm() {
     }));
   };
 
+  const validateForm = () => {
+    const { password, passwordConfirmation } = formData;
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (password !== passwordConfirmation) {
+      toast("Error", {
+        description: "Passwords do not match.",
+        action: {
+          label: "Undo",
+          onClick: () => {},
+        },
+      });
+      return false;
+    }
+
+    if (!strongPasswordRegex.test(password)) {
+      toast("Error", {
+        description:
+          "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.",
+        action: {
+          label: "Undo",
+          onClick: () => {},
+        },
+      });
+      return false;
+    }
+    return true;
+  };
+
   const [getAuthRegister] = useGetAuthRegisterMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     try {
       await getAuthRegister(formData).unwrap();
-      toast({
-        description: "Registration successful.",
-      });
       navigation("/pages/admin/user");
-    } catch (err) {
-      toast({
-        description: "Registration failed. Please try again.",
-      });
-    }
+    } catch (err) {}
   };
 
   return (
@@ -90,7 +115,7 @@ export default function SignUpForm() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="example@example.com"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -134,11 +159,6 @@ export default function SignUpForm() {
                     type="button"
                     className="absolute inset-y-0 right-0 top-5 pr-3 flex items-center text-sm leading-5"
                     onClick={toggleConfirmPasswordVisibility}
-                    aria-label={
-                      showConfirmPassword
-                        ? "Hide confirm password"
-                        : "Show confirm password"
-                    }
                   >
                     {showConfirmPassword ? <EyeOff /> : <Eye />}
                   </button>
