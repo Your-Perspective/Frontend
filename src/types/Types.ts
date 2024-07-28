@@ -5,6 +5,11 @@ export type Pokemon = {
   name: string;
 };
 
+export interface Author {
+  profileImage?: string | StaticImport;
+  userName: string;
+}
+
 export interface ContentsTypeProps {
   slug: string;
   thumbnail?: string | StaticImport | undefined;
@@ -13,16 +18,22 @@ export interface ContentsTypeProps {
   countViewer: number;
   minRead?: number;
   published?: boolean;
-  author: {
-    profileImage?: string | StaticImport;
-    userName: string;
-  };
+  author: Author;
   createdAt?: string;
 }
 
-export interface ExtendedContentsTypeProps extends ContentsTypeProps {
+export interface Option {
   option?: "grid" | "column";
 }
+
+export interface AdsProps {
+  id: number;
+  title: string;
+  imageUrl: string | undefined;
+  link: string;
+}
+
+export type BlogsProps = AdsProps | ContentsTypeProps;
 
 export interface BlogDetailsProps {
   slug: string;
@@ -35,7 +46,8 @@ export interface BlogDetailsProps {
   published: boolean;
   author: {
     profileImage?: string | StaticImport;
-    userName: string;
+    userName?: string;
+    bio: string;
   };
   createdAt: string;
 }
@@ -80,3 +92,49 @@ export type ProductCardProps = {
   size?: Array<string>;
   stocked?: number;
 };
+
+export interface RecentPostProps {
+  createdAt: string;
+  timeAgo: string;
+  author: {
+    userName: string;
+  };
+  slug: string;
+  blogTitle: string;
+}
+
+export interface TopAuthorProps {
+  username: string;
+  bio: string | null;
+  totalViews: 4750;
+  profileImage: StaticImport | string;
+}
+
+export interface AuthorDetailsProps {
+  id: number;
+  email: string;
+  userName: string;
+  bio: string;
+  profileImage: string | StaticImport | undefined;
+  totalViews: 0;
+  top3Count: number;
+  about: string;
+}
+
+export interface BlogByAuthors {
+  id: number;
+  blogTitle: string;
+  published: boolean;
+  slug: string;
+  isPin: boolean;
+  countViewer: number;
+  thumbnail: string | StaticImport;
+  summary: string;
+  minRead: number;
+  isDeleted: boolean;
+  createdAt: string;
+  author: {
+    profileImage: string | StaticImport | undefined;
+    userName: string;
+  };
+}

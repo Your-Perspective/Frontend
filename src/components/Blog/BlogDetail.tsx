@@ -3,8 +3,8 @@ import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import { BsFacebook } from "react-icons/bs";
 import Link from "next/link";
+import { BsFacebook } from "react-icons/bs";
 import { AiFillInstagram } from "react-icons/ai";
 import { BiLogoTwitter } from "react-icons/bi";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
@@ -17,6 +17,9 @@ import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
 import ContentCard from "../Card/Card";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { isBlog } from "../Tabs/Tabs";
 
 export default function BlogDetail({
   slug,
@@ -25,17 +28,19 @@ export default function BlogDetail({
   slug: string;
   username: string;
 }) {
+  const router = useRouter();
+
   const {
     data: content,
     isLoading,
     error,
-  } = useGetBlogDetailByAuthorSlugQuery([slug, username]);
+  } = useGetBlogDetailByAuthorSlugQuery([username, slug]);
 
   const {
     data: RelatedPost,
     isLoading: RelatedPostLoading,
     error: RelatedPostError,
-  } = useGetRelatedBlogPostsBySlugQuery([slug, username]);
+  } = useGetRelatedBlogPostsBySlugQuery(username);
 
   if (isLoading) {
     return <Loading />;
@@ -83,7 +88,7 @@ export default function BlogDetail({
         </CardHeader>
         <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">
           {content ? (
-            <div
+            <article
               className="leading-relaxed text-primary"
               dangerouslySetInnerHTML={{ __html: content.blogContent }}
             />
@@ -134,25 +139,20 @@ export default function BlogDetail({
         </CardHeader>
       </Card>
       <section aria-label="related-blogs">
-        <h2 className="font-semibold">Related</h2>
+        <h2 className="font-semibold">{RelatedPost ? "Related" : ""}</h2>
         {RelatedPostLoading && <Loading />}
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-5 my-5">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 my-5">
           {!RelatedPost ||
             (RelatedPost.length === 0 && (
               <NotFoundPage text_display="No related page" />
             ))}
-          {RelatedPost?.map((item) => (
+          {RelatedPost?.map((item, index) => (
             <ContentCard
-              key={item.slug}
-              author={item.author}
-              blogTitle={item.blogTitle}
-              countViewer={item.countViewer}
-              slug={item.slug}
-              summary={item.summary}
-              createdAt={item.createdAt}
-              published={item.published}
-              thumbnail={item.thumbnail}
-              option="column"
+              option={{
+                option: "column",
+              }}
+              props={{ ...item }}
+              key={isBlog(item) ? item.slug : index.toString()}
             />
           ))}
         </div>

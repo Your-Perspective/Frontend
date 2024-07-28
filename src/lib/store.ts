@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterSlice from "./features/counter/counterSlice";
-import { apiSlice } from "./apiSlice";
+import { apiSlice, rtkQueryErrorLogger } from "./apiSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,7 +9,7 @@ export const makeStore = () => {
       [apiSlice.reducerPath]: apiSlice.reducer,
     }, // all reducers, defined here!
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(apiSlice.middleware),
+      getDefaultMiddleware().concat(apiSlice.middleware, rtkQueryErrorLogger),
 
     devTools: true,
   });
