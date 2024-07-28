@@ -80,7 +80,6 @@ export default function ContentCard({
                   alt={props.blogTitle}
                   width={20}
                   height={20}
-                  objectFit="cover"
                   className="object-cover w-[20px] h-[20px] rounded-full"
                 />
                 <p className="capitalize font-medium text-primaryColor">
@@ -114,7 +113,7 @@ export default function ContentCard({
 
   const handleAdsRoute = () => {
     if (typeof window !== "undefined") {
-      window.location.href = props.link;
+      window.open(`${props.link}`, "_blank");
     }
   };
 
@@ -132,14 +131,15 @@ export default function ContentCard({
       >
         <Image
           priority
+          unoptimized={true}
           width={200}
           height={100}
           src={HandleImage({ src: props.imageUrl })}
           className={`${
             option.option?.includes("grid")
-              ? " md:h-[250px] h-[200px] order-2 w-[250px] mx-auto"
-              : " order-1"
-          } col-span-1 object-cover rounded-lg w-full`}
+              ? " md:h-[270px] h-[200px] order-2 w-[250px] mx-auto"
+              : " lg:h-[150px] md:h-[200px] h-[250px] order-1"
+          } col-span-1 object-cover w-full`}
           alt={props.title}
         />
       </CardContent>
