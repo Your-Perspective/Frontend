@@ -3,10 +3,6 @@ import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import Link from "next/link";
-import { BsFacebook } from "react-icons/bs";
-import { AiFillInstagram } from "react-icons/ai";
-import { BiLogoTwitter } from "react-icons/bi";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
 import {
   useGetBlogDetailByAuthorSlugQuery,
@@ -99,42 +95,40 @@ export default function BlogDetail({
       </Card>
       <Card className={"text-primary shadow-none border-0 my-10"}>
         <CardHeader className="p-0">
-          <div className={"flex justify-between items-center"}>
-            <h3 className="font-medium">Written by:</h3>
-            <div className={"flex gap-3"}>
-              <Link href={"#"}>
-                <BsFacebook size={25} />
-              </Link>
-              <Link href={"#"}>
-                <AiFillInstagram size={25} />
-              </Link>
-              <Link href={"#"}>
-                <BiLogoTwitter size={25} />
-              </Link>
-            </div>
-          </div>
-          <div className="flex items-center text-primary gap-5">
-            <Image
-              src={HandleImage({ src: content?.author.profileImage })}
-              alt="autorr-profile"
-              width={50}
-              height={50}
-              className="rounded-full w-[50px] h-[50px] object-cover"
-            />
-            <div className="flex flex-col gap-1">
-              <strong className="capitalize text-lg">
-                {content?.author.userName}
-              </strong>
-              <div className="flex gap-3 text-gray-500">
-                <p className="flex gap-3 items-center">
-                  <MdOutlineUpdate size={20} />{" "}
-                  {DateFunction({ date: content?.createdAt })}
-                </p>
+          <h3 className="font-medium">Written by:</h3>
+          <div className="flex flex-col gap-5">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center text-primary gap-5">
+                <Image
+                  src={HandleImage({ src: content?.author.profileImage })}
+                  alt="autorr-profile"
+                  width={50}
+                  height={50}
+                  className="rounded-full w-[50px] h-[50px] object-cover"
+                />
+                <div className="flex flex-col gap-1">
+                  <strong className="capitalize text-lg">
+                    {content?.author.userName}
+                  </strong>
+                  <div className="flex gap-3 text-gray-500">
+                    <p className="flex gap-3 items-center">
+                      <MdOutlineUpdate size={20} />{" "}
+                      {DateFunction({ date: content?.createdAt })}
+                    </p>
+                  </div>
+                </div>
               </div>
+              <Button
+                onClick={() =>
+                  router.push(
+                    `/pages/author-detail/${content?.author.userName}`
+                  )
+                }
+              >
+                View profile
+              </Button>
             </div>
-          </div>
-          <div>
-            <p>{content?.author.userName}</p>
+            <article>{content?.author?.bio}</article>
           </div>
         </CardHeader>
       </Card>

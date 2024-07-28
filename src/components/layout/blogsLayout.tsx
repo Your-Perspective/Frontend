@@ -45,7 +45,6 @@ export default function BlogsLayout({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-      <div className="sticky top-0 z-10">
       <div className="sticky top-0 z-10 lg:col-span-1 col-span-3">
         {" "}
         <h2 className="font-medium">Recent post</h2>

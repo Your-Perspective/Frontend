@@ -41,7 +41,7 @@ export default function BlogsBySlugCategory({
 
   return (
     <Container>
-      <BlogsLayout classNames="px-2">
+      <BlogsLayout>
         <section className="flex justify-between items-center">
           <BreadcrumbCompo
             title={[
