@@ -74,7 +74,7 @@ export default function TabsGategory() {
         </ScrollArea>
       </TabsList>
       <TabsContent key={"all"} value={"all"}>
-        <BlogsLayout arai_label={"all"}>
+        <BlogsLayout arai_label={"all-blogs"}>
           <h1 className="font-bold text-primary">All</h1>
           <div className="py-3">
             {!blogPosts ||
@@ -98,7 +98,7 @@ export default function TabsGategory() {
       {categories?.map((item) => (
         <TabsContent key={item.id} value={item.slug}>
           <BlogsLayout arai_label={item.title}>
-            <h1 className="font-bold text-primary capitalize">{item.title}</h1>
+            <h1 className="font-bold text-primary">{item.title}</h1>
             <div className="py-3">
               {!blogPosts ||
                 (blogPosts.length === 0 && (

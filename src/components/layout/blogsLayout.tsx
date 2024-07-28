@@ -12,11 +12,9 @@ import AuthorAboutDialog from "../Alert/AuthorAbout";
 export default function BlogsLayout({
   children,
   arai_label,
-  classNames,
 }: Readonly<{
   children: React.ReactNode;
   arai_label?: string;
-  classNames?: string;
 }>) {
   const { data, isLoading, error } = useGetPopularCategoriesQuery();
   const {
@@ -39,9 +37,9 @@ export default function BlogsLayout({
   return (
     <section
       aria-label={arai_label}
-      className={`grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-5 mx-auto my-5 ${classNames}`}
+      className="grid lg:grid-cols-3 grid-cols-1 gap-5 mx-auto my-5"
     >
-      <div className="col-span-3">
+      <div className="col-span-2">
         <ScrollArea className="w-full rounded-md h-screen relative">
           {children}
           <ScrollBar orientation="horizontal" />
@@ -112,6 +110,7 @@ export default function BlogsLayout({
           ))}
         </div>
       </div>
+      <div className="col-span-1">{/* Other content */}</div>
     </section>
   );
 }
