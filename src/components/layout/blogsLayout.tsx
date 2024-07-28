@@ -39,7 +39,7 @@ export default function BlogsLayout({
       aria-label={arai_label}
       className="grid lg:grid-cols-3 grid-cols-1 gap-5 mx-auto my-5"
     >
-      <div className="col-span-2">
+      <div className="md:col-span-2 col-span-3 w-full">
         <ScrollArea className="w-full rounded-md h-screen relative">
           {children}
           <ScrollBar orientation="horizontal" />
