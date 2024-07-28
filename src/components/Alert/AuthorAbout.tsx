@@ -56,7 +56,6 @@ export default function AuthorAboutDialog({
                 priority
                 src={HandleImage({ src: AuthorDetail.profileImage })}
                 alt={AuthorDetail.userName}
-                objectFit="cover"
                 className="w-[50px] h-[50px] object-cover rounded-full"
               />
             )}
