@@ -32,15 +32,15 @@ export default function Navbar() {
         <Link href={"/"} className="min-w-[55px]">
           <Image
             priority
-            width={60}
+            width={40}
             src={logo}
             alt="your-perspective - logo"
-            className="rounded-full"
+            className="rounded-full w-[45px] h-[45px] object-cover"
           />
         </Link>
         <ClickToCommand />
         <div className="flex md:gap-3 gap-2 items-center">
-          <Button variant={"link"} className="relative" asChild>
+          <Button variant={"link"} className="relative hidden p-0" asChild>
             <Link href={"/pages/shop"}>
               <MdOutlineShoppingBag size={30} />
             </Link>

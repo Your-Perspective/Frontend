@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,6 +36,8 @@
     --radius: 0.5rem;
 
     --primary-color: #09B8FE;
+
+    --font-primary: "Kantumruy Pro", sans-serif;
   }
 
   .dark {
@@ -68,6 +71,10 @@
   }
 }
 
+* {
+  font-family: var(--font-primary);
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -78,7 +85,7 @@
   }
 
   h1 {
-    @apply text-4xl;
+    @apply lg:text-4xl md:text-3xl text-2xl;
   }
 
   h2 {

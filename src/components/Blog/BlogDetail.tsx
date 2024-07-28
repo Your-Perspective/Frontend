@@ -1,18 +1,21 @@
 "use client";
 import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
-import profile from "@/assets/logo.jpg";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import { BsFacebook } from "react-icons/bs";
-import Link from "next/link";
-import { AiFillInstagram } from "react-icons/ai";
-import { BiLogoTwitter } from "react-icons/bi";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
-import { useGetBlogDetailByAuthorSlugQuery } from "@/lib/api/services/AllBlogs";
+import {
+  useGetBlogDetailByAuthorSlugQuery,
+  useGetRelatedBlogPostsBySlugQuery,
+} from "@/lib/api/services/AllBlogs";
 import { DateFunction } from "@/constrain/DateFunction";
 import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
+import { HandleImage } from "@/constrain/HandleImage";
+import ContentCard from "../Card/Card";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { isBlog } from "../Tabs/Tabs";
 
 export default function BlogDetail({
   slug,
@@ -21,11 +24,19 @@ export default function BlogDetail({
   slug: string;
   username: string;
 }) {
+  const router = useRouter();
+
   const {
     data: content,
     isLoading,
     error,
-  } = useGetBlogDetailByAuthorSlugQuery([slug, username]);
+  } = useGetBlogDetailByAuthorSlugQuery([username, slug]);
+
+  const {
+    data: RelatedPost,
+    isLoading: RelatedPostLoading,
+    error: RelatedPostError,
+  } = useGetRelatedBlogPostsBySlugQuery(username);
 
   if (isLoading) {
     return <Loading />;
@@ -45,10 +56,7 @@ export default function BlogDetail({
           <p className="leading-relax text-gray-500">{content?.summary}</p>
           <div className="flex items-center text-primary gap-5 py-5">
             <Image
-              src={
-                content?.author.profileImage ||
-                "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
-              }
+              src={HandleImage({ src: content?.author.profileImage })}
               alt="autorr-profile"
               width={50}
               height={50}
@@ -76,7 +84,7 @@ export default function BlogDetail({
         </CardHeader>
         <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">
           {content ? (
-            <div
+            <article
               className="leading-relaxed text-primary"
               dangerouslySetInnerHTML={{ __html: content.blogContent }}
             />
@@ -87,48 +95,62 @@ export default function BlogDetail({
       </Card>
       <Card className={"text-primary shadow-none border-0 my-10"}>
         <CardHeader className="p-0">
-          <div className={"flex justify-between items-center"}>
-            <h3 className="font-medium">Written by:</h3>
-            <div className={"flex gap-3"}>
-              <Link href={"#"}>
-                <BsFacebook size={25} />
-              </Link>
-              <Link href={"#"}>
-                <AiFillInstagram size={25} />
-              </Link>
-              <Link href={"#"}>
-                <BiLogoTwitter size={25} />
-              </Link>
-            </div>
-          </div>
-          <div className="flex items-center text-primary gap-5">
-            <Image
-              src={
-                content?.author.profileImage ||
-                "https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder.png"
-              }
-              alt="autorr-profile"
-              width={50}
-              height={50}
-              className="rounded-full w-[50px] h-[50px] object-cover"
-            />
-            <div className="flex flex-col gap-1">
-              <strong className="capitalize text-lg">
-                {content?.author.userName}
-              </strong>
-              <div className="flex gap-3 text-gray-500">
-                <p className="flex gap-3 items-center">
-                  <MdOutlineUpdate size={20} />{" "}
-                  {DateFunction({ date: content?.createdAt })}
-                </p>
+          <h3 className="font-medium">Written by:</h3>
+          <div className="flex flex-col gap-5">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center text-primary gap-5">
+                <Image
+                  src={HandleImage({ src: content?.author.profileImage })}
+                  alt="autorr-profile"
+                  width={50}
+                  height={50}
+                  className="rounded-full w-[50px] h-[50px] object-cover"
+                />
+                <div className="flex flex-col gap-1">
+                  <strong className="capitalize text-lg">
+                    {content?.author.userName}
+                  </strong>
+                  <div className="flex gap-3 text-gray-500">
+                    <p className="flex gap-3 items-center">
+                      <MdOutlineUpdate size={20} />{" "}
+                      {DateFunction({ date: content?.createdAt })}
+                    </p>
+                  </div>
+                </div>
               </div>
+              <Button
+                onClick={() =>
+                  router.push(
+                    `/pages/author-detail/${content?.author.userName}`
+                  )
+                }
+              >
+                View profile
+              </Button>
             </div>
-          </div>
-          <div>
-            <p>{content?.author.userName}</p>
+            <article>{content?.author?.bio}</article>
           </div>
         </CardHeader>
       </Card>
+      <section aria-label="related-blogs">
+        <h2 className="font-semibold">{RelatedPost ? "Related" : ""}</h2>
+        {RelatedPostLoading && <Loading />}
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 my-5">
+          {!RelatedPost ||
+            (RelatedPost.length === 0 && (
+              <NotFoundPage text_display="No related page" />
+            ))}
+          {RelatedPost?.map((item, index) => (
+            <ContentCard
+              option={{
+                option: "column",
+              }}
+              props={{ ...item }}
+              key={isBlog(item) ? item.slug : index.toString()}
+            />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

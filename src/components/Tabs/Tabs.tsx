@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ContentCard from "../Card/Card";
-import { ContentsTypeProps, TabItem } from "@/types/Types";
+import { BlogsProps, ContentsTypeProps, TabItem } from "@/types/Types";
 import BlogsLayout from "../layout/blogsLayout";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import NotFoundPage from "@/app/not-found";
@@ -11,8 +11,13 @@ import { useGetBlogsBySlugCategoryQuery } from "@/lib/api/services/AllBlogs";
 import { useGetAllCategoriesQuery } from "@/lib/api/services/AllTabs";
 import Error from "@/app/error";
 
+export const isBlog = (item: BlogsProps): item is ContentsTypeProps => {
+  return (item as ContentsTypeProps).slug !== undefined;
+};
+
 export default function TabsGategory() {
   const [category, setCategory] = useState<string>("all");
+
   const {
     data: blogPosts,
     isLoading: BlogLoading,
@@ -50,7 +55,7 @@ export default function TabsGategory() {
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md shadow-none">
           <TabsTrigger
-            className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            className="relative capitalize rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
             key={"all"}
             value={"all"}
           >
@@ -58,7 +63,7 @@ export default function TabsGategory() {
           </TabsTrigger>
           {categories?.map((item: TabItem) => (
             <TabsTrigger
-              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+              className="relative capitalize rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-2 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
               key={item.id}
               value={item.slug}
             >
@@ -77,17 +82,14 @@ export default function TabsGategory() {
                 <NotFoundPage text_display="Contents not found!" />
               ))}
           </div>
-          <div className="flex flex-col gap-4">
-            {blogPosts?.map((item: ContentsTypeProps) => (
+          <div className="flex flex-col gap-4 lg:w-[95%] w-full">
+            {blogPosts?.map((item: BlogsProps) => (
               <ContentCard
-                blogTitle={item.blogTitle}
-                summary={item.summary}
-                author={item.author}
-                createdAt={item.createdAt}
-                countViewer={item.countViewer}
-                slug={item.slug}
-                thumbnail={item.thumbnail}
-                key={item.slug}
+                option={{
+                  option: "grid",
+                }}
+                props={{ ...item }}
+                key={isBlog(item) ? item.slug : item.id.toString()}
               />
             ))}
           </div>
@@ -103,17 +105,14 @@ export default function TabsGategory() {
                   <NotFoundPage text_display="Contents not found!" />
                 ))}
             </div>
-            <div className="flex flex-col gap-4">
-              {blogPosts?.map((item: ContentsTypeProps) => (
+            <div className="flex flex-col gap-4 lg:w-[95%] w-full">
+              {blogPosts?.map((item) => (
                 <ContentCard
-                  blogTitle={item.blogTitle}
-                  summary={item.summary}
-                  author={item.author}
-                  createdAt={item.createdAt}
-                  countViewer={item.countViewer}
-                  slug={item.slug}
-                  thumbnail={item.thumbnail}
-                  key={item.slug}
+                  option={{
+                    option: "grid",
+                  }}
+                  props={{ ...item }}
+                  key={isBlog(item) ? item.slug : item.id.toString()}
                 />
               ))}
             </div>
