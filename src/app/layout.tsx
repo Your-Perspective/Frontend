@@ -1,4 +1,3 @@
-import Script from "next/script";
 import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -13,26 +12,6 @@ import { Toaster } from "sonner";
 export const metadata: Metadata = {
   title: "Your perspective",
   description: "Discover untold stories and whispered tales on our channel",
-  openGraph: {
-    title: "Your perspective",
-    description: "Discover untold stories and whispered tales on our channel",
-  },
-};
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "website",
-  name: "Your perspective",
-  description: "Discover untold stories and whispered tales on our channel",
-  url: "http://localhost:3000",
-  publisher: {
-    "@type": "Organization",
-    name: "Your perspective",
-    logo: {
-      "@type": "ImageObject",
-      url: "", // Replace with your logo URL
-    },
-  },
 };
 
 export default function RootLayout({
@@ -69,11 +48,6 @@ export default function RootLayout({
             </ThemeProvider>
           </Suspense>
         </StoreProvider>
-        <Script
-          id="ld+json"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
       </body>
     </html>
   );

@@ -26,13 +26,13 @@ export default function Navbar() {
       className={hide ? "hidden" : "py-4 px-0 sticky z-40 -top-1 bg-background"}
     >
       <Container classNames="flex justify-between items-center md:gap-10 gap-3">
-        <Link href={"/"} className="min-w-[55px]">
+        <Link href={"/"} className="w-[71px]">
           <Image
             priority
             width={40}
             src={logo}
             alt="your-perspective - logo"
-            className="rounded-full w-[45px] h-[45px] object-cover"
+            className="rounded-full w-[45px] h-[45px] object-cover mx-auto"
           />
         </Link>
         <ClickToCommand />
