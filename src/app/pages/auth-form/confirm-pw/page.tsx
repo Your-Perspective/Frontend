@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useGetAuthConfirmPasswordMutation } from "@/lib/api/services/Auth-form";
+import { useConfirmPasswordMutation } from "@/lib/api/services/Auth-form";
 import { ConfirmPasswordAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 import { toast } from "sonner";
@@ -67,20 +67,22 @@ const ConfirmPassword = () => {
     }));
   };
 
-  const [getAuthConfirmPassword] = useGetAuthConfirmPasswordMutation();
+  const [confirmPassword] = useConfirmPasswordMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
     try {
-      await getAuthConfirmPassword(formData).unwrap();
+      await confirmPassword(formData).unwrap();
       navigation("/pages/auth-form/login");
-    } catch (err) {}
+    } catch (err) {
+      console.error("rejected", err);
+    }
   };
 
   return (
-    <div className="w-full h-screen justify-center flex items-center">
+    <section className="w-full h-screen justify-center flex items-center">
       <Card className="mx-auto w-96 ">
         <CardHeader>
           <CardTitle className="text-2xl">Confirm your password</CardTitle>
@@ -140,7 +142,6 @@ const ConfirmPassword = () => {
               <Button type="submit" className="w-full">
                 Confirm
               </Button>
-              {/* </Link> */}
               <div className="mt-4 text-center text-sm">
                 Back to{" "}
                 <Link href={"/pages/auth-form/login"} className="underline">
@@ -151,7 +152,7 @@ const ConfirmPassword = () => {
           </CardContent>
         </form>
       </Card>
-    </div>
+    </section>
   );
 };
 

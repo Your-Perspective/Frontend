@@ -13,11 +13,13 @@ export default function Navbar() {
   const pathName = usePathname();
   const [hide, setHide] = useState(false);
 
+  const pathPrefixes = ["/pages/admin/", "/pages/auth-form/"];
+  const startsWithAnyPrefix = pathPrefixes.some((prefix) =>
+    pathName.startsWith(prefix)
+  );
+
   useEffect(() => {
-    if (
-      pathName.startsWith("/pages/admin/") ||
-      pathName.startsWith("/pages/auth-form/")
-    ) {
+    if (startsWithAnyPrefix) {
       setHide(true);
     } else {
       setHide(false);

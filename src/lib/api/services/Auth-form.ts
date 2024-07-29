@@ -8,7 +8,7 @@ import {
 
 export const authForm = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAuthRegister: builder.mutation<void, RegisterAuthForm>({
+    register: builder.mutation<void, RegisterAuthForm>({
       query: (formData) => ({
         url: `/auth/register`,
         method: "POST",
@@ -16,21 +16,24 @@ export const authForm = apiSlice.injectEndpoints({
       }),
     }),
 
-    getAuthLogin: builder.mutation<void, LoginAuthForm>({
+    login: builder.mutation<void, LoginAuthForm>({
       query: (formData) => ({
         url: `/auth/login`,
         method: "POST",
         body: formData,
       }),
     }),
-    getAuthForgetPassword: builder.mutation<void, ForgetPasswordAuthForm>({
+    forgetPassword: builder.mutation<void, ForgetPasswordAuthForm>({
       query: (formData) => ({
         url: `/auth/forgot-password`,
         method: "POST",
         body: formData,
       }),
     }),
-    getAuthConfirmPassword: builder.mutation<void, ConfirmPasswordAuthForm>({
+    ConfirmPassword: builder.mutation<
+      ConfirmPasswordAuthForm,
+      Partial<ConfirmPasswordAuthForm>
+    >({
       query: (formData) => {
         const { token, ...restFormData } = formData;
         return {
@@ -46,8 +49,8 @@ export const authForm = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetAuthRegisterMutation,
-  useGetAuthLoginMutation,
-  useGetAuthForgetPasswordMutation,
-  useGetAuthConfirmPasswordMutation,
+  useRegisterMutation,
+  useLoginMutation,
+  useForgetPasswordMutation,
+  useConfirmPasswordMutation,
 } = authForm;

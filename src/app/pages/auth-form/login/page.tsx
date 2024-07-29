@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
-import { useGetAuthLoginMutation } from "@/lib/api/services/Auth-form";
+import { useLoginMutation } from "@/lib/api/services/Auth-form";
 import { LoginAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 
@@ -36,17 +36,19 @@ export default function LoginForm() {
     }));
   };
 
-  const [getAuthLogin] = useGetAuthLoginMutation();
+  const [login] = useLoginMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await getAuthLogin(formData).unwrap();
+      await login(formData).unwrap();
       navigation("/pages/admin/user");
-    } catch (err) {}
+    } catch (err) {
+      console.error("Login failed", err);
+    }
   };
 
   return (
-    <div className="w-full h-screen justify-center flex items-center">
+    <section className="w-full h-screen flex justify-center items-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
@@ -71,7 +73,6 @@ export default function LoginForm() {
               </div>
               <div className="grid gap-2 relative">
                 <Label htmlFor="password">Password</Label>
-
                 <div className="flex items-start justify-end">
                   <Input
                     id="password"
@@ -92,7 +93,7 @@ export default function LoginForm() {
               </div>
               <div>
                 <Link
-                  href={"/pages/auth-form/forget-pw"}
+                  href="/pages/auth-form/forget-pw"
                   className="ml-auto inline-block text-sm underline"
                 >
                   Forgot your password?
@@ -104,13 +105,13 @@ export default function LoginForm() {
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <Link href={"/pages/auth-form/signup"} className="underline">
+              <Link href="/pages/auth-form/signup" className="underline">
                 Sign up
               </Link>
             </div>
           </CardContent>
         </form>
       </Card>
-    </div>
+    </section>
   );
 }

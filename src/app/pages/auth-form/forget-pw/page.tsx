@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useGetAuthForgetPasswordMutation } from "@/lib/api/services/Auth-form";
+import { useForgetPasswordMutation } from "@/lib/api/services/Auth-form";
 import { ForgetPasswordAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 
@@ -22,17 +22,19 @@ export default function ForgetPassword() {
     }));
   };
 
-  const [getAuthForgetPassword] = useGetAuthForgetPasswordMutation();
+  const [forgetPassword] = useForgetPasswordMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      await getAuthForgetPassword(formData).unwrap();
+      await forgetPassword(formData).unwrap();
       navigation("/pages/auth-form/confirm-pw");
-    } catch (err) {}
+    } catch (err) {
+      console.error("rejected", err);
+    }
   };
   return (
-    <div className="w-full h-screen justify-center flex items-center">
+    <section className="w-full h-screen justify-center flex items-center">
       <Card className="mx-auto w-96 ">
         <CardHeader>
           <CardTitle className="text-2xl">Forget Password</CardTitle>
@@ -64,6 +66,6 @@ export default function ForgetPassword() {
           </CardContent>
         </form>
       </Card>
-    </div>
+    </section>
   );
 }

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useGetAuthRegisterMutation } from "@/lib/api/services/Auth-form";
+import { useRegisterMutation } from "@/lib/api/services/Auth-form";
 import { RegisterAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 import { toast } from "sonner";
@@ -74,20 +74,22 @@ export default function SignUpForm() {
     return true;
   };
 
-  const [getAuthRegister] = useGetAuthRegisterMutation();
+  const [register] = useRegisterMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
     try {
-      await getAuthRegister(formData).unwrap();
+      await register(formData).unwrap();
       navigation("/pages/admin/user");
-    } catch (err) {}
+    } catch (err) {
+      console.error("rejected", err);
+    }
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
+    <section className="w-full h-screen flex items-center justify-center">
       <Card className="mx-auto w-96">
         <CardHeader>
           <CardTitle className="text-xl">Sign Up</CardTitle>
@@ -177,6 +179,6 @@ export default function SignUpForm() {
           </CardContent>
         </form>
       </Card>
-    </div>
+    </section>
   );
 }
