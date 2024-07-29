@@ -10,6 +10,11 @@ import AlertCompo from "@/components/Alert/AlertCompo";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_METADATA_BASE ||
+      process.env.NEXT_PUBLIC_METADATA_BASE_PRO ||
+      ""
+  ),
   title: "Your perspective",
   description: "Discover untold stories and whispered tales on our channel",
 };
@@ -36,7 +41,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <Toaster />
+              <Toaster richColors />
               <Navbar />
               <AlertCompo
                 url="#"

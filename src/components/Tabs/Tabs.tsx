@@ -33,7 +33,7 @@ export default function TabsGategory() {
     error: categoriesError,
   } = useGetAllCategoriesQuery();
 
-  const [style, setStyle] = useState<"column" | "grid" | undefined>("column");
+  const [style, setStyle] = useState<"column" | "grid" | undefined>("grid");
   const handleChange = () => {
     if (style === "column") {
       setStyle("grid");
@@ -127,7 +127,9 @@ export default function TabsGategory() {
         <TabsContent key={item.id} value={item.slug}>
           <BlogsLayout arai_label={item.title}>
             <div className="flex justify-between items-center">
-              <h1 className="font-bold text-primary">{item.title}</h1>
+              <h1 className="font-bold text-primary capitalize">
+                {item.title}
+              </h1>
               <Button
                 className="text-lg text-primary"
                 variant={"link"}

@@ -54,6 +54,7 @@ export const rtkQueryErrorLogger: Middleware =
         "Something went wrong";
 
       toast.error(`Async error!: ${status}`, {
+        richColors: true,
         description: message,
         position: "bottom-right",
         action: {
