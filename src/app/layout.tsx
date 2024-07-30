@@ -9,12 +9,13 @@ import Loading from "./loading";
 import AlertCompo from "@/components/Alert/AlertCompo";
 import { Toaster } from "sonner";
 
+export const enviromentURL =
+  process.env.NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_METADATA_BASE
+    : process.env.NEXT_PUBLIC_METADATA_BASE_PRO;
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_METADATA_BASE ||
-      process.env.NEXT_PUBLIC_METADATA_BASE_PRO ||
-      ""
-  ),
+  metadataBase: new URL(`${enviromentURL}`),
   title: "Your perspective",
   description: "Discover untold stories and whispered tales on our channel",
 };
