@@ -63,7 +63,7 @@ export default function TabsGategory() {
       aria-label="tabs-gategory"
       value={category}
       onValueChange={onTabChange}
-      className="py-3 sticky top-0 z-10"
+      className="pb-5 sticky top-0 z-10"
     >
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md shadow-none">
@@ -86,9 +86,9 @@ export default function TabsGategory() {
           <ScrollBar orientation="horizontal" className="hidden" />
         </ScrollArea>
       </TabsList>
-      <TabsContent key={"all"} value={"all"}>
+      <TabsContent className="relative" key={"all"} value={"all"}>
         <BlogsLayout arai_label={"all-blogs"}>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-black py-2">
             <h1 className="font-bold text-primary">All</h1>
             <Button
               className="text-lg text-primary"
@@ -98,12 +98,12 @@ export default function TabsGategory() {
               {style !== "column" ? <BsFillGridFill /> : <HiViewColumns />}
             </Button>
           </div>
-          <div className="py-3">
-            {!blogPosts ||
-              (blogPosts.length === 0 && (
+          {!blogPosts ||
+            (blogPosts.length === 0 && (
+              <div className="py-3">
                 <NotFoundPage text_display="Contents not found!" />
-              ))}
-          </div>
+              </div>
+            ))}
           <section
             className={`${
               style === "column"
@@ -124,9 +124,9 @@ export default function TabsGategory() {
         </BlogsLayout>
       </TabsContent>
       {categories?.map((item) => (
-        <TabsContent key={item.id} value={item.slug}>
+        <TabsContent key={item.id} value={item.slug} className="relative">
           <BlogsLayout arai_label={item.title}>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-black py-2">
               <h1 className="font-bold text-primary capitalize">
                 {item.title}
               </h1>

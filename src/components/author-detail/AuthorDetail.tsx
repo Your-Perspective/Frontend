@@ -60,7 +60,7 @@ export default function AuthorDetail({ username }: { username: string }) {
         aria-label={`author-detail - ${username}`}
       >
         <aside className="flex flex-col md:col-span-1 col-span-3 p-5 gap-4">
-          <div className="flex justify-start items-center gap-5">
+          <div className="flex justify-start items-start gap-5">
             <Image
               width={75}
               height={75}

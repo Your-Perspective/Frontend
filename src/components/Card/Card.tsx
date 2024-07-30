@@ -122,7 +122,10 @@ export default function ContentCard({
       onClick={handleAdsRoute}
       key={props.id}
       aria-labelledby={props.title}
-      className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100"
+      className={`rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 ${
+        option.option?.includes("column") &&
+        "lg:col-span-2 md:col-span-3 h-auto"
+      }`}
     >
       <CardContent
         className={`${
@@ -138,7 +141,7 @@ export default function ContentCard({
           className={`${
             option.option?.includes("grid")
               ? " md:h-[270px] h-[200px] order-2 w-[250px] mx-auto"
-              : " lg:h-[150px] md:h-[200px] h-[250px] order-1"
+              : " order-1"
           } col-span-1 object-cover w-full`}
           alt={props.title}
         />
