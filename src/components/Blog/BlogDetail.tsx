@@ -70,12 +70,11 @@ export default function BlogDetail({
               </strong>
               <div className="flex flex-wrap gap-2 text-gray-500">
                 <p className="flex gap-1 items-center">
-                  <MdOutlineUpdate size={20} />{" "}
-                  {DateFunction({ date: content?.createdAt })}
+                  <MdOutlineUpdate size={20} /> {content?.createdAt}
                 </p>
                 <p className="flex gap-1 items-center">
                   <IoEye size={20} />
-                  {content?.countViewer}
+                  {content?.formattedCountViewer}
                 </p>
                 <p className="flex items-center gap-1">
                   {content?.minRead} min read
@@ -123,8 +122,7 @@ export default function BlogDetail({
                       </strong>
                       <div className="flex gap-3 text-gray-500">
                         <p className="flex gap-3 items-center">
-                          <MdOutlineUpdate size={20} />{" "}
-                          {DateFunction({ date: content?.createdAt })}
+                          <MdOutlineUpdate size={20} /> {content?.createdAt}
                         </p>
                       </div>
                     </div>

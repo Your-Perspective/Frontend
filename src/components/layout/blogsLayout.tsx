@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { useGetTopAuthorsQuery } from "@/lib/api/services/Author";
 import AuthorAboutDialog from "../Alert/AuthorAbout";
+import { handleSummeryCharacters } from "../Card/Card";
 
 export default function BlogsLayout({
   children,
@@ -40,13 +41,12 @@ export default function BlogsLayout({
       className="grid lg:grid-cols-4 grid-cols-1 gap-5 mx-auto my-5"
     >
       <div className="md:col-span-3 col-span-3 w-full">
-        <ScrollArea className="w-full rounded-md h-screen relative">
+        <ScrollArea className="w-full rounded-md h-[120vh] relative">
           {children}
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
       <div className="sticky top-0 z-10 lg:col-span-1 col-span-3">
-        {" "}
         <h2 className="font-medium">Recent post</h2>
         <ul className="text-gray-500 mt-3">
           {LoadingRecentPost ?? <p>Loading</p>}
@@ -57,10 +57,12 @@ export default function BlogsLayout({
             >
               <Link href={`/pages/blogs/${item.author.userName}/${item.slug}`}>
                 <div className="font-medium flex justify-between items-center">
-                  <p className="capitalize">{item.author.userName}</p>
+                  <p className="capitalize truncate w-44">
+                    {item.author.userName}
+                  </p>
                   <p className="text-xs">{item.timeAgo}</p>
                 </div>
-                <p className="my-1 text-sm">{item.blogTitle}</p>
+                <p className="my-1 text-sm">{handleSummeryCharacters(item.blogTitle)}...</p>
               </Link>
             </li>
           ))}

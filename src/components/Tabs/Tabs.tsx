@@ -88,7 +88,8 @@ export default function TabsGategory() {
       </TabsList>
       <TabsContent className="relative" key={"all"} value={"all"}>
         <BlogsLayout arai_label={"all-blogs"}>
-          <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-black py-2">
+          {BlogLoading && <Loading />}
+          <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-background py-2">
             <h1 className="font-bold text-primary">All</h1>
             <Button
               className="text-lg text-primary"
@@ -126,7 +127,8 @@ export default function TabsGategory() {
       {categories?.map((item) => (
         <TabsContent key={item.id} value={item.slug} className="relative">
           <BlogsLayout arai_label={item.title}>
-            <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-black py-2">
+            {BlogLoading && <Loading />}
+            <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-background py-2">
               <h1 className="font-bold text-primary capitalize">
                 {item.title}
               </h1>

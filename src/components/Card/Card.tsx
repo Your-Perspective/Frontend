@@ -1,4 +1,5 @@
 "use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { MdOutlineUpdate } from "react-icons/md";
@@ -8,6 +9,14 @@ import { HandleImage } from "@/constrain/HandleImage";
 import { BlogsProps, Option } from "@/types/Types";
 import { isBlog } from "../Tabs/Tabs";
 
+export const handleSummeryCharacters = (summary: string): string[] => {
+  const summaryChunks: string[] = [];
+  for (let i = 0; i < summary.length; i += 20) {
+    summaryChunks.push(summary.slice(i, i + 15));
+  }
+  return summaryChunks;
+};
+
 export default function ContentCard({
   props,
   option,
@@ -15,14 +24,6 @@ export default function ContentCard({
   props: BlogsProps;
   option: Option;
 }) {
-  const handleSummeryCharacters = (summary: string): string[] => {
-    const summaryChunks: string[] = [];
-    for (let i = 0; i < summary.length; i += 20) {
-      summaryChunks.push(summary.slice(i, i + 12));
-    }
-    return summaryChunks;
-  };
-
   if (isBlog(props)) {
     const handleRoute = () => {
       if (typeof window !== "undefined") {
@@ -34,14 +35,14 @@ export default function ContentCard({
       <Card
         onClick={handleRoute}
         aria-labelledby={props.slug}
-        className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 px-2"
+        className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 px-1"
       >
         <CardContent
           className={`${
             option.option?.includes("grid")
               ? "grid grid-cols-3"
               : "flex flex-col"
-          } gap-5 py-5 px-0 md:items-center items-start`}
+          } gap-3 py-3 px-0 md:items-center items-start`}
         >
           <div
             className={`col-span-2 flex flex-col gap-4 ${
@@ -86,11 +87,11 @@ export default function ContentCard({
                   {props.author?.userName || ""}
                 </p>
               </div>
-              <div className="flex items-center gap-3">
-                <MdOutlineUpdate /> {DateFunction({ date: props.createdAt })}
+              <div className="flex items-center gap-1">
+                <MdOutlineUpdate /> {props.createdAt}
               </div>
-              <div className="flex items-center gap-3">
-                <IoEye /> {props.countViewer}
+              <div className="flex items-center gap-1">
+                <IoEye /> {props.formattedCountViewer}
               </div>
             </div>
           </div>

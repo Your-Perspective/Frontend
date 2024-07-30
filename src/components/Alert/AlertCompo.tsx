@@ -39,7 +39,7 @@ export default function AlertCompo({
 
   return (
     <Alert
-      className={`rounded-none mb-5 bg-gradient-to-r from-blue-950 to-primaryColor justify-between transition-all items-center border-none ${
+      className={`rounded-none py-2 mb-5 bg-gradient-to-r from-blue-950 to-primaryColor justify-between transition-all items-center border-none ${
         open ? "flex" : "hidden"
       }`}
     >
@@ -57,7 +57,7 @@ export default function AlertCompo({
           {link_label}
         </Link>
       </div>
-      <Button className="text-white" variant={"ghost"} onClick={handleClose}>
+      <Button className="text-white" variant={"link"} onClick={handleClose}>
         <IoClose size={25} />
       </Button>
     </Alert>

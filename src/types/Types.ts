@@ -16,6 +16,7 @@ export interface ContentsTypeProps {
   summary: string;
   blogTitle: string;
   countViewer: number;
+  formattedCountViewer: string;
   minRead?: number;
   published?: boolean;
   author: Author;
@@ -42,6 +43,7 @@ export interface BlogDetailsProps {
   thumbnail?: string | StaticImport | undefined;
   blogTitle: string;
   countViewer: number;
+  formattedCountViewer: string;
   minRead: number;
   published: boolean;
   author: {
