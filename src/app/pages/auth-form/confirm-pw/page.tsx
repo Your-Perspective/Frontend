@@ -38,7 +38,7 @@ const ConfirmPassword = () => {
       toast("Error", {
         description: "Passwords do not match.",
         action: {
-          label: "Undo",
+          label: "understand",
           onClick: () => {},
         },
       });
@@ -50,7 +50,7 @@ const ConfirmPassword = () => {
         description:
           "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.",
         action: {
-          label: "Undo",
+          label: "understand",
           onClick: () => {},
         },
       });

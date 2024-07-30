@@ -53,7 +53,7 @@ export default function SignUpForm() {
       toast("Error", {
         description: "Passwords do not match.",
         action: {
-          label: "Undo",
+          label: "understand",
           onClick: () => {},
         },
       });
@@ -65,7 +65,7 @@ export default function SignUpForm() {
         description:
           "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.",
         action: {
-          label: "Undo",
+          label: "understand",
           onClick: () => {},
         },
       });

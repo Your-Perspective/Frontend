@@ -24,7 +24,7 @@ export default function Navbar() {
     } else {
       setHide(false);
     }
-  }, [pathName]);
+  }, [pathName, startsWithAnyPrefix]);
 
   return (
     <nav

@@ -8,7 +8,7 @@ import {
 
 export const authForm = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation<void, RegisterAuthForm>({
+    register: builder.mutation<RegisterAuthForm, Partial<RegisterAuthForm>>({
       query: (formData) => ({
         url: `/auth/register`,
         method: "POST",
@@ -16,14 +16,17 @@ export const authForm = apiSlice.injectEndpoints({
       }),
     }),
 
-    login: builder.mutation<void, LoginAuthForm>({
+    login: builder.mutation<LoginAuthForm, Partial<LoginAuthForm>>({
       query: (formData) => ({
-        url: `/auth/login`,
+        url: "/auth/login",
         method: "POST",
         body: formData,
       }),
     }),
-    forgetPassword: builder.mutation<void, ForgetPasswordAuthForm>({
+    forgetPassword: builder.mutation<
+      ForgetPasswordAuthForm,
+      Partial<ForgetPasswordAuthForm>
+    >({
       query: (formData) => ({
         url: `/auth/forgot-password`,
         method: "POST",
