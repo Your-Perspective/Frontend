@@ -86,13 +86,13 @@ export default function BlogsLayout({
                   width={50}
                   height={50}
                   className="w-[40px] h-[40px] rounded-full object-cover"
-                  alt={item.username + item.totalViews}
+                  alt={item.username + item.formattedTotalCountViewer}
                 />
                 <div className="text-left">
                   <p className="capitalize font-medium ">{item.username}</p>
                   <p className="text-gray-500">
-                    {item.totalViews &&
-                      "View hits: " + item.totalViews + " views"}
+                    {item.formattedTotalCountViewer &&
+                      "View hits: " + item.formattedTotalCountViewer + " views"}
                   </p>
                 </div>
               </div>
@@ -112,7 +112,6 @@ export default function BlogsLayout({
           ))}
         </div>
       </div>
-      <div className="col-span-1">{/* Other content */}</div>
     </section>
   );
 }

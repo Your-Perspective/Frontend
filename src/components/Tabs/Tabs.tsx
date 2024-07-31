@@ -140,12 +140,12 @@ export default function TabsGategory() {
                 {style !== "column" ? <BsFillGridFill /> : <HiViewColumns />}
               </Button>
             </div>
-            <div className="py-3">
-              {!blogPosts ||
-                (blogPosts.length === 0 && (
+            {!blogPosts ||
+              (blogPosts.length === 0 && (
+                <div className="py-3">
                   <NotFoundPage text_display="Contents not found!" />
-                ))}
-            </div>
+                </div>
+              ))}
             <section
               className={`${
                 style === "column"

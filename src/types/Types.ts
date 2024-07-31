@@ -108,7 +108,7 @@ export interface RecentPostProps {
 export interface TopAuthorProps {
   username: string;
   bio: string | null;
-  totalViews: number;
+  formattedTotalCountViewer: number;
   profileImage: StaticImport | string;
 }
 
