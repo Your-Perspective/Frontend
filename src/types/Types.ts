@@ -118,7 +118,7 @@ export interface AuthorDetailsProps {
   userName: string;
   bio: string;
   profileImage: string | StaticImport | undefined;
-  totalViews: 0;
+  formatTotalCountViewer: string;
   top3Count: number;
   about: string;
 }

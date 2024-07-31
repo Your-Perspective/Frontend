@@ -82,7 +82,7 @@ export default function AuthorDetail({ username }: { username: string }) {
               <p className="text-gray-500 md:text-lg">
                 View hits:{" "}
                 <span className="text-primaryColor font-medium">
-                  {AuthorDetail.totalViews}
+                  {AuthorDetail.formatTotalCountViewer}
                 </span>
               </p>
             )}
