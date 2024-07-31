@@ -138,3 +138,25 @@ export interface BlogByAuthors {
     userName: string;
   };
 }
+
+export interface RegisterAuthForm {
+  userName: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
+export interface LoginAuthForm {
+  email: string;
+  password: string;
+}
+
+export interface ForgetPasswordAuthForm {
+  email: string;
+}
+
+export interface ConfirmPasswordAuthForm {
+  token: string;
+  password: string;
+  passwordConfirmation: string;
+}

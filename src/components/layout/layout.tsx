@@ -81,7 +81,7 @@ export default function DashBoardLayout({
             <div className="text-sm font-medium p-4">
               <div>
                 <Link
-                  href={"/pages/admin/Login"}
+                  href={"/pages/auth-form/login"}
                   className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-muted-foreground hover:text-primary"
                 >
                   <TbLogin className="size-4" />
