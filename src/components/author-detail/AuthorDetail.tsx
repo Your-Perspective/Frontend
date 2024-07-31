@@ -131,11 +131,11 @@ export default function AuthorDetail({ username }: { username: string }) {
                     {BlogByAuthor?.map((item, index) => (
                       <ContentCard
                         option={{
-                          option: "column",
+                          option: style,
                         }}
                         props={{ ...item }}
                         key={isBlog(item) ? item.slug : index.toString()}
-                    />
+                      />
                     ))}
                   </div>
                   <ScrollBar orientation="horizontal" />
