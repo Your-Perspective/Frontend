@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { useGetTopAuthorsQuery } from "@/lib/api/services/Author";
 import AuthorAboutDialog from "../Alert/AuthorAbout";
+import { handleSummeryCharacters } from "../Card/Card";
 
 export default function BlogsLayout({
   children,
@@ -37,16 +38,15 @@ export default function BlogsLayout({
   return (
     <section
       aria-label={arai_label}
-      className="grid lg:grid-cols-3 grid-cols-1 gap-5 mx-auto my-5"
+      className="grid lg:grid-cols-4 grid-cols-1 gap-5 mx-auto my-5"
     >
-      <div className="md:col-span-2 col-span-3 w-full">
-        <ScrollArea className="w-full rounded-md h-screen relative">
+      <div className="md:col-span-3 col-span-3 w-full">
+        <ScrollArea className="w-full rounded-md h-[120vh] relative">
           {children}
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
       <div className="sticky top-0 z-10 lg:col-span-1 col-span-3">
-        {" "}
         <h2 className="font-medium">Recent post</h2>
         <ul className="text-gray-500 mt-3">
           {LoadingRecentPost ?? <p>Loading</p>}
@@ -57,10 +57,12 @@ export default function BlogsLayout({
             >
               <Link href={`/pages/blogs/${item.author.userName}/${item.slug}`}>
                 <div className="font-medium flex justify-between items-center">
-                  <p className="capitalize">{item.author.userName}</p>
+                  <p className="capitalize truncate w-44">
+                    {item.author.userName}
+                  </p>
                   <p className="text-xs">{item.timeAgo}</p>
                 </div>
-                <p className="my-1 text-sm">{item.blogTitle}</p>
+                <p className="my-1 text-sm">{handleSummeryCharacters(item.blogTitle)}...</p>
               </Link>
             </li>
           ))}
@@ -84,13 +86,13 @@ export default function BlogsLayout({
                   width={50}
                   height={50}
                   className="w-[40px] h-[40px] rounded-full object-cover"
-                  alt={item.username + item.totalViews}
+                  alt={item.username + item.formattedTotalCountViewer}
                 />
                 <div className="text-left">
                   <p className="capitalize font-medium ">{item.username}</p>
                   <p className="text-gray-500">
-                    {item.totalViews &&
-                      "View hits: " + item.totalViews + " views"}
+                    {item.formattedTotalCountViewer &&
+                      "View hits: " + item.formattedTotalCountViewer + " views"}
                   </p>
                 </div>
               </div>
@@ -110,7 +112,6 @@ export default function BlogsLayout({
           ))}
         </div>
       </div>
-      <div className="col-span-1">{/* Other content */}</div>
     </section>
   );
 }

@@ -16,6 +16,7 @@ export interface ContentsTypeProps {
   summary: string;
   blogTitle: string;
   countViewer: number;
+  formattedCountViewer: string;
   minRead?: number;
   published?: boolean;
   author: Author;
@@ -42,6 +43,7 @@ export interface BlogDetailsProps {
   thumbnail?: string | StaticImport | undefined;
   blogTitle: string;
   countViewer: number;
+  formattedCountViewer: string;
   minRead: number;
   published: boolean;
   author: {
@@ -106,7 +108,7 @@ export interface RecentPostProps {
 export interface TopAuthorProps {
   username: string;
   bio: string | null;
-  totalViews: 4750;
+  formattedTotalCountViewer: number;
   profileImage: StaticImport | string;
 }
 
@@ -116,7 +118,7 @@ export interface AuthorDetailsProps {
   userName: string;
   bio: string;
   profileImage: string | StaticImport | undefined;
-  totalViews: 0;
+  formatTotalCountViewer: string;
   top3Count: number;
   about: string;
 }
@@ -133,6 +135,7 @@ export interface BlogByAuthors {
   minRead: number;
   isDeleted: boolean;
   createdAt: string;
+  formattedCountViewer: string;
   author: {
     profileImage: string | StaticImport | undefined;
     userName: string;

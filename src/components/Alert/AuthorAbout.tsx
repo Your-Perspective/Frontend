@@ -69,7 +69,7 @@ export default function AuthorAboutDialog({
             </div>
           </DialogTitle>
           <DialogDescription>
-            <p>View hits: {AuthorDetail?.totalViews}</p>
+            <p>View hits: {AuthorDetail?.formatTotalCountViewer}</p>
             <p className="mt-2">{AuthorDetail?.bio}</p>
             <Button
               className="w-full mt-5"
