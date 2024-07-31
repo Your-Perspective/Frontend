@@ -135,6 +135,7 @@ export interface BlogByAuthors {
   minRead: number;
   isDeleted: boolean;
   createdAt: string;
+  formattedCountViewer: string;
   author: {
     profileImage: string | StaticImport | undefined;
     userName: string;
