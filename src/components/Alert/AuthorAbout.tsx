@@ -73,9 +73,11 @@ export default function AuthorAboutDialog({
             <p className="mt-2 text-left">{AuthorDetail?.bio}</p>
             <Button
               className="w-full mt-5"
-              onClick={() =>
-                router.push(`/pages/author-detail/${AuthorDetail?.userName}`)
-              }
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.location.href = `/pages/author-detail/${AuthorDetail?.userName}`;
+                }
+              }}
             >
               View Detail
             </Button>

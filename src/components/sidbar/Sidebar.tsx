@@ -1,7 +1,7 @@
 import { useGetRecentPostQuery } from "@/lib/api/services/AllBlogs";
 import { Badge } from "../ui/badge";
 import { useGetPopularCategoriesQuery } from "@/lib/api/services/AllTabs";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
@@ -60,6 +60,7 @@ export default function SidebarLayout({
               href={handleRoute(
                 `/pages/blogs/${item.author.userName}/${item.slug}`
               )}
+              target="_blank"
             >
               <div className="font-medium flex justify-between items-center">
                 <p className="capitalize truncate w-44">
@@ -74,8 +75,16 @@ export default function SidebarLayout({
           </li>
         ))}
       </ul>
-      <Button className="w-full" variant={"default"} asChild>
-        <Link href={handleRoute("/pages/blogs/category/all")}>All Posted</Link>
+      <Button
+        className="w-full"
+        variant={"default"}
+        onClick={() => {
+          if (typeof window !== "undefined") {
+            window.location.href = "/pages/blogs/category/all";
+          }
+        }}
+      >
+        All Posted
       </Button>
       {TopAuthor && <h3 className="font-medium mt-4">Top Authors</h3>}
       <div className="flex flex-col gap-2 mt-3">
