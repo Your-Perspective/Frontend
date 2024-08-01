@@ -16,6 +16,8 @@ import { FiSearch } from "react-icons/fi";
 import { useGetAllBlogsQuery } from "@/lib/api/services/AllBlogs";
 import { BlogsProps, ContentsTypeProps } from "@/types/Types";
 import { isBlog } from "../Tabs/Tabs";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { DialogDescription } from "../ui/dialog";
 
 export function ClickToCommand({
   text,
@@ -54,8 +56,10 @@ export function ClickToCommand({
                     key={item.slug}
                     onSelect={() => handleSelect(item)}
                   >
-                    <p className="text-base font-medium">{item.blogTitle}</p>
-                    <p>{item.summary}</p>
+                    <DialogTitle className="text-base font-medium">
+                      {item.blogTitle}
+                    </DialogTitle>
+                    <DialogDescription>{item.summary}</DialogDescription>
                   </CommandItem>
                 );
               }
