@@ -9,9 +9,21 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import SidebarLayout from "../sidbar/Sidebar";
+import { Menu } from "lucide-react";
+
 export default function Navbar() {
   const pathName = usePathname();
   const [hide, setHide] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const pathPrefixes = ["/pages/admin/", "/pages/auth-form/"];
   const startsWithAnyPrefix = pathPrefixes.some((prefix) =>
@@ -48,6 +60,18 @@ export default function Navbar() {
             </Link>
           </Button>
           <ThemesModeToggle />
+          <Sheet>
+            <SheetTrigger
+              className={"lg:hidden block border p-[7px] rounded-md"}
+            >
+              <Menu size={25} />
+            </SheetTrigger>
+            <SheetContent className="w-[380px] overflow-y-scroll no-scrollbar">
+              <SheetTitle>Your perspective</SheetTitle>
+              <SheetDescription></SheetDescription>
+              <SidebarLayout />
+            </SheetContent>
+          </Sheet>
         </div>
       </Container>
     </nav>
