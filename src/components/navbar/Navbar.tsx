@@ -54,7 +54,7 @@ export default function Navbar() {
         </Link>
         <ClickToCommand />
         <div className="flex md:gap-3 gap-2 items-center">
-          <Button variant={"link"} className="relative hidden p-0" asChild>
+          <Button variant={"link"} className="relative hidden" asChild>
             <Link href={"/pages/shop"}>
               <MdOutlineShoppingBag size={30} />
             </Link>
@@ -62,11 +62,13 @@ export default function Navbar() {
           <ThemesModeToggle />
           <Sheet>
             <SheetTrigger
-              className={"lg:hidden block border p-[7px] rounded-md"}
+              className={
+                "lg:hidden border h-9 w-9 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-gray-300"
+              }
             >
-              <Menu size={25} />
+              <Menu className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             </SheetTrigger>
-            <SheetContent className="w-[380px] overflow-y-scroll no-scrollbar">
+            <SheetContent className="md:w-[400px] w-[350px] overflow-y-scroll no-scrollbar">
               <SheetTitle>Your perspective</SheetTitle>
               <SheetDescription></SheetDescription>
               <SidebarLayout />
