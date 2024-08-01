@@ -1,7 +1,7 @@
 import { useGetRecentPostQuery } from "@/lib/api/services/AllBlogs";
 import { Badge } from "../ui/badge";
 import { useGetPopularCategoriesQuery } from "@/lib/api/services/AllTabs";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
@@ -33,6 +33,8 @@ export default function BlogsLayout({
   } = useGetTopAuthorsQuery();
 
   const router = useRouter();
+  const pathname = usePathname();
+
   const handleCategories = (categorySlug: string) => {
     router.push(`/pages/blogs/category/${categorySlug}`);
   };
@@ -112,7 +114,7 @@ export default function BlogsLayout({
             </Badge>
           ))}
         </div>
-        {Banners && Banners?.length > 0 && (
+        {pathname.startsWith("/pages") && Banners && Banners?.length > 0 && (
           <section>
             <h3 className="font-medium">Sponsors</h3>
             {firstPart && showBanners(0, firstPart.length, Banners)}
