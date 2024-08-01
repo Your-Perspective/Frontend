@@ -25,25 +25,15 @@ export async function generateMetadata(
       return null;
     });
 
-  if (!blogData) {
-    return {
-      title: "404 not found",
-      description: "Blog not found",
-      openGraph: {
-        images: [],
-      },
-    };
-  }
-
   const ogImage = blogData.thumbnail || null;
 
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    title: `${slug} | Your Perspective` || "404 not found",
-    description: blogData.description || "404 not found",
+    title: `${blogData.blogTitle} | Your Perspective` || "404 not found",
+    description: blogData.summary || "404 not found",
     openGraph: {
-      images: ogImage ? [...previousImages, ogImage] : previousImages,
+      images: [ogImage, ...previousImages],
     },
   };
 }

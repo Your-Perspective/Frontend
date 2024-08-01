@@ -2,13 +2,12 @@
 import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
 import Image from "next/image";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import { Card, CardContent, CardHeader } from "../ui/card";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
 import {
   useGetBlogDetailByAuthorSlugQuery,
   useGetRelatedBlogPostsBySlugQuery,
 } from "@/lib/api/services/AllBlogs";
-import { DateFunction } from "@/constrain/DateFunction";
 import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
@@ -47,7 +46,7 @@ export default function BlogDetail({
   return (
     <section
       aria-labelledby={content?.blogTitle}
-      className={"flex flex-col gap-5 my-10"}
+      className={"flex flex-col gap-5 my-5"}
     >
       {content?.blogTitle && (
         <BreadcrumbCompo title={[{ label: content?.blogTitle, link: "#" }]} />

@@ -163,3 +163,13 @@ export interface ConfirmPasswordAuthForm {
   password: string;
   passwordConfirmation: string;
 }
+
+export interface BannerProps {
+  isDeleted: Boolean;
+  createdAt: string;
+  lastModifiedAt: string;
+  id: number;
+  title: string;
+  imageUrl: string | undefined;
+  link: string;
+}

@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { MdOutlineUpdate } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
-import { DateFunction } from "@/constrain/DateFunction";
 import { HandleImage } from "@/constrain/HandleImage";
 import { BlogsProps, Option } from "@/types/Types";
 import { isBlog } from "../Tabs/Tabs";
@@ -35,7 +34,7 @@ export default function ContentCard({
       <Card
         onClick={handleRoute}
         aria-labelledby={props.slug}
-        className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 px-1"
+        className="transition-all rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer dark:hover:bg-white/5 hover:bg-slate-100 px-1"
       >
         <CardContent
           className={`${

@@ -28,7 +28,7 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: baseQuery,
-  tagTypes: ["blogs", "tabs", "authors"],
+  tagTypes: ["blogs", "tabs", "authors", "banners"],
   endpoints: (builder) => ({}),
 });
 
@@ -61,7 +61,7 @@ export const rtkQueryErrorLogger: Middleware =
           label: "Understand",
           onClick: () => console.log("UnderstandingError"),
         },
-      });
+      }); 
     }
 
     return next(action);

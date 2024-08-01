@@ -20,10 +20,10 @@ export default function Error({
   return (
     <Container>
       <section className="flex flex-col justify-center items-center min-h-full gap-10 my-20">
-        <p className="text-9xl font-bold dark:text-white text-red-700 animate-pulse">
+        <p className="text-9xl font-bold dark:text-primaryColor text-red-700 animate-pulse">
           500
         </p>
-        <p className="text-5xl font-bold uppercase">
+        <p className="text-5xl font-bold uppercase text-center">
           Something <span className="text-destructive">error!</span>
         </p>
         <Button
