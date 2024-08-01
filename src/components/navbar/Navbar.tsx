@@ -28,7 +28,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={hide ? "hidden" : "py-4 px-0 sticky z-40 -top-1 bg-background"}
+      className={hide ? "hidden" : "py-4 px-0 sticky top-0 z-40 bg-background"}
     >
       <Container classNames="flex justify-between items-center md:gap-10 gap-3">
         <Link href={"/"} className="w-[71px]">

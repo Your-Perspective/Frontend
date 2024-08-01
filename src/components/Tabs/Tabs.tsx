@@ -63,7 +63,7 @@ export default function TabsGategory() {
       aria-label="tabs-gategory"
       value={category}
       onValueChange={onTabChange}
-      className="pb-5 sticky top-0 z-10"
+      className="pb-5 sticky top-10 z-10 h-screen"
     >
       <TabsList className="w-full justify-start rounded-none border-b bg-transparent dark:bg-0 p-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md shadow-none">

@@ -1,6 +1,5 @@
 import { useGetRecentPostQuery } from "@/lib/api/services/AllBlogs";
 import { Badge } from "../ui/badge";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { useGetPopularCategoriesQuery } from "@/lib/api/services/AllTabs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -9,6 +8,8 @@ import Image from "next/image";
 import { useGetTopAuthorsQuery } from "@/lib/api/services/Author";
 import AuthorAboutDialog from "../Alert/AuthorAbout";
 import { handleSummeryCharacters } from "../Card/Card";
+import { useGetBannersQuery } from "@/lib/api/services/BannerApi";
+import { showBanners, splitBanners } from "./BlogDetail";
 
 export default function BlogsLayout({
   children,
@@ -18,6 +19,7 @@ export default function BlogsLayout({
   arai_label?: string;
 }>) {
   const { data, isLoading, error } = useGetPopularCategoriesQuery();
+  const { data: Banners } = useGetBannersQuery();
   const {
     data: RecentPostData,
     isLoading: LoadingRecentPost,
@@ -35,18 +37,15 @@ export default function BlogsLayout({
     router.push(`/pages/blogs/category/${categorySlug}`);
   };
 
+  const { firstPart, secondPart } = splitBanners(Banners);
+
   return (
     <section
       aria-label={arai_label}
-      className="grid lg:grid-cols-4 grid-cols-1 gap-5 mx-auto my-5"
+      className="grid lg:grid-cols-4 grid-cols-1 gap-5 mx-auto my-5 relative"
     >
-      <div className="md:col-span-3 col-span-3 w-full">
-        <ScrollArea className="w-full rounded-md h-[120vh] relative">
-          {children}
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div>
-      <div className="sticky top-0 z-10 lg:col-span-1 col-span-3">
+      <div className="md:col-span-3 col-span-3 w-full">{children}</div>
+      <div className="sticky top-0 h-screen no-scrollbar overflow-y-scroll z-10 lg:col-span-1 col-span-3">
         <h2 className="font-medium">Recent post</h2>
         <ul className="text-gray-500 mt-3">
           {LoadingRecentPost ?? <p>Loading</p>}
@@ -62,7 +61,9 @@ export default function BlogsLayout({
                   </p>
                   <p className="text-xs">{item.timeAgo}</p>
                 </div>
-                <p className="my-1 text-sm">{handleSummeryCharacters(item.blogTitle)}...</p>
+                <p className="my-1 text-sm">
+                  {handleSummeryCharacters(item.blogTitle)}...
+                </p>
               </Link>
             </li>
           ))}
@@ -111,6 +112,14 @@ export default function BlogsLayout({
             </Badge>
           ))}
         </div>
+        {Banners && Banners?.length > 0 && (
+          <section>
+            <h3 className="font-medium">Sponsors</h3>
+            {firstPart && showBanners(0, firstPart.length, Banners)}
+            {secondPart &&
+              showBanners(firstPart?.length ?? 0, Banners?.length, Banners)}
+          </section>
+        )}
       </div>
     </section>
   );
