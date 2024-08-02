@@ -18,6 +18,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(`${enviromentURL}`),
   title: "Your perspective",
   description: "Discover untold stories and whispered tales on our channel",
+  keywords: [
+    "your-perspective",
+    "Your perspective",
+    "Blog content",
+    "Your perspective blog",
+  ],
+  authors: [{ name: "your perspective" }],
+  bookmarks: enviromentURL,
+  publisher: enviromentURL,
+  openGraph: {
+    type: "website",
+    url: enviromentURL,
+    title: "your-perspective",
+    description: "Discover untold stories and whispered tales on our channel",
+    siteName: "your-perspective",
+  },
 };
 
 export default function RootLayout({

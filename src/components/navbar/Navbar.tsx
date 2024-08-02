@@ -18,6 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SidebarLayout from "../sidbar/Sidebar";
+import { BsMenuApp } from "react-icons/bs";
 import { Menu } from "lucide-react";
 
 export default function Navbar() {
@@ -62,15 +63,25 @@ export default function Navbar() {
           <ThemesModeToggle />
           <Sheet>
             <SheetTrigger
+              asChild
               className={
-                "lg:hidden border h-9 w-9 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-gray-300"
+                "lg:hidden border h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium text-black dark:text-white"
               }
             >
-              <Menu className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Button
+                variant="outline"
+                size="icon"
+                className="shrink-0"
+              >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
             </SheetTrigger>
             <SheetContent className="md:w-[400px] w-[350px] overflow-y-scroll no-scrollbar">
               <SheetTitle>Your perspective</SheetTitle>
-              <SheetDescription></SheetDescription>
+              <SheetDescription>
+                Discover untold stories and whispered tales on our channel
+              </SheetDescription>
               <SidebarLayout />
             </SheetContent>
           </Sheet>

@@ -32,7 +32,17 @@ export async function generateMetadata(
   return {
     title: `${blogData.blogTitle} | Your Perspective` || "404 not found",
     description: blogData.summary || "404 not found",
+    keywords: blogData.blogTitle.split(" "),
+    category: blogData.blogTitle,
     openGraph: {
+      type: "article",
+      authors: blogData.author.userName,
+      countryName: "Cambodia",
+      ttl: 255,
+      siteName: blogData.blogTitle,
+      description: blogData.summary || "404 not found",
+      determiner: "the",
+      modifiedTime: blogData.createdAt,
       images: [ogImage, ...previousImages],
     },
   };

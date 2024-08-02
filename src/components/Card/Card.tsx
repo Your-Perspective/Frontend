@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { MdOutlineUpdate } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
@@ -66,33 +66,6 @@ export default function ContentCard({
             >
               {handleSummeryCharacters(props.summary)}...
             </p>
-            <div
-              className={`flex flex-wrap gap-2 items-center text-gray-500 ${
-                option.option?.includes("grid")
-                  ? "lg:text-base text-sm"
-                  : "text-xs"
-              }`}
-            >
-              <div className="flex justify-center items-center gap-2">
-                <Image
-                  priority
-                  src={HandleImage({ src: props.author?.profileImage || "" })}
-                  alt={props.blogTitle}
-                  width={20}
-                  height={20}
-                  className="object-cover w-[20px] h-[20px] rounded-full"
-                />
-                <p className="capitalize font-medium text-primaryColor">
-                  {props.author?.userName || ""}
-                </p>
-              </div>
-              <div className="flex items-center gap-1">
-                <MdOutlineUpdate /> {props.createdAt}
-              </div>
-              <div className="flex items-center gap-1">
-                <IoEye /> {props.formattedCountViewer}
-              </div>
-            </div>
           </div>
           <Image
             priority
@@ -107,6 +80,31 @@ export default function ContentCard({
             alt={props.blogTitle}
           />
         </CardContent>
+        <CardFooter
+          className={`px-0 flex flex-wrap gap-2 items-center text-gray-500 ${
+            option.option?.includes("grid") ? "lg:text-base text-sm" : "text-xs"
+          }`}
+        >
+          <div className="flex justify-center items-center gap-2">
+            <Image
+              priority
+              src={HandleImage({ src: props.author?.profileImage || "" })}
+              alt={props.blogTitle}
+              width={20}
+              height={20}
+              className="object-cover w-[20px] h-[20px] rounded-full"
+            />
+            <p className="capitalize font-medium text-primaryColor">
+              {props.author?.userName || ""}
+            </p>
+          </div>
+          <div className="flex items-center gap-1">
+            <MdOutlineUpdate /> {props.createdAt}
+          </div>
+          <div className="flex items-center gap-1">
+            <IoEye /> {props.formattedCountViewer}
+          </div>
+        </CardFooter>
       </Card>
     );
   }
