@@ -11,7 +11,7 @@ import { isBlog } from "../Tabs/Tabs";
 export const handleSummeryCharacters = (summary: string): string[] => {
   const summaryChunks: string[] = [];
   for (let i = 0; i < summary.length; i += 20) {
-    summaryChunks.push(summary.slice(i, i + 15));
+    summaryChunks.push(summary.slice(i, 60));
   }
   return summaryChunks;
 };
@@ -37,28 +37,32 @@ export default function ContentCard({
         className="transition-all rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer dark:hover:bg-white/5 hover:bg-slate-100 px-1"
       >
         <CardContent
-          className={`${option.option?.includes("grid")
-            ? "grid grid-cols-3"
-            : "flex flex-col"
-            } gap-3 py-3 px-0 md:items-center items-start`}
+          className={`${
+            option.option?.includes("grid")
+              ? "grid grid-cols-3"
+              : "flex flex-col"
+          } gap-3 py-3 px-0 md:items-center items-start`}
         >
           <div
-            className={`col-span-2 flex flex-col gap-4 ${option.option?.includes("grid") ? "order-1 md:w-[95%]" : "order-2"
-              }`}
+            className={`col-span-2 flex flex-col gap-4 ${
+              option.option?.includes("grid") ? "order-1 md:w-[95%]" : "order-2"
+            }`}
           >
             <h3
-              className={`font-medium ${option.option?.includes("grid")
-                ? "md:text-xl text-base"
-                : "text-base"
-                }`}
+              className={`font-medium ${
+                option.option?.includes("grid")
+                  ? "md:text-xl text-base"
+                  : "text-base"
+              }`}
             >
               {props.blogTitle}
             </h3>
             <p
-              className={`text-gray-500 ${option.option?.includes("grid")
-                ? "lg:text-base text-xs"
-                : "text-sm md:text-clip"
-                }`}
+              className={`text-gray-500 ${
+                option.option?.includes("grid")
+                  ? "lg:text-base text-xs"
+                  : "text-sm md:text-clip"
+              }`}
             >
               {handleSummeryCharacters(props.summary)}...
             </p>
@@ -116,13 +120,15 @@ export default function ContentCard({
       onClick={handleAdsRoute}
       key={props.id}
       aria-labelledby={props.title}
-      className={`rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 ${option.option?.includes("column") &&
+      className={`rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 ${
+        option.option?.includes("column") &&
         "lg:col-span-2 md:col-span-3 h-auto"
-        }`}
+      }`}
     >
       <CardContent
-        className={`${option.option !== "grid" ? "grid" : "flex flex-col"
-          } gap-5 py-5 px-0 md:items-center items-start`}
+        className={`${
+          option.option !== "grid" ? "grid" : "flex flex-col"
+        } gap-5 py-5 px-0 md:items-center items-start`}
       >
         <Image
           priority
@@ -130,10 +136,11 @@ export default function ContentCard({
           width={200}
           height={100}
           src={HandleImage({ src: props.imageUrl })}
-          className={`${option.option?.includes("grid")
-            ? " md:h-[270px] h-[200px] order-2 w-[250px] mx-auto"
-            : " order-1"
-            } col-span-1 object-cover w-full`}
+          className={`${
+            option.option?.includes("grid")
+              ? " md:h-[270px] h-[200px] order-2 w-[250px] mx-auto"
+              : " order-1"
+          } col-span-1 object-cover w-full`}
           alt={props.title}
         />
       </CardContent>
