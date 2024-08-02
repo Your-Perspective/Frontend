@@ -25,17 +25,7 @@ export async function generateMetadata(
       return null;
     });
 
-  function getImageExtension(url: string) {
-    const parts = url.split(".");
-    const extensionPart = parts.pop();
-    if (extensionPart) {
-      const extension = extensionPart.split("?")[0];
-      return extension;
-    }
-    return null;
-  }
   const ogImage = blogData.thumbnail || null;
-  const imageExtension = ogImage ? getImageExtension(ogImage) : null;
 
   const previousImages = (await parent).openGraph?.images || [];
 
