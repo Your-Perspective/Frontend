@@ -25,14 +25,34 @@ export async function generateMetadata(
       return null;
     });
 
+  function getImageExtension(url: string) {
+    const parts = url.split(".");
+    const extensionPart = parts.pop();
+    if (extensionPart) {
+      const extension = extensionPart.split("?")[0];
+      return extension;
+    }
+    return null;
+  }
   const ogImage = blogData.thumbnail || null;
+  const imageExtension = ogImage ? getImageExtension(ogImage) : null;
 
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
     title: `${blogData.blogTitle} | Your Perspective` || "404 not found",
     description: blogData.summary || "404 not found",
+    keywords: blogData.blogTitle.split(" "),
+    category: blogData.blogTitle,
     openGraph: {
+      type: "article",
+      authors: blogData.author.userName,
+      countryName: "Cambodia",
+      ttl: 255,
+      siteName: blogData.blogTitle,
+      description: blogData.summary || "404 not found",
+      determiner: "the",
+      modifiedTime: blogData.createdAt,
       images: [ogImage, ...previousImages],
     },
   };
