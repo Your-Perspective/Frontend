@@ -78,7 +78,7 @@ export default function BlogsBySlugCategory({
             ]}
           />
           <div className="flex justify-between items-center">
-            <Select defaultValue="all" onValueChange={handleSelect}>
+            <Select defaultValue={currentCategory} onValueChange={handleSelect}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue
                   placeholder={currentCategory === "" ? "All" : currentCategory}

@@ -68,39 +68,37 @@ export default function ContentCard({
             width={200}
             height={100}
             src={HandleImage({ src: props.thumbnail })}
-            className={`${option.option?.includes("grid")
-              ? "md:h-[200px] h-[100px] order-2 w-[250px] mx-auto"
-              : "lg:h-[150px] md:h-[200px] h-[250px] order-1"
-              } col-span-1 object-cover rounded-lg w-full`}
+            className={`${
+              option.option?.includes("grid")
+                ? "md:h-[200px] h-[100px] order-2 w-[250px] mx-auto"
+                : "lg:h-[150px] md:h-[200px] h-[250px] order-1"
+            } col-span-1 object-cover rounded-lg w-full`}
             alt={props.blogTitle}
           />
         </CardContent>
-        <CardFooter className="px-0">
-          <div
-            className={`flex flex-wrap gap-2 items-center text-gray-500 ${option.option?.includes("grid")
-              ? "lg:text-base text-sm"
-              : "text-xs"
-              }`}
-          >
-            <div className="flex justify-center items-center gap-2">
-              <Image
-                priority
-                src={HandleImage({ src: props.author?.profileImage || "" })}
-                alt={props.blogTitle}
-                width={20}
-                height={20}
-                className="object-cover w-[20px] h-[20px] rounded-full"
-              />
-              <p className="capitalize font-medium text-primaryColor">
-                {props.author?.userName || ""}
-              </p>
-            </div>
-            <div className="flex items-center gap-1">
-              <MdOutlineUpdate /> {props.createdAt}
-            </div>
-            <div className="flex items-center gap-1">
-              <IoEye /> {props.formattedCountViewer}
-            </div>
+        <CardFooter
+          className={`px-0 flex flex-wrap gap-2 items-center text-gray-500 ${
+            option.option?.includes("grid") ? "lg:text-base text-sm" : "text-xs"
+          }`}
+        >
+          <div className="flex justify-center items-center gap-2">
+            <Image
+              priority
+              src={HandleImage({ src: props.author?.profileImage || "" })}
+              alt={props.blogTitle}
+              width={20}
+              height={20}
+              className="object-cover w-[20px] h-[20px] rounded-full"
+            />
+            <p className="capitalize font-medium text-primaryColor">
+              {props.author?.userName || ""}
+            </p>
+          </div>
+          <div className="flex items-center gap-1">
+            <MdOutlineUpdate /> {props.createdAt}
+          </div>
+          <div className="flex items-center gap-1">
+            <IoEye /> {props.formattedCountViewer}
           </div>
         </CardFooter>
       </Card>
