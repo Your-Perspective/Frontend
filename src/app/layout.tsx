@@ -49,6 +49,7 @@ export default function RootLayout({
           httpEquiv="Content-Security-Policy"
           content="script-src 'self' 'unsafe-eval' 'unsafe-inline'"
         />
+        <link rel="canonical" href={enviromentURL} />
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased")}>
         <StoreProvider>
