@@ -1,4 +1,3 @@
-import Script from "next/script";
 import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -10,28 +9,30 @@ import Loading from "./loading";
 import AlertCompo from "@/components/Alert/AlertCompo";
 import { Toaster } from "sonner";
 
+export const enviromentURL =
+  process.env.NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_METADATA_BASE
+    : process.env.NEXT_PUBLIC_METADATA_BASE_PRO;
+
 export const metadata: Metadata = {
+  metadataBase: new URL(`${enviromentURL}`),
   title: "Your perspective",
   description: "Discover untold stories and whispered tales on our channel",
+  keywords: [
+    "your-perspective",
+    "Your perspective",
+    "Blog content",
+    "Your perspective blog",
+  ],
+  authors: [{ name: "your perspective" }],
+  bookmarks: enviromentURL,
+  publisher: enviromentURL,
   openGraph: {
-    title: "Your perspective",
+    type: "website",
+    url: enviromentURL,
+    title: "your-perspective",
     description: "Discover untold stories and whispered tales on our channel",
-  },
-};
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "website",
-  name: "Your perspective",
-  description: "Discover untold stories and whispered tales on our channel",
-  url: "http://localhost:3000",
-  publisher: {
-    "@type": "Organization",
-    name: "Your perspective",
-    logo: {
-      "@type": "ImageObject",
-      url: "", // Replace with your logo URL
-    },
+    siteName: "your-perspective",
   },
 };
 
@@ -57,7 +58,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <Toaster />
+              <Toaster richColors />
               <Navbar />
               <AlertCompo
                 url="#"
@@ -69,11 +70,6 @@ export default function RootLayout({
             </ThemeProvider>
           </Suspense>
         </StoreProvider>
-        <Script
-          id="ld+json"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
       </body>
     </html>
   );

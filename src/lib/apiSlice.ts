@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
-import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit";
+import type {
+  MiddlewareAPI,
+  Middleware,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import { toast } from "sonner";
 
 interface RootState {
@@ -24,23 +28,40 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: baseQuery,
-  tagTypes: ["blogs", "tabs", "authors"],
+  tagTypes: ["blogs", "tabs", "authors", "banners"],
   endpoints: (builder) => ({}),
 });
+
+interface CustomSerializedError extends SerializedError {
+  status?: number;
+  data?: {
+    message?: string;
+    title?: string;
+    detail?: string;
+  };
+}
 
 export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
     if (isRejectedWithValue(action)) {
-      toast.error("Error not found!", {
-        description:
-          "data" in action.error
-            ? (action.error.data as { message: string }).message
-            : action.error.message,
+      const error = action.payload as CustomSerializedError;
+
+      const status = error.status ?? "Unknown status";
+      const message =
+        error.data?.detail ||
+        error.data?.message ||
+        error.data?.title ||
+        "Something went wrong";
+
+      toast.error(`Async error!: ${status}`, {
+        richColors: true,
+        description: message,
+        position: "bottom-right",
         action: {
-          label: "Undertand",
-          onClick: () => close(),
+          label: "Understand",
+          onClick: () => console.log("UnderstandingError"),
         },
-      });
+      }); 
     }
 
     return next(action);

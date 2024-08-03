@@ -8,7 +8,6 @@ import {
   useGetBlogDetailByAuthorSlugQuery,
   useGetRelatedBlogPostsBySlugQuery,
 } from "@/lib/api/services/AllBlogs";
-import { DateFunction } from "@/constrain/DateFunction";
 import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
@@ -16,6 +15,8 @@ import ContentCard from "../Card/Card";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { isBlog } from "../Tabs/Tabs";
+import Link from "next/link";
+import TooltipComponent from "../tooltip/Tooltip";
 
 export default function BlogDetail({
   slug,
@@ -45,7 +46,7 @@ export default function BlogDetail({
   return (
     <section
       aria-labelledby={content?.blogTitle}
-      className={"flex flex-col gap-5 my-10"}
+      className={"flex flex-col gap-5 my-5"}
     >
       {content?.blogTitle && (
         <BreadcrumbCompo title={[{ label: content?.blogTitle, link: "#" }]} />
@@ -54,7 +55,7 @@ export default function BlogDetail({
         <CardHeader className="p-0">
           <h1 className="font-medium">{content?.blogTitle}</h1>
           <p className="leading-relax text-gray-500">{content?.summary}</p>
-          <div className="flex items-center text-primary gap-5 py-5">
+          <div className="flex items-start text-primary gap-5 py-5">
             <Image
               src={HandleImage({ src: content?.author.profileImage })}
               alt="autorr-profile"
@@ -66,16 +67,15 @@ export default function BlogDetail({
               <strong className="capitalize text-lg">
                 {content?.author.userName}
               </strong>
-              <div className="flex gap-3 text-gray-500">
-                <p className="flex gap-3 items-center">
-                  <MdOutlineUpdate size={20} />{" "}
-                  {DateFunction({ date: content?.createdAt })}
+              <div className="flex flex-wrap gap-2 text-gray-500">
+                <p className="flex gap-1 items-center">
+                  <MdOutlineUpdate size={20} /> {content?.createdAt}
                 </p>
-                <p className="flex gap-3 items-center">
+                <p className="flex gap-1 items-center">
                   <IoEye size={20} />
-                  {content?.countViewer}
+                  {content?.formattedCountViewer}
                 </p>
-                <p className="flex items-center gap-3">
+                <p className="flex items-center gap-1">
                   {content?.minRead} min read
                 </p>
               </div>
@@ -97,45 +97,48 @@ export default function BlogDetail({
         <CardHeader className="p-0">
           <h3 className="font-medium">Written by:</h3>
           <div className="flex flex-col gap-5">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center text-primary gap-5">
-                <Image
-                  src={HandleImage({ src: content?.author.profileImage })}
-                  alt="autorr-profile"
-                  width={50}
-                  height={50}
-                  className="rounded-full w-[50px] h-[50px] object-cover"
-                />
-                <div className="flex flex-col gap-1">
-                  <strong className="capitalize text-lg">
-                    {content?.author.userName}
-                  </strong>
-                  <div className="flex gap-3 text-gray-500">
-                    <p className="flex gap-3 items-center">
-                      <MdOutlineUpdate size={20} />{" "}
-                      {DateFunction({ date: content?.createdAt })}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <Button
-                onClick={() =>
-                  router.push(
-                    `/pages/author-detail/${content?.author.userName}`
-                  )
-                }
-              >
-                View profile
-              </Button>
+            <div className="flex flex-wrap justify-between items-center">
+              <TooltipComponent content={`Visit ${content?.author.userName}`}>
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex items-start text-primary gap-5 px-0 my-5"
+                >
+                  <Link
+                    href={`/pages/author-detail/${content?.author.userName}`}
+                    className="flex flex-wrap justify-between items-center hover:no-underline px-0"
+                  >
+                    <Image
+                      src={HandleImage({ src: content?.author.profileImage })}
+                      alt="autorr-profile"
+                      width={50}
+                      height={50}
+                      className="rounded-full w-[50px] h-[50px] object-cover"
+                    />
+                    <div className="flex flex-col gap-1">
+                      <strong className="capitalize text-lg">
+                        {content?.author.userName}
+                      </strong>
+                      <div className="flex gap-3 text-gray-500">
+                        <p className="flex gap-3 items-center">
+                          <MdOutlineUpdate size={20} /> {content?.createdAt}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                </Button>
+              </TooltipComponent>
             </div>
             <article>{content?.author?.bio}</article>
           </div>
         </CardHeader>
       </Card>
       <section aria-label="related-blogs">
-        <h2 className="font-semibold">{RelatedPost ? "Related" : ""}</h2>
+        {RelatedPost && RelatedPost?.length >= 0 && (
+          <h2 className="font-semibold">Related</h2>
+        )}
         {RelatedPostLoading && <Loading />}
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 my-5">
+        <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 my-5">
           {!RelatedPost ||
             (RelatedPost.length === 0 && (
               <NotFoundPage text_display="No related page" />

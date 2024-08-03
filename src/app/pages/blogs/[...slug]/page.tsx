@@ -14,10 +14,37 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = params.slug[1];
+  const username = params.slug[0];
+
+  const blogData = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/@${username}/${slug}`
+  )
+    .then((res) => res.json())
+    .catch((err) => {
+      console.error(err.message);
+      return null;
+    });
+
+  const ogImage = blogData.thumbnail || null;
+
+  const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    title: `${slug} | Your Perspective` || "404 not found",
-    description: slug || "404 not found",
+    title: `${blogData.blogTitle} | Your Perspective` || "404 not found",
+    description: blogData.summary || "404 not found",
+    keywords: blogData.blogTitle.split(" "),
+    category: blogData.blogTitle,
+    openGraph: {
+      type: "article",
+      authors: blogData.author.userName,
+      countryName: "Cambodia",
+      ttl: 255,
+      siteName: blogData.blogTitle,
+      description: blogData.summary || "404 not found",
+      determiner: "the",
+      modifiedTime: blogData.createdAt,
+      images: [ogImage, ...previousImages],
+    },
   };
 }
 
