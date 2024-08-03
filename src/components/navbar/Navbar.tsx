@@ -44,13 +44,16 @@ export default function Navbar() {
       className={hide ? "hidden" : "py-4 px-0 sticky top-0 z-40 bg-background"}
     >
       <Container classNames="flex justify-between items-center md:gap-10 gap-3">
-        <Link href={"/"} className="w-[71px]">
+        <Link href="/" title="your-perspective logo">
           <Image
+            aria-label="your-perspective logo"
+            title="logo"
             priority
-            width={40}
+            width={45}
+            height={45}
             src={logo}
             alt="your-perspective - logo"
-            className="rounded-full w-[45px] h-[45px] object-cover mx-auto"
+            className="rounded-full min-w-9 object-cover mx-auto"
           />
         </Link>
         <ClickToCommand />
@@ -68,11 +71,7 @@ export default function Navbar() {
                 "lg:hidden border h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium text-black dark:text-white"
               }
             >
-              <Button
-                variant="outline"
-                size="icon"
-                className="shrink-0"
-              >
+              <Button variant="outline" size="icon" className="shrink-0">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>

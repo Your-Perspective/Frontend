@@ -13,6 +13,7 @@ import Error from "@/app/error";
 import { Button } from "../ui/button";
 import { BsFillGridFill } from "react-icons/bs";
 import { HiViewColumns } from "react-icons/hi2";
+import Link from "next/link";
 
 export const isBlog = (item: BlogsProps): item is ContentsTypeProps => {
   return (item as ContentsTypeProps).slug !== undefined;
@@ -89,8 +90,10 @@ export default function TabsGategory() {
       <TabsContent className="relative" key={"all"} value={"all"}>
         <BlogsLayout arai_label={"all-blogs"}>
           {BlogLoading && <Loading />}
-          <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-background py-2">
-            <h1 className="font-bold text-primary">All</h1>
+          <div className="flex justify-between items-center sticky -top-1 bg-white dark:bg-background py-2">
+            <Link href={"/"}>
+              <h1 className="font-bold text-primary">All</h1>
+            </Link>
             <Button
               className="text-lg text-primary"
               variant={"link"}
@@ -108,7 +111,7 @@ export default function TabsGategory() {
           <section
             className={`${
               style === "column"
-                ? "grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 grid-cols-1"
+                ? "grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
                 : ""
             }`}
           >
@@ -128,10 +131,10 @@ export default function TabsGategory() {
         <TabsContent key={item.id} value={item.slug} className="relative">
           <BlogsLayout arai_label={item.title}>
             {BlogLoading && <Loading />}
-            <div className="flex justify-between items-center sticky top-0 bg-white dark:bg-background py-2">
-              <h1 className="font-bold text-primary capitalize">
-                {item.title}
-              </h1>
+            <div className="flex justify-between items-center sticky -top-1 bg-white dark:bg-background py-2">
+              <Link href={"/"}>
+                <h1 className="font-bold text-primary">{item.title}</h1>
+              </Link>
               <Button
                 className="text-lg text-primary"
                 variant={"link"}
@@ -149,7 +152,7 @@ export default function TabsGategory() {
             <section
               className={`${
                 style === "column"
-                  ? "grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 grid-cols-1"
+                  ? "grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
                   : ""
               }`}
             >

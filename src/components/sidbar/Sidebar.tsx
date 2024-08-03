@@ -7,17 +7,10 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { useGetTopAuthorsQuery } from "@/lib/api/services/Author";
 import AuthorAboutDialog from "../Alert/AuthorAbout";
-import { handleSummeryCharacters } from "../Card/Card";
 import { useGetBannersQuery } from "@/lib/api/services/BannerApi";
 import { showBanners, splitBanners } from "../layout/BlogDetail";
 
-export default function SidebarLayout({
-  classNames,
-  open,
-}: {
-  classNames?: string;
-  open?: any;
-}) {
+export default function SidebarLayout({ classNames }: { classNames?: string }) {
   const { data, isLoading, error } = useGetPopularCategoriesQuery();
   const { data: Banners } = useGetBannersQuery();
   const {
@@ -48,44 +41,46 @@ export default function SidebarLayout({
 
   return (
     <section className={classNames}>
-      <h2 className="font-medium">Recent post</h2>
-      <ul className="text-gray-500 mt-3">
-        {LoadingRecentPost ?? <p>Loading</p>}
-        {RecentPostData?.slice(0, 4).map((item) => (
-          <li
-            key={item.slug}
-            className="hover:text-primary my-2 p-2 border rounded-md"
+      {RecentPostData && (
+        <div>
+          <h2 className="font-medium">Recent post</h2>
+          <ul className="text-gray-500 mt-3">
+            {LoadingRecentPost ?? <p>Loading</p>}
+            {RecentPostData?.slice(0, 4).map((item) => (
+              <li
+                key={item.slug}
+                className="hover:text-primary my-2 p-2 border rounded-md"
+              >
+                <Link
+                  href={handleRoute(
+                    `/pages/blogs/${item.author.userName}/${item.slug}`
+                  )}
+                  target="_blank"
+                >
+                  <div className="font-medium flex justify-between items-center">
+                    <p className="capitalize truncate w-44">
+                      {item.author.userName}
+                    </p>
+                    <p className="text-xs">{item.timeAgo}</p>
+                  </div>
+                  <p className="my-1 text-sm">{item.blogTitle}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Button
+            className="w-full"
+            variant={"default"}
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.location.href = "/pages/blogs/category/all";
+              }
+            }}
           >
-            <Link
-              href={handleRoute(
-                `/pages/blogs/${item.author.userName}/${item.slug}`
-              )}
-              target="_blank"
-            >
-              <div className="font-medium flex justify-between items-center">
-                <p className="capitalize truncate w-44">
-                  {item.author.userName}
-                </p>
-                <p className="text-xs">{item.timeAgo}</p>
-              </div>
-              <p className="my-1 text-sm">
-                {handleSummeryCharacters(item.blogTitle)}...
-              </p>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <Button
-        className="w-full"
-        variant={"default"}
-        onClick={() => {
-          if (typeof window !== "undefined") {
-            window.location.href = "/pages/blogs/category/all";
-          }
-        }}
-      >
-        All Posted
-      </Button>
+            All Posted
+          </Button>
+        </div>
+      )}
       {TopAuthor && <h3 className="font-medium mt-4">Top Authors</h3>}
       <div className="flex flex-col gap-2 mt-3">
         {TopAuthor?.slice(0, 4).map((item, index) => (

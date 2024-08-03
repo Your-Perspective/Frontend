@@ -134,9 +134,11 @@ export default function BlogDetail({
         </CardHeader>
       </Card>
       <section aria-label="related-blogs">
-        <h2 className="font-semibold">{RelatedPost ? "Related" : ""}</h2>
+        {RelatedPost && RelatedPost?.length >= 0 && (
+          <h2 className="font-semibold">Related</h2>
+        )}
         {RelatedPostLoading && <Loading />}
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 my-5">
+        <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 my-5">
           {!RelatedPost ||
             (RelatedPost.length === 0 && (
               <NotFoundPage text_display="No related page" />
