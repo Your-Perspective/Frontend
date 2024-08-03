@@ -32,8 +32,9 @@ export default function ContentCard({
 
     return (
       <Card
+        title={props.blogTitle}
         onClick={handleRoute}
-        aria-labelledby={props.slug}
+        aria-label={props.blogTitle}
         className="transition-all rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer dark:hover:bg-white/5 hover:bg-slate-100 px-1"
       >
         <CardContent
@@ -117,9 +118,10 @@ export default function ContentCard({
 
   return (
     <Card
+      title={props.title}
       onClick={handleAdsRoute}
       key={props.id}
-      aria-labelledby={props.title}
+      aria-label={props.title}
       className={`rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 ${
         option.option?.includes("column") &&
         "lg:col-span-2 md:col-span-3 h-auto"
