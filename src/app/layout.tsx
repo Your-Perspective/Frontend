@@ -24,7 +24,9 @@ export const metadata: Metadata = {
     "Blog content",
     "Your perspective blog",
   ],
+  authors: [{ name: "your perspective" }],
   bookmarks: enviromentURL,
+  publisher: enviromentURL,
   verification: { google: "AFGzcKWfUIi-_4W7o5IX47AlGs9xGjXmgyi1Q_HXQ7o" },
   openGraph: {
     type: "website",
