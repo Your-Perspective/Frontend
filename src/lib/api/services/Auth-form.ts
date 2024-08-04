@@ -4,6 +4,7 @@ import {
   LoginAuthForm,
   ForgetPasswordAuthForm,
   ConfirmPasswordAuthForm,
+  ResponseLogin,
 } from "@/types/Types";
 
 export const authForm = apiSlice.injectEndpoints({
@@ -16,7 +17,7 @@ export const authForm = apiSlice.injectEndpoints({
       }),
     }),
 
-    login: builder.mutation<LoginAuthForm, Partial<LoginAuthForm>>({
+    login: builder.mutation<ResponseLogin, Partial<LoginAuthForm>>({
       query: (formData) => ({
         url: "/auth/login",
         method: "POST",

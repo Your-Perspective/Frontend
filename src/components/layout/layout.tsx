@@ -18,12 +18,24 @@ import { ThemesModeToggle } from "../darkmode-switcher/ThemesSwitcher";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { TbLogin } from "react-icons/tb";
+import { useAppSelector } from "@/lib/hooks";
+import { useEffect } from "react";
+import { navigation } from "@/app/action";
+import NotFoundPage from "@/app/not-found";
 
 export default function DashBoardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (!user.accessToken) {
+      navigation("/pages/auth-form/login");
+    }
+  }, [user.accessToken]);
+
   const pathname = usePathname();
   const links = [
     {
@@ -45,6 +57,10 @@ export default function DashBoardLayout({
       isActive: pathname === "/pages/admin/banner",
     },
   ];
+
+  if (!user.accessToken) {
+    return <NotFoundPage text_display="authentication need" />;
+  }
 
   return (
     <section>
@@ -85,7 +101,7 @@ export default function DashBoardLayout({
                   className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-muted-foreground hover:text-primary"
                 >
                   <TbLogin className="size-4" />
-                  Logout
+                  Login
                 </Link>
               </div>
             </div>

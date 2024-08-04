@@ -154,6 +154,11 @@ export interface LoginAuthForm {
   password: string;
 }
 
+export interface ResponseLogin {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface ForgetPasswordAuthForm {
   email: string;
 }

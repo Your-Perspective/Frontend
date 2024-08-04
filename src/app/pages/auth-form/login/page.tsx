@@ -15,9 +15,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { useLoginMutation } from "@/lib/api/services/Auth-form";
 import { LoginAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/lib/api/auth/authSlice";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const dispath = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -40,8 +43,18 @@ export default function LoginForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await login(formData).unwrap();
-      navigation("/pages/admin/user");
+      const data = await login(formData).unwrap();
+
+      dispath(
+        setCredentials({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+        })
+      );
+
+      if (data.accessToken) {
+        navigation("/pages/admin/user");
+      }
     } catch (err) {
       console.error("Login failed", err);
     }
