@@ -10,10 +10,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: enviromentURL + "pages/blogs/category/",
+      url: enviromentURL + "/pages/blogs/category/",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.5,
+    },
+    {
+      url: enviromentURL + "/pages/blogs/",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.1,
     },
   ];
 }
