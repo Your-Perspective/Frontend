@@ -163,3 +163,63 @@ export interface ConfirmPasswordAuthForm {
   password: string;
   passwordConfirmation: string;
 }
+
+export interface CategoriesProp {
+  id: string;
+  title: string;
+  slug: string;
+}
+
+export interface ThumbnailProp {
+  isDeleted: boolean;
+  createdAt: string;
+  lastModifiedAt: string;
+  id: string;
+  title: string;
+  imageUrl: string;
+  link: string;
+}
+
+export interface ListBlog {
+  blogTitle: string;
+  published: string;
+  blogContent: string;
+  slug: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categoryIds: number[];
+  tags: number[];
+}
+
+export interface CreateBlog {
+  blogTitle: string;
+  published: string;
+  slug: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categoryIds: string[];
+  blogContent: string;
+  tags: string[];
+}
+
+export interface updateBlog {
+  id: number;
+  blogTitle: string;
+  published: string;
+  slug: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categoryIds: string[];
+  blogContent: string;
+  tags: string[];
+}
+
+export interface DeleteBlog {
+  Id: number;
+}
