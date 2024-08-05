@@ -24,7 +24,6 @@ const authSlice = createSlice({
       secureRefresh(action.payload.refreshToken);
     },
     logOut: (state) => {
-      console.log("Logging out");
       state.accessToken = null;
       state.refreshToken = null;
     },
