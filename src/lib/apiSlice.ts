@@ -11,11 +11,9 @@ import type {
   MiddlewareAPI,
   Middleware,
   SerializedError,
-  Dispatch,
-  AnyAction,
 } from "@reduxjs/toolkit";
 import { toast } from "sonner";
-import { AuthState, logOut, setCredentials } from "./api/auth/authSlice";
+import { logOut, setCredentials } from "./api/auth/authSlice";
 import { getDecryptedRefresh } from "./cryptography";
 
 interface RootState {
@@ -46,6 +44,13 @@ interface CustomSerializedError extends SerializedError {
   };
 }
 
+export interface TokenResult {
+  data?: {
+    accessToken: string | null;
+    refreshToken: string | null;
+  };
+}
+
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -53,34 +58,32 @@ const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 401) {
-    const refresh = await getDecryptedRefresh();
-    if (refresh) {
-      try {
-        const refreshResult = await baseQuery(
-          {
-            url: "/auth/refresh",
-            method: "POST",
-            body: { refresh },
-          },
-          api,
-          extraOptions
+  if (result?.error?.status === 403) {
+    const refreshToken = await getDecryptedRefresh();
+    if (refreshToken) {
+      const refreshResult = (await baseQuery(
+        {
+          url: "/auth/refresh",
+          method: "POST",
+          body: { refreshToken },
+        },
+        api,
+        extraOptions
+      )) as TokenResult;
+
+      if (
+        refreshResult &&
+        refreshResult.data?.accessToken &&
+        refreshResult.data?.refreshToken
+      ) {
+        api.dispatch(
+          setCredentials({
+            accessToken: refreshResult.data.accessToken,
+            refreshToken: refreshResult.data.refreshToken,
+          })
         );
-
-        let newToken = refreshResult?.data as string;
-
-        if (newToken) {
-          api.dispatch(
-            setCredentials({
-              accessToken: newToken,
-              refreshToken: "",
-            })
-          );
-          result = await baseQuery(args, api, extraOptions);
-        } else {
-          api.dispatch(logOut());
-        }
-      } catch (error) {
+        result = await baseQuery(args, api, extraOptions);
+      } else {
         api.dispatch(logOut());
       }
     } else {
@@ -95,7 +98,7 @@ export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
     if (isRejectedWithValue(action)) {
       const error = action.payload as CustomSerializedError;
-
+      console.log(error);
       const status = error.status ?? "Unknown status";
       const message =
         error.data?.detail ||
@@ -120,6 +123,6 @@ export const rtkQueryErrorLogger: Middleware =
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["blogs", "tabs", "authors", "banners"],
+  tagTypes: ["blogs", "tabs", "authors", "banners", "user"],
   endpoints: (builder) => ({}),
 });

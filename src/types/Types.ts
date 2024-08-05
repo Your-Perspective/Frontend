@@ -178,3 +178,14 @@ export interface BannerProps {
   imageUrl: string | undefined;
   link: string;
 }
+
+export interface profileProps {
+  id: 0;
+  email: string;
+  userName: string;
+  top3Count: string;
+  bio: string;
+  about: string;
+  profileImage: string;
+  formatTotalCountViewer: string;
+}
