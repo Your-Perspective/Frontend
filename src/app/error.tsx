@@ -5,34 +5,52 @@ import Container from "@/components/container-section/Container";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { FiRefreshCw } from "react-icons/fi";
+import { toast } from "sonner";
+import { BsBack } from "react-icons/bs";
+import { navigation } from "./action";
 
 export default function Error({
   error,
   reset,
+  errorCode = 500,
+  text_display = "Something went wrong!",
+  retry_text = "Try again",
+  back_to_home = false,
 }: {
-  error: Error & { digest?: string };
-  reset: () => void;
+  error?: Error & { digest?: string };
+  reset?: () => void;
+  errorCode?: number;
+  text_display?: string;
+  retry_text?: string;
+  back_to_home: true | false;
 }) {
-  useEffect(() => {
-    console.error(error.message);
-  }, [error]);
-
   return (
     <Container>
-      <section className="flex flex-col justify-center items-center min-h-full gap-10 my-20">
+      <section className="flex flex-col justify-center items-center min-h-full gap-10 my-20 px-2">
         <p className="text-9xl font-bold dark:text-primaryColor text-red-700 animate-pulse">
-          500
+          {errorCode}
         </p>
-        <p className="text-5xl font-bold uppercase text-center">
-          Something <span className="text-destructive">error!</span>
+        <p className="md:text-5xl text-4xl font-bold uppercase text-center">
+          <span className="text-destructive">{text_display}</span>
         </p>
-        <Button
-          onClick={() => reset()}
-          variant={"destructive"}
-          className="font-bold capitalize flex gap-4 items-center"
-        >
-          <FiRefreshCw size={25} /> Refresh
-        </Button>
+        <div className="flex gap-5">
+          {back_to_home && (
+            <Button
+              onClick={() => navigation("/")}
+              variant={"link"}
+              className="font-bold capitalize flex gap-4 items-center text-primary"
+            >
+              <BsBack /> homepage
+            </Button>
+          )}
+          <Button
+            onClick={typeof reset === "function" ? reset : undefined}
+            variant={"destructive"}
+            className="font-bold capitalize flex gap-4 items-center"
+          >
+            <FiRefreshCw size={25} /> {retry_text}
+          </Button>
+        </div>
       </section>
     </Container>
   );

@@ -8,6 +8,7 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { useForgetPasswordMutation } from "@/lib/api/services/Auth-form";
 import { ForgetPasswordAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
+import { toast } from "sonner";
 
 export default function ForgetPassword() {
   const [formData, setFormData] = useState<ForgetPasswordAuthForm>({
@@ -29,8 +30,8 @@ export default function ForgetPassword() {
     try {
       await forgetPassword(formData).unwrap();
       navigation("/pages/auth-form/confirm-pw");
-    } catch (err) {
-      console.error("rejected", err);
+    } catch (err: any) {
+      console.error(err.data.messages);
     }
   };
   return (

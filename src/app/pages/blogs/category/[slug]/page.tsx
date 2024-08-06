@@ -68,7 +68,7 @@ export default function BlogsBySlugCategory({
   return (
     <Container>
       <BlogsLayout>
-        <section className="flex justify-between items-center my-1">
+        <section className="md:flex justify-between items-center my-1">
           <BreadcrumbCompo
             title={[
               {
@@ -77,7 +77,7 @@ export default function BlogsBySlugCategory({
               },
             ]}
           />
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center md:my-0 my-1">
             <Select defaultValue={currentCategory} onValueChange={handleSelect}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue
@@ -114,7 +114,7 @@ export default function BlogsBySlugCategory({
         <section
           className={`${
             style === "column"
-              ? "grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 grid-cols-1"
+              ? "grid xl:grid-cols-4  md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
               : ""
           }`}
         >

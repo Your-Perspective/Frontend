@@ -17,6 +17,7 @@ import { LoginAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/lib/api/auth/authSlice";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,8 +56,8 @@ export default function LoginForm() {
       if (data.accessToken) {
         navigation("/pages/admin/user");
       }
-    } catch (err) {
-      console.error("Login failed", err);
+    } catch (err: any) {
+      console.error(err.data.messages);
     }
   };
 

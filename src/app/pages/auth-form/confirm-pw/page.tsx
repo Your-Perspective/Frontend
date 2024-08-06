@@ -76,8 +76,8 @@ const ConfirmPassword = () => {
     try {
       await confirmPassword(formData).unwrap();
       navigation("/pages/auth-form/login");
-    } catch (err) {
-      console.error("rejected", err);
+    } catch (err: any) {
+      console.error(err.data.messages);
     }
   };
 

@@ -83,8 +83,8 @@ export default function SignUpForm() {
     try {
       await register(formData).unwrap();
       navigation("/pages/admin/user");
-    } catch (err) {
-      console.error("rejected", err);
+    } catch (err: any) {
+      console.error(err.data.messages);
     }
   };
 
