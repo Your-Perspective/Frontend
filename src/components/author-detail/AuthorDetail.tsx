@@ -59,7 +59,7 @@ export default function AuthorDetail({ username }: { username: string }) {
         className="grid lg:grid-cols-3"
         aria-label={`author-detail - ${username}`}
       >
-        <aside className="flex flex-col md:col-span-1 col-span-3 p-5 gap-4">
+        <aside className="flex flex-col lg:col-span-1 col-span-3 p-5 gap-4 lg:sticky top-20 overflow-y-scroll lg:h-screen no-scrollbar">
           <div className="flex justify-start items-start gap-5">
             <Image
               width={75}
@@ -120,11 +120,11 @@ export default function AuthorDetail({ username }: { username: string }) {
               </div>
               {blogError && <NotFoundPage text_display="Blogs not found" />}
               {blogSuccess && (
-                <ScrollArea className="w-full rounded-md h-screen relative mt-3">
+                <section className="w-full rounded-md h-screen relative mt-3">
                   <div
                     className={`${
                       style === "column"
-                        ? "grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1"
+                        ? "grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
                         : ""
                     }`}
                   >
@@ -138,8 +138,7 @@ export default function AuthorDetail({ username }: { username: string }) {
                       />
                     ))}
                   </div>
-                  <ScrollBar orientation="horizontal" />
-                </ScrollArea>
+                </section>
               )}
             </section>
           </TabsContent>

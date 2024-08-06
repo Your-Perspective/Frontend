@@ -19,13 +19,13 @@ import { RiAccountPinCircleLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { TbLogin } from "react-icons/tb";
 import { useCallback, useEffect } from "react";
-import NotFoundPage from "@/app/not-found";
 import { useGetCurrentUserQuery } from "@/lib/api/auth/profile";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/lib/api/auth/authSlice";
 import { HandleImage } from "@/constrain/HandleImage";
 import { removeRefresh } from "@/lib/cryptography";
 import Loading from "@/app/loading";
+import Error from "@/app/error";
 
 export default function DashBoardLayout({
   children,
@@ -76,7 +76,13 @@ export default function DashBoardLayout({
   }
 
   if (!isSuccess) {
-    return <NotFoundPage text_display="authentication need" />;
+    return (
+      <Error
+        back_to_home={true}
+        errorCode={401}
+        text_display="authentication need"
+      />
+    );
   }
 
   return (
