@@ -95,7 +95,7 @@ const ConfirmPassword = () => {
                 <Input
                   name="token"
                   type="text"
-                  placeholder="12345"
+                  placeholder="3f6e972e-370b-4e7e-9339-9149a54b25ae"
                   required
                   value={formData.token}
                   onChange={handleChange}
