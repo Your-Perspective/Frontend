@@ -10,10 +10,12 @@ import { useConfirmPasswordMutation } from "@/lib/api/services/Auth-form";
 import { ConfirmPasswordAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 import { toast } from "sonner";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const ConfirmPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState<boolean | undefined>(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -39,7 +41,7 @@ const ConfirmPassword = () => {
         description: "Passwords do not match.",
         action: {
           label: "understand",
-          onClick: () => {},
+          onClick: () => { },
         },
       });
       return false;
@@ -51,7 +53,7 @@ const ConfirmPassword = () => {
           "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.",
         action: {
           label: "understand",
-          onClick: () => {},
+          onClick: () => { },
         },
       });
       return false;
@@ -70,7 +72,9 @@ const ConfirmPassword = () => {
   const [confirmPassword] = useConfirmPasswordMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     if (!validateForm()) {
+      setLoading(false);
       return;
     }
     try {
@@ -79,6 +83,7 @@ const ConfirmPassword = () => {
     } catch (err: any) {
       console.error(err.data.messages);
     }
+    setLoading(false);
   };
 
   return (
@@ -139,7 +144,10 @@ const ConfirmPassword = () => {
                   </button>
                 </div>
               </div>
-              <Button type="submit" className="w-full">
+              <Button disabled={loading} type="submit" className="w-full">
+                {loading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Confirm
               </Button>
               <div className="mt-4 text-center text-sm">

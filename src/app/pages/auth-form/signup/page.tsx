@@ -81,6 +81,7 @@ export default function SignUpForm() {
     e.preventDefault();
     setLoading(true);
     if (!validateForm()) {
+      setLoading(false);
       return;
     }
     try {
