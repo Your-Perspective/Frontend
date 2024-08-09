@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
-import { FacebookShare, TwitterShare } from 'react-share-kit'
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { HiMiniLink } from 'react-icons/hi2';
+import { FaFacebook } from 'react-icons/fa';
+import { RiTwitterXFill } from 'react-icons/ri';
 
 export const copyToClipboard = (text: string): void => {
   if (navigator.clipboard) {
@@ -31,14 +32,47 @@ export const copyToClipboard = (text: string): void => {
   }
 }
 
+const shareToFacebook = (url: string, quote?: string): void => {
+  const encodedUrl = encodeURIComponent(url);
+  let facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+
+  if (quote) {
+    const encodedQuote = encodeURIComponent(quote);
+    facebookUrl += `&quote=${encodedQuote}`;
+  }
+
+  window.open(facebookUrl, '_blank', 'width=600,height=400');
+};
+
+const shareToTwitter = (url: string, text?: string, hashtags?: string[]): void => {
+  const encodedUrl = encodeURIComponent(url);
+  let twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}`;
+
+  if (text) {
+    const encodedText = encodeURIComponent(text);
+    twitterUrl += `&text=${encodedText}`;
+  }
+
+  if (hashtags && hashtags.length > 0) {
+    const encodedHashtags = encodeURIComponent(hashtags.join(","));
+    twitterUrl += `&hashtags=${encodedHashtags}`;
+  }
+
+  window.open(twitterUrl, '_blank', 'width=600,height=400');
+};
+
 export default function FacebookShareButton({ url, quote }: { url: string, quote: string | undefined }) {
   return (
     <div className='flex gap-3 items-center md:justify-start justify-end'>
       <Button onClick={() => copyToClipboard(url)} variant={'link'} className='p-0'>
         <HiMiniLink size={30} />
       </Button>
-      <FacebookShare style={{ borderRadius: '50%' }} size={40} url={url} quote={quote || ""} />
-      <TwitterShare size={40} url={url} title={quote} />
+      <Button onClick={() => shareToFacebook(url, quote)} variant={'link'} className='p-0'>
+        <FaFacebook size={30} className='rounded-full' />
+      </Button>
+      <Button onClick={() => shareToTwitter(url, quote)} variant={'link'} className='p-0'>
+        <RiTwitterXFill size={30} className='rounded-full' />
+      </Button>
     </div>
   )
 }
