@@ -3,6 +3,7 @@ import Container from "@/components/container-section/Container";
 import React from "react";
 import BlogDetailLayout from "@/components/layout/BlogDetail";
 import BlogDetail from "@/components/Blog/BlogDetail";
+import { enviromentURL } from "@/app/layout";
 
 type Props = {
   params: { slug: [string, string] };
@@ -35,14 +36,13 @@ export async function generateMetadata(
     keywords: blogData.blogTitle.split(" "),
     category: blogData.blogTitle,
     openGraph: {
-      type: "article",
-      authors: blogData.author.userName,
+      type: "website",
+      url: `${enviromentURL}pages/blogs/${username}/${slug}`,
       countryName: "Cambodia",
       ttl: 255,
       siteName: blogData.blogTitle,
       description: blogData.summary || "404 not found",
       determiner: "the",
-      modifiedTime: blogData.createdAt,
       images: [ogImage, ...previousImages],
     },
   };

@@ -154,6 +154,11 @@ export interface LoginAuthForm {
   password: string;
 }
 
+export interface ResponseLogin {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface ForgetPasswordAuthForm {
   email: string;
 }
@@ -172,4 +177,15 @@ export interface BannerProps {
   title: string;
   imageUrl: string | undefined;
   link: string;
+}
+
+export interface profileProps {
+  id: 0;
+  email: string;
+  userName: string;
+  top3Count: string;
+  bio: string;
+  about: string;
+  profileImage: string;
+  formatTotalCountViewer: string;
 }

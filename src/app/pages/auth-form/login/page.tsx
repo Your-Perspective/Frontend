@@ -15,9 +15,14 @@ import { Eye, EyeOff } from "lucide-react";
 import { useLoginMutation } from "@/lib/api/services/Auth-form";
 import { LoginAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/lib/api/auth/authSlice";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState<boolean | undefined>(false);
+  const dispath = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -39,11 +44,23 @@ export default function LoginForm() {
   const [login] = useLoginMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await login(formData).unwrap();
-      navigation("/pages/admin/user");
-    } catch (err) {
-      console.error("Login failed", err);
+      const data = await login(formData).unwrap();
+
+      dispath(
+        setCredentials({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+        })
+      );
+
+      if (data.accessToken) {
+        navigation("/");
+      }
+    } catch (err: any) {
+      console.error(err.data.messages);
+      setLoading(false);
     }
   };
 
@@ -99,7 +116,10 @@ export default function LoginForm() {
                   Forgot your password?
                 </Link>
               </div>
-              <Button type="submit" className="w-full">
+              <Button disabled={loading} type="submit" className="w-full">
+                {loading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Login
               </Button>
             </div>

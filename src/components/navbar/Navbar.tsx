@@ -18,15 +18,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SidebarLayout from "../sidbar/Sidebar";
-import { BsMenuApp } from "react-icons/bs";
 import { Menu } from "lucide-react";
 
 export default function Navbar() {
   const pathName = usePathname();
-  const [hide, setHide] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [hide, setHide] = useState(true);
 
-  const pathPrefixes = ["/pages/admin/", "/pages/auth-form/"];
+  const pathPrefixes = ["/pages/admin"];
   const startsWithAnyPrefix = pathPrefixes.some((prefix) =>
     pathName.startsWith(prefix)
   );

@@ -10,10 +10,12 @@ import { useConfirmPasswordMutation } from "@/lib/api/services/Auth-form";
 import { ConfirmPasswordAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 import { toast } from "sonner";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const ConfirmPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState<boolean | undefined>(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -39,7 +41,7 @@ const ConfirmPassword = () => {
         description: "Passwords do not match.",
         action: {
           label: "understand",
-          onClick: () => {},
+          onClick: () => { },
         },
       });
       return false;
@@ -51,7 +53,7 @@ const ConfirmPassword = () => {
           "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.",
         action: {
           label: "understand",
-          onClick: () => {},
+          onClick: () => { },
         },
       });
       return false;
@@ -70,15 +72,18 @@ const ConfirmPassword = () => {
   const [confirmPassword] = useConfirmPasswordMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     if (!validateForm()) {
+      setLoading(false);
       return;
     }
     try {
       await confirmPassword(formData).unwrap();
       navigation("/pages/auth-form/login");
-    } catch (err) {
-      console.error("rejected", err);
+    } catch (err: any) {
+      console.error(err.data.messages);
     }
+    setLoading(false);
   };
 
   return (
@@ -95,7 +100,7 @@ const ConfirmPassword = () => {
                 <Input
                   name="token"
                   type="text"
-                  placeholder="12345"
+                  placeholder="3f6e972e-370b-4e7e-9339-9149a54b25ae"
                   required
                   value={formData.token}
                   onChange={handleChange}
@@ -139,7 +144,10 @@ const ConfirmPassword = () => {
                   </button>
                 </div>
               </div>
-              <Button type="submit" className="w-full">
+              <Button disabled={loading} type="submit" className="w-full">
+                {loading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Confirm
               </Button>
               <div className="mt-4 text-center text-sm">
