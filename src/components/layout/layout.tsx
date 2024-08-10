@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CircleUser, Menu, Package } from "lucide-react";
+import { Menu, Package } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,12 +18,23 @@ import { ThemesModeToggle } from "../darkmode-switcher/ThemesSwitcher";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { TbLogin } from "react-icons/tb";
+import { useCallback, useEffect } from "react";
+import NotFoundPage from "@/app/not-found";
+import { useGetCurrentUserQuery } from "@/lib/api/auth/profile";
+import { useDispatch } from "react-redux";
+import { logOut } from "@/lib/api/auth/authSlice";
+import { HandleImage } from "@/constrain/HandleImage";
+import { removeRefresh } from "@/lib/cryptography";
+import Loading from "@/app/loading";
 
 export default function DashBoardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { data, isLoading, isSuccess, error } = useGetCurrentUserQuery();
+  const dispatch = useDispatch();
+
   const pathname = usePathname();
   const links = [
     {
@@ -45,6 +56,28 @@ export default function DashBoardLayout({
       isActive: pathname === "/pages/admin/banner",
     },
   ];
+
+  const handleLogout = useCallback(() => {
+    dispatch(logOut());
+    if (typeof window !== "undefined") {
+      window.location.href = "/pages/auth-form/login";
+    }
+    removeRefresh();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      handleLogout();
+    }
+  }, [error, handleLogout]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!isSuccess) {
+    return <NotFoundPage text_display="authentication need" />;
+  }
 
   return (
     <section>
@@ -80,13 +113,14 @@ export default function DashBoardLayout({
             </div>
             <div className="text-sm font-medium p-4">
               <div>
-                <Link
-                  href={"/pages/auth-form/login"}
+                <Button
+                  variant={"ghost"}
+                  onClick={handleLogout}
                   className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-muted-foreground hover:text-primary"
                 >
                   <TbLogin className="size-4" />
                   Logout
-                </Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -139,26 +173,33 @@ export default function DashBoardLayout({
                     size="icon"
                     className="rounded-full"
                   >
-                    <CircleUser className="h-5 w-5" />
+                    <Image
+                      width={25}
+                      height={25}
+                      priority
+                      src={HandleImage({ src: data.profileImage })}
+                      alt="profile"
+                      className="w-8 h-8 object-cover rounded-full"
+                    />
                     <span className="sr-only">Toggle user menu</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>{data.userName}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
-                  <DropdownMenuItem>Support</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Logout
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
               <ThemesModeToggle />
             </div>
           </header>
-          <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          <section className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             {children}
-          </main>
+          </section>
         </div>
       </div>
     </section>

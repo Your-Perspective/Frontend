@@ -2,13 +2,12 @@
 import { IoEye } from "react-icons/io5";
 import { MdOutlineUpdate } from "react-icons/md";
 import Image from "next/image";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import { Card, CardContent, CardHeader } from "../ui/card";
 import BreadcrumbCompo from "../Breadcrumb/BreadcrumbCompo";
 import {
   useGetBlogDetailByAuthorSlugQuery,
   useGetRelatedBlogPostsBySlugQuery,
 } from "@/lib/api/services/AllBlogs";
-import { DateFunction } from "@/constrain/DateFunction";
 import NotFoundPage from "@/app/not-found";
 import Loading from "@/app/loading";
 import { HandleImage } from "@/constrain/HandleImage";
@@ -47,7 +46,7 @@ export default function BlogDetail({
   return (
     <section
       aria-labelledby={content?.blogTitle}
-      className={"flex flex-col gap-5 my-10"}
+      className={"flex flex-col gap-5 my-5"}
     >
       {content?.blogTitle && (
         <BreadcrumbCompo title={[{ label: content?.blogTitle, link: "#" }]} />
@@ -135,9 +134,11 @@ export default function BlogDetail({
         </CardHeader>
       </Card>
       <section aria-label="related-blogs">
-        <h2 className="font-semibold">{RelatedPost ? "Related" : ""}</h2>
+        {RelatedPost && RelatedPost?.length >= 0 && (
+          <h2 className="font-semibold">Related</h2>
+        )}
         {RelatedPostLoading && <Loading />}
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 my-5">
+        <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 my-5">
           {!RelatedPost ||
             (RelatedPost.length === 0 && (
               <NotFoundPage text_display="No related page" />

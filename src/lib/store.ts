@@ -1,15 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./features/counter/counterSlice";
+import authSlice from "./api/auth/authSlice";
 import { apiSlice, rtkQueryErrorLogger } from "./apiSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      count: counterSlice,
+      auth: authSlice,
       [apiSlice.reducerPath]: apiSlice.reducer,
     }, // all reducers, defined here!
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(apiSlice.middleware, rtkQueryErrorLogger),
+      getDefaultMiddleware({
+        immutableCheck: false,
+        serializableCheck: false,
+      }).concat(apiSlice.middleware, rtkQueryErrorLogger),
 
     devTools: true,
   });

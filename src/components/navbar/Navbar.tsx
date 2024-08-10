@@ -9,11 +9,22 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import SidebarLayout from "../sidbar/Sidebar";
+import { Menu } from "lucide-react";
+
 export default function Navbar() {
   const pathName = usePathname();
-  const [hide, setHide] = useState(false);
+  const [hide, setHide] = useState(true);
 
-  const pathPrefixes = ["/pages/admin/", "/pages/auth-form/"];
+  const pathPrefixes = ["/pages/admin", "/pages/auth-form"];
   const startsWithAnyPrefix = pathPrefixes.some((prefix) =>
     pathName.startsWith(prefix)
   );
@@ -28,26 +39,49 @@ export default function Navbar() {
 
   return (
     <nav
-      className={hide ? "hidden" : "py-4 px-0 sticky z-40 -top-1 bg-background"}
+      className={hide ? "hidden" : "py-4 px-0 sticky top-0 z-40 bg-background"}
     >
       <Container classNames="flex justify-between items-center md:gap-10 gap-3">
-        <Link href={"/"} className="w-[71px]">
+        <Link href="/" title="your-perspective logo">
           <Image
+            aria-label="your-perspective logo"
+            title="logo"
             priority
-            width={40}
+            width={45}
+            height={45}
             src={logo}
             alt="your-perspective - logo"
-            className="rounded-full w-[45px] h-[45px] object-cover mx-auto"
+            className="rounded-full min-w-9 object-cover mx-auto"
           />
         </Link>
         <ClickToCommand />
         <div className="flex md:gap-3 gap-2 items-center">
-          <Button variant={"link"} className="relative hidden p-0" asChild>
+          <Button variant={"link"} className="relative hidden" asChild>
             <Link href={"/pages/shop"}>
               <MdOutlineShoppingBag size={30} />
             </Link>
           </Button>
           <ThemesModeToggle />
+          <Sheet>
+            <SheetTrigger
+              asChild
+              className={
+                "lg:hidden border h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium text-black dark:text-white"
+              }
+            >
+              <Button variant="outline" size="icon" className="shrink-0">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="md:w-[400px] w-[350px] overflow-y-scroll no-scrollbar">
+              <SheetTitle>Your perspective</SheetTitle>
+              <SheetDescription>
+                Discover untold stories and whispered tales on our channel
+              </SheetDescription>
+              <SidebarLayout />
+            </SheetContent>
+          </Sheet>
         </div>
       </Container>
     </nav>

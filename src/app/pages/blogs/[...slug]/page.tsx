@@ -3,6 +3,7 @@ import Container from "@/components/container-section/Container";
 import React from "react";
 import BlogDetailLayout from "@/components/layout/BlogDetail";
 import BlogDetail from "@/components/Blog/BlogDetail";
+import { enviromentURL } from "@/app/layout";
 
 type Props = {
   params: { slug: [string, string] };
@@ -25,25 +26,24 @@ export async function generateMetadata(
       return null;
     });
 
-  if (!blogData) {
-    return {
-      title: "404 not found",
-      description: "Blog not found",
-      openGraph: {
-        images: [],
-      },
-    };
-  }
-
   const ogImage = blogData.thumbnail || null;
 
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    title: `${slug} | Your Perspective` || "404 not found",
-    description: blogData.description || "404 not found",
+    title: `${blogData.blogTitle} | Your Perspective` || "404 not found",
+    description: blogData.summary || "404 not found",
+    keywords: blogData.blogTitle.split(" "),
+    category: blogData.blogTitle,
     openGraph: {
-      images: ogImage ? [...previousImages, ogImage] : previousImages,
+      type: "website",
+      url: `${enviromentURL}pages/blogs/${username}/${slug}`,
+      countryName: "Cambodia",
+      ttl: 255,
+      siteName: blogData.blogTitle,
+      description: blogData.summary || "404 not found",
+      determiner: "the",
+      images: [ogImage, ...previousImages],
     },
   };
 }

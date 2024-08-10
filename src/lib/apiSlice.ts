@@ -1,35 +1,38 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  BaseQueryFn,
+  createApi,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from "@reduxjs/toolkit/query/react";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
+
 import type {
   MiddlewareAPI,
   Middleware,
   SerializedError,
 } from "@reduxjs/toolkit";
 import { toast } from "sonner";
+import { logOut, setCredentials } from "./api/auth/authSlice";
+import { getDecryptedRefresh } from "./cryptography";
 
 interface RootState {
   auth: {
-    access: string | null;
+    accessToken: string | null;
   };
 }
 
-// Adjust the prepareHeaders function to accept a token parameter
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
-  // prepareHeaders: (headers, { getState }) => {
-  //   const token = (getState() as RootState).auth.access;
-  //   if (token) {
-  //     headers.set("authorization", `Bearer ${token}`);
-  //   }
-  //   return headers;
-  // },
-});
+  credentials: "same-origin",
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.accessToken;
+    if (token) {
+      headers.set("authorization", `Bearer ${token}`);
+    }
 
-export const apiSlice = createApi({
-  reducerPath: "apiSlice",
-  baseQuery: baseQuery,
-  tagTypes: ["blogs", "tabs", "authors", "adminBlog"],
-  endpoints: (builder) => ({}),
+    return headers;
+  },
 });
 
 interface CustomSerializedError extends SerializedError {
@@ -41,11 +44,61 @@ interface CustomSerializedError extends SerializedError {
   };
 }
 
+export interface TokenResult {
+  data?: {
+    accessToken: string | null;
+    refreshToken: string | null;
+  };
+}
+
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result?.error?.status === 403) {
+    const refreshToken = await getDecryptedRefresh();
+    if (refreshToken) {
+      const refreshResult = (await baseQuery(
+        {
+          url: "/auth/refresh",
+          method: "POST",
+          body: { refreshToken },
+        },
+        api,
+        extraOptions
+      )) as TokenResult;
+
+      if (
+        refreshResult &&
+        refreshResult.data?.accessToken &&
+        refreshResult.data?.refreshToken
+      ) {
+        api.dispatch(
+          setCredentials({
+            accessToken: refreshResult.data.accessToken,
+            refreshToken: refreshResult.data.refreshToken,
+          })
+        );
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        api.dispatch(logOut());
+      }
+    } else {
+      api.dispatch(logOut());
+    }
+  }
+
+  return result;
+};
+
 export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
     if (isRejectedWithValue(action)) {
       const error = action.payload as CustomSerializedError;
-
+      console.log(error);
       const status = error.status ?? "Unknown status";
       const message =
         error.data?.detail ||
@@ -66,3 +119,10 @@ export const rtkQueryErrorLogger: Middleware =
 
     return next(action);
   };
+
+export const apiSlice = createApi({
+  reducerPath: "apiSlice",
+  baseQuery: baseQueryWithReauth,
+  tagTypes: ["blogs", "tabs", "authors", "banners", "user"],
+  endpoints: (builder) => ({}),
+});

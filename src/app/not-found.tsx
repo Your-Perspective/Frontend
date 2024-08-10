@@ -14,7 +14,7 @@ export default function NotFoundPage({
   return (
     <Container>
       <section className="flex flex-col justify-center items-center min-h-full gap-10 my-20">
-        <p className="text-9xl font-bold dark:text-white text-red-700 animate-pulse">
+        <p className="text-9xl font-bold dark:text-primaryColor text-red-700 animate-pulse">
           404
         </p>
         <p className="text-5xl text-center font-bold uppercase">

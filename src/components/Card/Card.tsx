@@ -1,10 +1,9 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { MdOutlineUpdate } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
-import { DateFunction } from "@/constrain/DateFunction";
 import { HandleImage } from "@/constrain/HandleImage";
 import { BlogsProps, Option } from "@/types/Types";
 import { isBlog } from "../Tabs/Tabs";
@@ -12,7 +11,7 @@ import { isBlog } from "../Tabs/Tabs";
 export const handleSummeryCharacters = (summary: string): string[] => {
   const summaryChunks: string[] = [];
   for (let i = 0; i < summary.length; i += 20) {
-    summaryChunks.push(summary.slice(i, i + 15));
+    summaryChunks.push(summary.slice(i, 60));
   }
   return summaryChunks;
 };
@@ -33,9 +32,10 @@ export default function ContentCard({
 
     return (
       <Card
+        title={props.blogTitle}
         onClick={handleRoute}
-        aria-labelledby={props.slug}
-        className="rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 px-1"
+        aria-label={props.blogTitle}
+        className="transition-all rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer dark:hover:bg-white/5 hover:bg-slate-100 px-1"
       >
         <CardContent
           className={`${
@@ -67,33 +67,6 @@ export default function ContentCard({
             >
               {handleSummeryCharacters(props.summary)}...
             </p>
-            <div
-              className={`flex flex-wrap gap-2 items-center text-gray-500 ${
-                option.option?.includes("grid")
-                  ? "lg:text-base text-sm"
-                  : "text-xs"
-              }`}
-            >
-              <div className="flex justify-center items-center gap-2">
-                <Image
-                  priority
-                  src={HandleImage({ src: props.author?.profileImage || "" })}
-                  alt={props.blogTitle}
-                  width={20}
-                  height={20}
-                  className="object-cover w-[20px] h-[20px] rounded-full"
-                />
-                <p className="capitalize font-medium text-primaryColor">
-                  {props.author?.userName || ""}
-                </p>
-              </div>
-              <div className="flex items-center gap-1">
-                <MdOutlineUpdate /> {props.createdAt}
-              </div>
-              <div className="flex items-center gap-1">
-                <IoEye /> {props.formattedCountViewer}
-              </div>
-            </div>
           </div>
           <Image
             priority
@@ -108,6 +81,31 @@ export default function ContentCard({
             alt={props.blogTitle}
           />
         </CardContent>
+        <CardFooter
+          className={`px-0 flex flex-wrap gap-2 items-center text-gray-500 ${
+            option.option?.includes("grid") ? "lg:text-base text-sm" : "text-xs"
+          }`}
+        >
+          <div className="flex justify-center items-center gap-2">
+            <Image
+              priority
+              src={HandleImage({ src: props.author?.profileImage || "" })}
+              alt={props.blogTitle}
+              width={20}
+              height={20}
+              className="object-cover w-[20px] h-[20px] rounded-full"
+            />
+            <p className="capitalize font-medium text-primaryColor">
+              {props.author?.userName || ""}
+            </p>
+          </div>
+          <div className="flex items-center gap-1">
+            <MdOutlineUpdate /> {props.createdAt}
+          </div>
+          <div className="flex items-center gap-1">
+            <IoEye /> {props.formattedCountViewer}
+          </div>
+        </CardFooter>
       </Card>
     );
   }
@@ -120,9 +118,10 @@ export default function ContentCard({
 
   return (
     <Card
+      title={props.title}
       onClick={handleAdsRoute}
       key={props.id}
-      aria-labelledby={props.title}
+      aria-label={props.title}
       className={`rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer hover:bg-slate-100 ${
         option.option?.includes("column") &&
         "lg:col-span-2 md:col-span-3 h-auto"

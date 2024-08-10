@@ -70,12 +70,14 @@ export default function AuthorAboutDialog({
           </DialogTitle>
           <DialogDescription>
             <p>View hits: {AuthorDetail?.formatTotalCountViewer}</p>
-            <p className="mt-2">{AuthorDetail?.bio}</p>
+            <p className="mt-2 text-left">{AuthorDetail?.bio}</p>
             <Button
               className="w-full mt-5"
-              onClick={() =>
-                router.push(`/pages/author-detail/${AuthorDetail?.userName}`)
-              }
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.location.href = `/pages/author-detail/${AuthorDetail?.userName}`;
+                }
+              }}
             >
               View Detail
             </Button>
