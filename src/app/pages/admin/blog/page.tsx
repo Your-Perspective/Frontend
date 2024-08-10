@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import DashBoardLayout from "@/components/layout/layout";
 import { DataTable } from "@/components/DashBoard/Table";
 import { ColumnDef } from "@tanstack/react-table";
@@ -16,32 +16,28 @@ import { CreateBlog } from "@/types/Types";
 import ModifySelect from "@/components/DashBoard/singleSelect";
 import { SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
 import MultiSelect from "@/components/DashBoard/multi_select";
-
+import { ListBlog } from "@/types/Types";
+import Image from "next/image";
 import {
   useGetListCategoryQuery,
   useGetListThumbnailQuery,
+  useGetListTagQuery,
+  useGetListBlogQuery,
   useCreateBlogMutation,
   useUpdateBlogMutation,
   useDeleteBlogMutation,
 } from "@/lib/api/services/Blog";
+import { IoAddCircleOutline } from "react-icons/io5";
+import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
 
-interface Person {
-  Id: number;
-  blogTitle: string;
-  slug: string;
-  thumbnail: string;
-  isPin: string;
-  blogContent: string;
-  summary: string;
-  tags: string[];
-  categoryIds: string[];
-  minRead: string;
-  published: string;
-}
+// Dynamically import ReactQuill to avoid SSR issues
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const Blog = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState<CreateBlog>({
+    id: 0,
     blogTitle: "",
     slug: "",
     categoryIds: [],
@@ -53,7 +49,6 @@ const Blog = () => {
     summary: "",
     tags: [],
   });
-
   const [titleBlog, setTitleBlog] = useState(false);
   const [dialogConfirm, setDialogConfirm] = useState(false);
   const [storeId, setStoreId] = useState<number | null>(null);
@@ -65,40 +60,73 @@ const Blog = () => {
       label: v?.title,
     })) || [];
 
-  const { data: thumbnail } = useGetListThumbnailQuery();
+  const { data: thumbnail, refetch: refetchThumbnail } =
+    useGetListThumbnailQuery();
+
+  const { data: listTag, refetch: refetchTag } = useGetListTagQuery();
+  const DataTag =
+    listTag?.map((v) => ({
+      value: v?.id,
+      label: v?.name,
+    })) || [];
+
+  const { data: listBlog, refetch: refetchBlog } = useGetListBlogQuery();
   const [createBlog] = useCreateBlogMutation();
   const [updateBlog] = useUpdateBlogMutation();
   const [deleteBlog] = useDeleteBlogMutation();
 
+  useEffect(() => {
+    refetchThumbnail();
+    refetchTag();
+    refetchBlog();
+  }, [refetchThumbnail, refetchTag, refetchBlog]);
+
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement> | string
   ) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    if (typeof e === "string") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        blogContent: e,
+      }));
+    } else {
+      const { name, value } = e.target;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleSelectChange = (selectedValues: string[]) => {
+  const handleSelectChange = (name: string, selectedValues: string[]) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      categoryIds: selectedValues,
+      [name]: selectedValues,
     }));
   };
 
   const handleSave = async () => {
-    console.log("Form Data:", formData);
+    const selectedThumbnail = thumbnail?.find(
+      (v) => v.title === formData.thumbnail
+    );
+    if (selectedThumbnail) {
+      formData.thumbnail = selectedThumbnail.imageUrl;
+    }
+
+    formData.isPin == "true" ? true : false;
+    formData.published == "true" ? true : false;
 
     if (titleBlog) {
       try {
         await createBlog(formData).unwrap();
+        refetchBlog();
       } catch (err) {
         console.error("rejected", err);
       }
     } else {
       try {
         await updateBlog(formData).unwrap();
+        refetchBlog();
       } catch (err) {
         console.error("rejected", err);
       }
@@ -106,109 +134,67 @@ const Blog = () => {
     setDialogOpen(false);
   };
 
-  const handleActionClick = (type: string, rowData: Person) => {
+  const handleActionClick = (type: string, rowData: ListBlog) => {
     if (type === "edit") {
+      const selectedThumbnail = thumbnail?.find(
+        (v) => v.imageUrl === rowData.thumbnail
+      );
+
+      const catId = rowData?.categories.map((v) => v.id.toString());
+      const tagId = rowData?.tags.map((v) => v.id.toString());
+
       setTitleBlog(false);
       setDialogOpen(true);
       setFormData({
+        id: rowData.id || 0,
         blogTitle: rowData.blogTitle || "",
         slug: rowData.slug || "",
-        categoryIds: rowData.categoryIds || [],
-        thumbnail: rowData.thumbnail || "",
-        published: rowData.published || "true",
-        isPin: rowData.isPin || "true",
+        categoryIds: catId || [],
+        thumbnail: selectedThumbnail?.title || "",
+        published: rowData.published ? "true" : "false",
+        isPin: rowData.isPin ? "true" : "false",
         minRead: rowData.minRead || "",
         blogContent: rowData.blogContent || "",
         summary: rowData.summary || "",
-        tags: rowData.tags || [],
+        tags: tagId || [],
       });
     } else if (type === "delete") {
       setDialogConfirm(true);
-      setStoreId(rowData.Id);
+      setStoreId(rowData?.id);
     }
   };
 
-  const data: Person[] = [
-    {
-      Id: 1,
-      blogTitle: "Understanding React Hooks",
-      slug: "understanding-react-hooks",
-      categoryIds: ["1", "2"],
-      thumbnail: "https://example.com/thumbnail1.jpg",
-      published: "true",
-      isPin: "true",
-      minRead: "5",
-      blogContent: "React hooks are a new addition in React 16.8...",
-      summary: "An in-depth look at React hooks and their usage.",
-      tags: ["react", "hooks", "javascript"],
-    },
-    {
-      Id: 2,
-      blogTitle: "A Guide to Node.js",
-      slug: "guide-to-nodejs",
-      categoryIds: ["3", "4"],
-      thumbnail: "https://example.com/thumbnail2.jpg",
-      published: "false",
-      isPin: "false",
-      minRead: "8",
-      blogContent: "Node.js is a JavaScript runtime built on Chrome's V8...",
-      summary: "A comprehensive guide to Node.js for beginners.",
-      tags: ["nodejs", "javascript", "backend"],
-    },
-    {
-      Id: 3,
-      blogTitle: "CSS Grid Layout",
-      slug: "css-grid-layout",
-      categoryIds: ["2", "5"],
-      thumbnail: "https://example.com/thumbnail3.jpg",
-      published: "true",
-      isPin: "true",
-      minRead: "6",
-      blogContent: "CSS Grid Layout is a two-dimensional layout system...",
-      summary: "Learn how to create complex layouts with CSS Grid.",
-      tags: ["css", "grid", "web development"],
-    },
-    {
-      Id: 4,
-      blogTitle: "Introduction to TypeScript",
-      slug: "introduction-to-typescript",
-      categoryIds: ["1", "3"],
-      thumbnail: "https://example.com/thumbnail4.jpg",
-      published: "true",
-      isPin: "false",
-      minRead: "7",
-      blogContent: "TypeScript is a superset of JavaScript that adds types...",
-      summary: "A beginner's introduction to TypeScript.",
-      tags: ["typescript", "javascript", "programming"],
-    },
-    {
-      Id: 5,
-      blogTitle: "Mastering Redux",
-      slug: "mastering-redux",
-      categoryIds: ["2", "4"],
-      thumbnail: "https://example.com/thumbnail5.jpg",
-      published: "false",
-      isPin: "true",
-      minRead: "10",
-      blogContent:
-        "Redux is a predictable state container for JavaScript apps...",
-      summary: "Master the fundamentals of Redux for state management.",
-      tags: ["redux", "react", "state management"],
-    },
-  ];
-
-  const columns: ColumnDef<Person, any>[] = [
-    {
-      accessorKey: "blogTitle",
-      header: "Blog Title",
-    },
+  const columns: ColumnDef<ListBlog, any>[] = [
     {
       accessorKey: "thumbnail",
       header: "Thumbnail",
+      cell: ({ row }) => (
+        <Image
+          src={row.original.thumbnail || "/path/to/default-image.jpg"} // Provide a default image if necessary
+          alt="Thumbnail"
+          width={50}
+          height={50}
+          className="size-[50px] rounded-[10px] object-fit"
+        />
+      ),
+    },
+    {
+      accessorKey: "blogTitle",
+      header: "Title",
+      cell: ({ row }) => (
+        <div className="truncate w-12">{row.original?.blogTitle}</div>
+      ),
+    },
+    {
+      accessorKey: "countViewer",
+      header: "Views",
     },
     {
       accessorKey: "summary",
       header: "Summary",
+      cell: ({ row }) => (
+        <div className="truncate max-w-[450px]">{row.original?.summary}</div>
+      ),
     },
     {
       header: "Actions",
@@ -229,9 +215,26 @@ const Blog = () => {
     setDialogConfirm(false);
     try {
       await deleteBlog(Id).unwrap();
+      refetchBlog();
     } catch (error) {
       console.error("Failed to delete the blog:", error);
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      id: 0,
+      blogTitle: "",
+      slug: "",
+      categoryIds: [],
+      thumbnail: "",
+      published: "true",
+      isPin: "true",
+      minRead: "",
+      blogContent: "",
+      summary: "",
+      tags: [],
+    });
   };
 
   return (
@@ -239,12 +242,15 @@ const Blog = () => {
       <DashBoardLayout>
         <div className="justify-end flex">
           <Button
+            className="gap-1 flex"
             variant="outline"
             onClick={() => {
               setDialogOpen(true);
               setTitleBlog(true);
+              resetForm();
             }}
           >
+            <IoAddCircleOutline />
             Create
           </Button>
           <DialogBlog
@@ -256,18 +262,10 @@ const Blog = () => {
             <form className="scroll-auto overflow-y-scroll">
               <div className="grid grid-cols-2 gap-4 py-4">
                 <div>
-                  <Label>Blog Title</Label>
+                  <Label>Title</Label>
                   <Input
                     name="blogTitle"
                     value={formData.blogTitle}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <Label>Slug</Label>
-                  <Input
-                    name="slug"
-                    value={formData.slug}
                     onChange={handleChange}
                   />
                 </div>
@@ -290,23 +288,7 @@ const Blog = () => {
                     </SelectContent>
                   </ModifySelect>
                 </div>
-                <div>
-                  <Label>Thumbnail</Label>
-                  <ModifySelect
-                    valueSelected={formData.thumbnail || ""}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, thumbnail: value }))
-                    }
-                  >
-                    <SelectContent>
-                      {thumbnail?.map((item) => (
-                        <SelectItem key={item?.imageUrl} value={item.imageUrl}>
-                          {item.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </ModifySelect>
-                </div>
+
                 <div>
                   <Label>Publish</Label>
                   <RadioGroup
@@ -348,39 +330,56 @@ const Blog = () => {
                   </RadioGroup>
                 </div>
               </div>
+
               <div className="grid gap-4">
                 <div>
-                  <Label>Tags</Label>
-                  <Input
-                    name="tags"
-                    value={formData.tags.join(", ")}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        tags: e.target.value
-                          .split(", ")
-                          .map((tag) => tag.trim()),
-                      }))
+                  <Label>Thumbnail</Label>
+                  <ModifySelect
+                    valueSelected={formData.thumbnail || ""}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, thumbnail: value }))
                     }
-                  />
+                  >
+                    <SelectContent>
+                      {thumbnail?.map((item) => (
+                        <SelectItem key={item?.title} value={item.title}>
+                          {item.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </ModifySelect>
                 </div>
                 <div>
-                  <Label>Category</Label>
-                  <MultiSelect
-                    options={DataCategory}
-                    selectedValues={formData.categoryIds}
-                    onChange={handleSelectChange}
-                  />
-                </div>
-                <div>
-                  <Label>Blog Content</Label>
-                  <Textarea
-                    name="blogContent"
-                    value={formData.blogContent}
+                  <Label>Slug</Label>
+                  <Input
+                    name="slug"
+                    value={formData.slug}
                     onChange={handleChange}
-                    placeholder="Type your message here."
                   />
                 </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Tags</Label>
+                    <MultiSelect
+                      options={DataTag}
+                      selectedValues={formData.tags}
+                      onChange={(name, selectedValues) =>
+                        handleSelectChange("tags", selectedValues)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label>Category</Label>
+                    <MultiSelect
+                      options={DataCategory}
+                      selectedValues={formData.categoryIds}
+                      onChange={(name, selectedValues) =>
+                        handleSelectChange("categoryIds", selectedValues)
+                      }
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <Label>Summary</Label>
                   <Textarea
@@ -388,6 +387,14 @@ const Blog = () => {
                     value={formData.summary}
                     onChange={handleChange}
                     placeholder="Type your message here."
+                  />
+                </div>
+                <div>
+                  <Label>Content</Label>
+                  <ReactQuill
+                    value={formData.blogContent}
+                    onChange={handleChange}
+                    className="h-[400px]"
                   />
                 </div>
               </div>
@@ -401,11 +408,14 @@ const Blog = () => {
           onCancel={() => setDialogConfirm(false)}
           onConfirm={() => storeId && deleteData(storeId)}
         />
-        <DataTable
-          onActionClick={handleActionClick}
-          columns={columns}
-          data={data}
-        />
+
+        <div className="w-full">
+          <DataTable
+            onActionClick={handleActionClick}
+            columns={columns}
+            data={listBlog || []}
+          />
+        </div>
       </DashBoardLayout>
     </div>
   );

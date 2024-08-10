@@ -6,6 +6,7 @@ import {
   CreateBlog,
   updateBlog,
   DeleteBlog,
+  TagProps,
 } from "@/types/Types";
 
 export const dashboardBlogApi = apiSlice.injectEndpoints({
@@ -22,12 +23,16 @@ export const dashboardBlogApi = apiSlice.injectEndpoints({
       providesTags: ["adminBlog"],
     }),
 
-    list: builder.mutation<ListBlog, Partial<ListBlog>>({
-      query: (formData) => ({
-        url: `/blogs/`,
-        method: "POST",
-        body: formData,
-      }),
+    getListTag: builder.query<[TagProps], void>({
+      query: () => `/tags`,
+      keepUnusedDataFor: 5,
+      providesTags: ["adminBlog"],
+    }),
+
+    getListBlog: builder.query<[ListBlog], void>({
+      query: () => `/admin/blogs`,
+      keepUnusedDataFor: 5,
+      providesTags: ["adminBlog"],
     }),
 
     CreateBlog: builder.mutation<CreateBlog, Partial<CreateBlog>>({
@@ -66,7 +71,8 @@ export const dashboardBlogApi = apiSlice.injectEndpoints({
 export const {
   useGetListCategoryQuery,
   useGetListThumbnailQuery,
-  useListMutation,
+  useGetListTagQuery,
+  useGetListBlogQuery,
   useCreateBlogMutation,
   useUpdateBlogMutation,
   useDeleteBlogMutation,

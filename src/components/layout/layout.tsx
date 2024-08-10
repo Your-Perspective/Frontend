@@ -89,7 +89,7 @@ export default function DashBoardLayout({
                 priority
                 width={40}
                 src={logo}
-                alt="your-perspective - logo"
+                alt="your-perspective-logo"
                 className="rounded-full"
               />
             </div>

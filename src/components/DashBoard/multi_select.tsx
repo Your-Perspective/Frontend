@@ -10,7 +10,7 @@ interface OptionType {
 interface MultiSelectProps {
   options: OptionType[];
   selectedValues: string[]; // Add selectedValues as a prop
-  onChange: (selectedValues: string[]) => void; // Add a callback for when selection changes
+  onChange: (name: string, selectedValues: string[]) => void; // Add a callback for when selection changes
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -19,17 +19,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   onChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const [internalSelectedValues, setSelectedValues] =
+  const [internalSelectedValues, setInternalSelectedValues] =
     useState<string[]>(selectedValues);
 
   // Sync internal state with prop
   useEffect(() => {
-    setSelectedValues(selectedValues);
+    setInternalSelectedValues(selectedValues);
   }, [selectedValues]);
 
   const handleSelect = (value: string) => {
-    setSelectedValues((prev) => {
+    setInternalSelectedValues((prev) => {
       const newSelectedValues = [...prev];
       const valueIndex = newSelectedValues.indexOf(value);
 
@@ -39,15 +38,15 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         newSelectedValues.push(value);
       }
 
-      onChange(newSelectedValues);
+      onChange("multi-select", newSelectedValues); // Pass the field name as 'multi-select'
       return newSelectedValues;
     });
   };
 
   const handleRemove = (value: string) => {
-    setSelectedValues((prev) => {
+    setInternalSelectedValues((prev) => {
       const newSelectedValues = prev.filter((v) => v !== value);
-      onChange(newSelectedValues); // Call the onChange callback
+      onChange("multi-select", newSelectedValues); // Pass the field name as 'multi-select'
       return newSelectedValues;
     });
   };
@@ -65,7 +64,9 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
               key={value}
               className="bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 flex items-center gap-2"
             >
-              <span className="text-gray-800 dark:text-gray-100">{value}</span>
+              <span className="text-gray-800 dark:text-gray-100 truncate">
+                {value}
+              </span>
               <button
                 type="button"
                 className="text-sm font-semibold text-red-600 dark:text-red-400"
@@ -86,7 +87,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         <span className="ml-auto text-gray-500 dark:text-gray-400">▼</span>
       </div>
       {isOpen && (
-        <div className="absolute mt-2 w-full border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-lg dark:shadow-xl z-10 max-h-60 overflow-y-auto transition-all duration-300 ease-in-out">
+        <div
+          className="absolute mt-2 w-full border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-lg dark:shadow-xl z-10 max-h-60 overflow-y-auto transition-all duration-300 ease-in-out"
+          onMouseLeave={() => setIsOpen(false)} // Close dropdown when mouse leaves
+        >
           <div className="p-3">
             {options.map((option) => (
               <div

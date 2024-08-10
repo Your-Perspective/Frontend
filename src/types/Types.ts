@@ -206,7 +206,13 @@ export interface ThumbnailProp {
   link: string;
 }
 
+export interface TagProps {
+  id: number;
+  name: string;
+}
+
 export interface ListBlog {
+  id: number;
   blogTitle: string;
   published: string;
   blogContent: string;
@@ -215,11 +221,13 @@ export interface ListBlog {
   thumbnail: string;
   summary: string;
   minRead: string;
-  categoryIds: number[];
-  tags: number[];
+  categories: any[];
+  categoryIds: any[];
+  tags: any[];
 }
 
 export interface CreateBlog {
+  id: number;
   blogTitle: string;
   published: string;
   slug: string;
