@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
 import { IoIosNotifications } from "react-icons/io";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function AlertCompo({
   title,
@@ -16,6 +17,12 @@ export default function AlertCompo({
   url,
 }: AlertProps) {
   const [open, setOpen] = useState<boolean>(true);
+  const pathName = usePathname();
+
+  const pathPrefixes = ["/pages/admin", "/pages/auth-form/"];
+  const startsWithAnyPrefix = pathPrefixes.some((prefix) =>
+    pathName.startsWith(prefix)
+  );
 
   const handleClose = () => {
     setOpen(false);
@@ -35,7 +42,12 @@ export default function AlertCompo({
         setOpen(true);
       }
     }
-  }, []);
+    if (startsWithAnyPrefix) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  }, [startsWithAnyPrefix]);
 
   return (
     <Alert

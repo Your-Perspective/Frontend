@@ -24,7 +24,7 @@ export default function Navbar() {
   const pathName = usePathname();
   const [hide, setHide] = useState(true);
 
-  const pathPrefixes = ["/pages/admin", "/pages/auth-form"];
+  const pathPrefixes = ["/pages/admin"];
   const startsWithAnyPrefix = pathPrefixes.some((prefix) =>
     pathName.startsWith(prefix)
   );

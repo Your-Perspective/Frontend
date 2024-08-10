@@ -17,9 +17,11 @@ import { LoginAuthForm } from "@/types/Types";
 import { navigation } from "@/app/action";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/lib/api/auth/authSlice";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState<boolean | undefined>(false);
   const dispath = useDispatch();
 
   const togglePasswordVisibility = () => {
@@ -42,6 +44,7 @@ export default function LoginForm() {
   const [login] = useLoginMutation();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const data = await login(formData).unwrap();
 
@@ -53,10 +56,11 @@ export default function LoginForm() {
       );
 
       if (data.accessToken) {
-        navigation("/pages/admin/user");
+        navigation("/");
       }
-    } catch (err) {
-      console.error("Login failed", err);
+    } catch (err: any) {
+      console.error(err.data.messages);
+      setLoading(false);
     }
   };
 
@@ -112,7 +116,10 @@ export default function LoginForm() {
                   Forgot your password?
                 </Link>
               </div>
-              <Button type="submit" className="w-full">
+              <Button disabled={loading} type="submit" className="w-full">
+                {loading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Login
               </Button>
             </div>

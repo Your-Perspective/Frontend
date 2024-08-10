@@ -38,7 +38,7 @@ const baseQuery = fetchBaseQuery({
 interface CustomSerializedError extends SerializedError {
   status?: number;
   data?: {
-    message?: string;
+    messages?: string;
     title?: string;
     detail?: string;
   };
@@ -98,15 +98,9 @@ export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
     if (isRejectedWithValue(action)) {
       const error = action.payload as CustomSerializedError;
-      console.log(error);
-      const status = error.status ?? "Unknown status";
-      const message =
-        error.data?.detail ||
-        error.data?.message ||
-        error.data?.title ||
-        "Something went wrong";
+      const message = error.data?.messages ?? "Something went wrong";
 
-      toast.error(`Async error!: ${status}`, {
+      toast.error(`Async error!`, {
         richColors: true,
         description: message,
         position: "bottom-right",
