@@ -89,11 +89,11 @@ export default function ShareButton({ url, quote }: { url: string, quote: string
               </Button>
               <Button className='flex flex-col items-center h-fit gap-3' onClick={() => shareToFacebook(url, quote)} variant={'outline'}>
                 <FaFacebook size={30} className='rounded-full' />
-                <p>Copy link</p>
+                <p>Facebook</p>
               </Button>
               <Button className='flex flex-col items-center h-fit gap-3' onClick={() => shareToTwitter(url, quote)} variant={'outline'}>
                 <RiTwitterXFill size={30} className='rounded-full' />
-                <p>Copy link</p>
+                <p>X-Twitter</p>
               </Button>
             </div>
           </DialogDescription>
