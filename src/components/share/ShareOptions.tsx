@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 
 export const copyToClipboard = (text: string): void => {
@@ -35,7 +35,6 @@ export const copyToClipboard = (text: string): void => {
     try {
       const successful = document.execCommand('copy');
       const msg = successful ? 'successful' : 'unsuccessful';
-      console.log('Fallback: Copying text was ' + msg);
     } catch (err) {
       console.error('Fallback: Oops, unable to copy', err);
     }
