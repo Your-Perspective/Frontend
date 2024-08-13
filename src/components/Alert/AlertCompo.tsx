@@ -51,25 +51,24 @@ export default function AlertCompo({
 
   return (
     <Alert
-      className={`rounded-none py-2 mb-5 bg-gradient-to-r from-blue-950 to-primaryColor justify-between transition-all items-center border-none ${
-        open ? "flex" : "hidden"
-      }`}
+      className={`rounded-none py-2 md:px-auto px-1 mb-5 bg-gradient-to-r from-blue-950 to-primaryColor justify-between transition-all items-center border-none ${open ? "flex" : "hidden"
+        }`}
     >
       <div className="text-white">
         <IoIosNotifications size={25} />
       </div>
       <div className="md:flex md:gap-2 gap-1 text-center justify-center items-center">
-        <p className="font-semibold md:text-lg text-center text-base text-white">
+        <p className="font-semibold text-center text-base text-white">
           {title}
         </p>
         <Link
-          className="underline font-medium text-center w- text-white"
+          className="underline font-medium text-center text-white"
           href={url}
         >
           {link_label}
         </Link>
       </div>
-      <Button className="text-white" variant={"link"} onClick={handleClose}>
+      <Button className="text-white px-1" variant={"link"} onClick={handleClose}>
         <IoClose size={25} />
       </Button>
     </Alert>

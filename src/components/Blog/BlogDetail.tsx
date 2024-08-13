@@ -17,7 +17,7 @@ import { usePathname } from "next/navigation";
 import { isBlog } from "../Tabs/Tabs";
 import Link from "next/link";
 import TooltipComponent from "../tooltip/Tooltip";
-import FacebookShareButton from "../share/FacebookShare";
+import ShareButton from "../share/ShareOptions";
 
 export default function BlogDetail({
   slug,
@@ -60,7 +60,7 @@ export default function BlogDetail({
         <CardHeader className="p-0">
           <h1 className="font-medium">{content?.blogTitle}</h1>
           <p className="leading-relax text-gray-500">{content?.summary}</p>
-          <div aria-label="blog-author-header" className="md:flex block justify-between items-center py-2 w-full">
+          <div aria-label="blog-author-header" className="flex justify-between items-center py-2 w-full">
             <div className="flex  items-start text-primary gap-5 py-5">
               <Image
                 src={HandleImage({ src: content?.author.profileImage })}
@@ -87,7 +87,7 @@ export default function BlogDetail({
                 </div>
               </div>
             </div>
-            <FacebookShareButton url={`${shareLink}`} quote={`${content?.blogTitle}`} />
+            <ShareButton url={`${shareLink}`} quote={`${content?.blogTitle}`} />
           </div>
         </CardHeader>
         <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">

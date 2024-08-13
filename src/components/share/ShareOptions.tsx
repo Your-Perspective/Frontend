@@ -5,6 +5,17 @@ import { Button } from '../ui/button';
 import { HiMiniLink } from 'react-icons/hi2';
 import { FaFacebook } from 'react-icons/fa';
 import { RiTwitterXFill } from 'react-icons/ri';
+import { GoShareAndroid } from "react-icons/go";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 export const copyToClipboard = (text: string): void => {
   if (navigator.clipboard) {
@@ -61,18 +72,33 @@ const shareToTwitter = (url: string, text?: string, hashtags?: string[]): void =
   window.open(twitterUrl, '_blank', 'width=600,height=400');
 };
 
-export default function FacebookShareButton({ url, quote }: { url: string, quote: string | undefined }) {
+export default function ShareButton({ url, quote }: { url: string, quote: string | undefined }) {
   return (
-    <div className='flex gap-3 items-center md:justify-start justify-end'>
-      <Button onClick={() => copyToClipboard(url)} variant={'link'} className='p-0'>
-        <HiMiniLink size={30} />
-      </Button>
-      <Button onClick={() => shareToFacebook(url, quote)} variant={'link'} className='p-0'>
-        <FaFacebook size={30} className='rounded-full' />
-      </Button>
-      <Button onClick={() => shareToTwitter(url, quote)} variant={'link'} className='p-0'>
-        <RiTwitterXFill size={30} className='rounded-full' />
-      </Button>
-    </div>
+    <Dialog>
+      <DialogTrigger>
+        <GoShareAndroid size={25} />
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className='py-5 leading-relaxed'>Let&apos; share <span className="text-blue-600">{quote}</span> to social.</DialogTitle>
+          <DialogDescription>
+            <div className='grid grid-cols-3 gap-3'>
+              <Button className='flex flex-col items-center h-fit gap-3' onClick={() => copyToClipboard(url)} variant={'outline'}>
+                <HiMiniLink size={30} />
+                <p>Copy link</p>
+              </Button>
+              <Button className='flex flex-col items-center h-fit gap-3' onClick={() => shareToFacebook(url, quote)} variant={'outline'}>
+                <FaFacebook size={30} className='rounded-full' />
+                <p>Copy link</p>
+              </Button>
+              <Button className='flex flex-col items-center h-fit gap-3' onClick={() => shareToTwitter(url, quote)} variant={'outline'}>
+                <RiTwitterXFill size={30} className='rounded-full' />
+                <p>Copy link</p>
+              </Button>
+            </div>
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   )
 }
