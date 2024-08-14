@@ -18,6 +18,7 @@ import { navigation } from "@/app/action";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/lib/api/auth/authSlice";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,7 +60,7 @@ export default function LoginForm() {
         navigation("/");
       }
     } catch (err: any) {
-      console.error(err.data.messages);
+      toast.error(err.data.messages);
       setLoading(false);
     }
   };

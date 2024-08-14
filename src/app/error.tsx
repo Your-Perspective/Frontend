@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Container from "@/components/container-section/Container";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { FiRefreshCw } from "react-icons/fi";
+import { FiLogIn, FiRefreshCw } from "react-icons/fi";
 import { toast } from "sonner";
 import { BsBack } from "react-icons/bs";
 import { navigation } from "./action";
@@ -12,6 +12,7 @@ import { navigation } from "./action";
 export default function Error({
   error,
   reset,
+  gotoLogin = false,
   errorCode = 500,
   text_display = "Something went wrong!",
   retry_text = "Try again",
@@ -22,7 +23,8 @@ export default function Error({
   errorCode?: number;
   text_display?: string;
   retry_text?: string;
-  back_to_home: true | false;
+  back_to_home?: true | false;
+  gotoLogin?: true | false;
 }) {
   return (
     <Container>
@@ -43,8 +45,17 @@ export default function Error({
               <BsBack /> homepage
             </Button>
           )}
+          {gotoLogin && (
+            <Button
+              onClick={() => navigation("/pages/auth-form/login")}
+              variant={"link"}
+              className="font-bold capitalize flex gap-4 items-center text-primary"
+            >
+              <FiLogIn /> Login
+            </Button>
+          )}
           <Button
-            onClick={typeof reset === "function" ? reset : undefined}
+            onClick={() => reset && reset()}
             variant={"destructive"}
             className="font-bold capitalize flex gap-4 items-center"
           >
@@ -52,6 +63,6 @@ export default function Error({
           </Button>
         </div>
       </section>
-    </Container>
+    </Container >
   );
 }
