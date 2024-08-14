@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
   DialogFooter,
-  DialogTrigger,
   DialogTitle,
   DialogHeader,
 } from "@/components/ui/dialog";
@@ -26,7 +25,7 @@ export default function DialogAdmin({
 }: DialogAdmin) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[650px] h-[calc(100%_-_32px)]">
+      <DialogContent className="sm:max-w-[650px] h-fit max-h-[calc(100%_-_32px)]">
         <DialogHeader className="flex text-start">
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

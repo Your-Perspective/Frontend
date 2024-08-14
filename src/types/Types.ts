@@ -257,3 +257,44 @@ export interface updateBlog {
 export interface DeleteBlog {
   Id: number;
 }
+
+export interface ListUser {
+  id: number;
+  profileImage: string;
+  bio: string;
+  about: string;
+  email: string;
+  userName: string;
+  verifiedByAdmin: string;
+  isVerified: string;
+}
+
+export interface CreateUser {
+  id: number;
+  profileImage: string;
+  email: string;
+  userName: string;
+  bio: string;
+  about: string;
+  isVerified: boolean;
+  verifiedByAdmin: boolean;
+  password: string;
+  isDeleted: boolean;
+}
+
+export interface UpdateUser {
+  id: number;
+  profileImage: string;
+  email: string;
+  userName: string;
+  bio: string;
+  about: string;
+  isVerified: boolean;
+  verifiedByAdmin: boolean;
+  password: string;
+  isDeleted: boolean;
+}
+
+export interface DeleteUser {
+  id: number;
+}
