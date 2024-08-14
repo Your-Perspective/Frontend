@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import EditorJS, { ToolConstructable } from "@editorjs/editorjs";
 import Header from "@editorjs/header";
@@ -10,19 +12,35 @@ import RawTool from "@editorjs/raw";
 import SimpleImage from "@editorjs/simple-image";
 
 interface EditorProps {
-  GetData?: any;
+  getData?: any;
   readonly?: boolean;
   data?: any;
 }
 
-const Editor = ({ GetData, readonly = false, data }: EditorProps) => {
+export default function Editor({
+  getData,
+  readonly = false,
+  data = [],
+}: EditorProps) {
   const editorRef = useRef<any>(null);
+
+  const saveContent = async () => {
+    if (editorRef.current) {
+      try {
+        const content = await editorRef.current.save();
+        if (typeof getData === "function") {
+          getData(content);
+        }
+      } catch (error) {
+        console.error("Error saving content:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (!editorRef.current) {
       editorRef.current = new EditorJS({
         data: data && { blocks: data.blocks || [] },
-        defaultBlock: data,
         readOnly: readonly,
         placeholder: "press '/' to write your content ...",
         autofocus: true,
@@ -66,26 +84,8 @@ const Editor = ({ GetData, readonly = false, data }: EditorProps) => {
         editorRef.current;
       }
     };
-  }, [editorRef]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const saveContent = async () => {
-    if (editorRef.current) {
-      try {
-        const content = await editorRef.current.save();
-        if (typeof GetData === "function") {
-          GetData(content);
-        }
-      } catch (error) {
-        console.error("Error saving content:", error);
-      }
-    }
-  };
-
-  return (
-    <>
-      <div id="editorjs"></div>
-    </>
-  );
-};
-
-export default Editor;
+  return <div id="editorjs"></div>;
+}

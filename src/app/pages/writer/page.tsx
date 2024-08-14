@@ -1,22 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Error from "@/app/error";
 import Container from "@/components/container-section/Container";
-import Editor from "@/components/Editor/Editor";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { GetAuthByRoles } from "@/constrain/AuthByRole";
 import { useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const EditorComponent = dynamic(() => import("@/components/Editor/Editor"), {
+  ssr: false,
+});
 
 export default function Writer() {
   const router = useRouter();
   const [error, setError] = useState(false);
   const token = useAppSelector((state) => state.auth);
   // content is json used to retrieve the data from editor.
-  const [contentData, setContentData] = useState<any>(null);
+  const [contentData, setContentData] = useState<any>();
 
   useEffect(() => {
     async function checkAuthorization() {
@@ -59,7 +63,7 @@ export default function Writer() {
           className="no-scrollbar border-0 px-0 focus:outline-none focus:border-0 focus-visible:ring-0 text-gray-600 shadow-none"
         />
       </section>
-      <Editor GetData={setContentData} />
+      <EditorComponent getData={setContentData} />
       <div id="container-editor">
         <Button variant={"default"} className="w-full">
           Save Content
