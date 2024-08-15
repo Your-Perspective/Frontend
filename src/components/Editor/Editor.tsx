@@ -51,7 +51,7 @@ export default function Editor({
             class: Header as unknown as ToolConstructable,
             config: {
               placeholder: "Enter a header",
-              levels: [2, 3, 4],
+              levels: [1, 2, 3, 4],
               inlineToolbar: true,
               defaultLevel: 3,
               shortcut: "SHIFT+H",

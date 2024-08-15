@@ -10,6 +10,15 @@ import { GetAuthByRoles } from "@/constrain/AuthByRole";
 import { useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { FieldValues, useForm } from "react-hook-form";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 
 const EditorComponent = dynamic(() => import("@/components/Editor/Editor"), {
   ssr: false,
@@ -21,6 +30,7 @@ export default function Writer() {
   const token = useAppSelector((state) => state.auth);
   // content is json used to retrieve the data from editor.
   const [contentData, setContentData] = useState<any>();
+  const form = useForm();
 
   useEffect(() => {
     async function checkAuthorization() {
@@ -46,29 +56,70 @@ export default function Writer() {
     );
   }
 
+  const onSubmit = (data: FieldValues) => {
+    console.log({
+      title: data.title,
+      description: data.description,
+      contentData,
+    });
+  };
+
   return (
     <Container classNames="py-10">
-      <Alert variant={"destructive"} className="text-center dark:text-white">
+      <Alert
+        variant={"destructive"}
+        className="text-center bg-destructive text-white  dark:text-white absolute top-32 w-1/2 left-1/2 transform -translate-x-1/2 z-40"
+      >
         Page under construction
       </Alert>
+
       <section id="container-editor" className="flex flex-col gap-3">
-        <Textarea
-          name="header"
-          placeholder="Title"
-          className="border-0 no-scrollbar px-0 py-2 focus:outline-none focus:border-0 focus-visible:ring-0 lg:text-4xl md:text-3xl text-2xl font-semibold shadow-none"
-        />
-        <Textarea
-          placeholder="Description"
-          name="description"
-          className="no-scrollbar border-0 px-0 focus:outline-none focus:border-0 focus-visible:ring-0 text-gray-600 shadow-none"
-        />
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-6"
+          >
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Title"
+                      className="lg:text-4xl md:text-3xl text-2xl font-semibold no-scrollbar border-0 px-0 h-fit focus:outline-none focus:border-0 focus-visible:ring-0 text-gray-600 shadow-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Description"
+                      className="no-scrollbar border-0 px-0 h-fit focus:outline-none focus:border-0 focus-visible:ring-0 text-gray-600 shadow-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <EditorComponent getData={setContentData} />
+            <div id="container-editor">
+              <Button type="submit" variant={"default"} className="w-full">
+                Save Content
+              </Button>
+            </div>
+          </form>
+        </Form>
       </section>
-      <EditorComponent getData={setContentData} />
-      <div id="container-editor">
-        <Button variant={"default"} className="w-full">
-          Save Content
-        </Button>
-      </div>
     </Container>
   );
 }
