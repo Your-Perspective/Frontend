@@ -4,18 +4,10 @@ import {
   Dialog,
   DialogContent,
   DialogFooter,
-  DialogTrigger,
   DialogTitle,
   DialogHeader,
 } from "@/components/ui/dialog";
-
-interface DialogAdmin {
-  title: string;
-  children: ReactNode;
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: () => void;
-}
+import { DialogAdminProp } from "@/types/Types";
 
 export default function DialogAdmin({
   title,
@@ -23,7 +15,7 @@ export default function DialogAdmin({
   isOpen,
   onClose,
   onSave,
-}: DialogAdmin) {
+}: DialogAdminProp) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[650px] h-[calc(100%_-_32px)]">

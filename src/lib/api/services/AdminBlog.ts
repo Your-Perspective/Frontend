@@ -11,25 +11,25 @@ import {
 
 export const dashboardBlogApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getListCategory: builder.query<[CategoriesProp], void>({
+    getListCategory: builder.query<CategoriesProp[], void>({
       query: () => `/categories`,
       keepUnusedDataFor: 5,
       providesTags: ["adminBlog"],
     }),
 
-    getListThumbnail: builder.query<[ThumbnailProp], void>({
+    getListThumbnail: builder.query<ThumbnailProp[], void>({
       query: () => `/admin/banners`,
       keepUnusedDataFor: 5,
       providesTags: ["adminBlog"],
     }),
 
-    getListTag: builder.query<[TagProps], void>({
+    getListTag: builder.query<TagProps[], void>({
       query: () => `/tags`,
       keepUnusedDataFor: 5,
       providesTags: ["adminBlog"],
     }),
 
-    getListBlog: builder.query<[ListBlog], void>({
+    getListBlog: builder.query<ListBlog[], void>({
       query: () => `/admin/blogs`,
       keepUnusedDataFor: 5,
       providesTags: ["adminBlog"],
@@ -58,7 +58,6 @@ export const dashboardBlogApi = apiSlice.injectEndpoints({
 
     DeleteBlog: builder.mutation<DeleteBlog, number>({
       query: (id) => {
-        console.log("id", id);
         return {
           url: `/admin/blog/${id}`,
           method: "DELETE",

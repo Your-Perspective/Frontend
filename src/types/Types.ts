@@ -1,4 +1,5 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { ReactNode } from "react";
 
 export type Pokemon = {
   id: number;
@@ -230,7 +231,6 @@ export interface CreateBlog {
   id: number;
   blogTitle: string;
   published: string;
-  slug: string;
   isPin: string;
   thumbnail: string;
   summary: string;
@@ -256,4 +256,27 @@ export interface updateBlog {
 
 export interface DeleteBlog {
   Id: number;
+}
+
+export interface DialogAdminProp {
+  title: string;
+  children: ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: () => void;
+}
+
+export interface Confirm {
+  title: string;
+  Content: string;
+  isOpen: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}
+
+export interface PaginationProps {
+  pageIndex: number;
+  pageSize: number;
+  totalItems: number;
+  onPageChange: (pageIndex: number) => void;
 }
