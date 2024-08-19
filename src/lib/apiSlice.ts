@@ -107,6 +107,14 @@ export const rtkQueryErrorLogger: Middleware =
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["blogs", "tabs", "authors", "banners", "user", 'tags'],
+  tagTypes: [
+    "blogs",
+    "tabs",
+    "authors",
+    "banners",
+    "user",
+    "adminBlog",
+    "tags",
+  ],
   endpoints: (builder) => ({}),
 });
