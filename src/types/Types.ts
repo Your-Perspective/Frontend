@@ -280,3 +280,21 @@ export interface PaginationProps {
   totalItems: number;
   onPageChange: (pageIndex: number) => void;
 }
+
+export interface BlogPost {
+  blogTitle: string;
+  published: boolean;
+  blogContent: string;
+  slug: string;
+  isPin: boolean;
+  thumbnail: string;
+  summary: string;
+  minRead: number;
+  categoryIds: number[];
+  tags: number[];
+}
+
+export interface Tags {
+  id: number;
+  name: string;
+}

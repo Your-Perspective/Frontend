@@ -18,7 +18,7 @@ import { ThemesModeToggle } from "../darkmode-switcher/ThemesSwitcher";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { TbLogin } from "react-icons/tb";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGetCurrentUserQuery } from "@/lib/api/auth/profile";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/lib/api/auth/authSlice";
@@ -26,13 +26,25 @@ import { HandleImage } from "@/constrain/HandleImage";
 import { removeRefresh } from "@/lib/cryptography";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
+import { GetAuthByRoles } from "@/constrain/AuthByRole";
+import { useAppSelector } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 
 export default function DashBoardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data, isLoading, isSuccess, error } = useGetCurrentUserQuery();
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    error: ProfileError,
+  } = useGetCurrentUserQuery();
+  const router = useRouter();
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const token = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const pathname = usePathname();
@@ -66,19 +78,31 @@ export default function DashBoardLayout({
   }, [dispatch]);
 
   useEffect(() => {
-    if (error) {
-      handleLogout();
-    }
-  }, [error, handleLogout]);
+    async function checkAuthorization() {
+      const { isAuthorized, loading } = await GetAuthByRoles({
+        token: token.accessToken,
+        role: ["ADMIN"],
+      });
 
-  if (isLoading) {
+      setError(isAuthorized);
+    }
+
+    if (token.accessToken) {
+      checkAuthorization();
+    } else {
+      setLoading(false);
+    }
+  }, [router, token, token.accessToken]);
+
+  if (isLoading || loading) {
     return <Loading />;
   }
 
-  if (!isSuccess) {
+  if (!isSuccess || !error || ProfileError) {
     return (
       <Error
-        back_to_home={true}
+        gotoLogin
+        back_to_home
         errorCode={401}
         text_display="authentication need"
       />
@@ -192,7 +216,9 @@ export default function DashBoardLayout({
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>{data.userName}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => router.push("/")}>
+                    Homepage
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout}>
                     Logout
                   </DropdownMenuItem>

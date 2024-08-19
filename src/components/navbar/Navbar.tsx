@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import { ThemesModeToggle } from "../darkmode-switcher/ThemesSwitcher";
 import Container from "../container-section/Container";
 import { ClickToCommand } from "../Combobox/Combobox";
-import { MdOutlineShoppingBag } from "react-icons/md";
 import logo from "@/assets/logo.jpg";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LuPenSquare } from "react-icons/lu";
 
 import {
   Sheet,
@@ -19,8 +19,17 @@ import {
 } from "@/components/ui/sheet";
 import SidebarLayout from "../sidbar/Sidebar";
 import { Menu } from "lucide-react";
+import { useGetCurrentUserQuery } from "@/lib/api/auth/profile";
 
 export default function Navbar() {
+  // used for refreshing then navigating to writer.
+  const {
+    data: CurrentUser,
+    isLoading: UserLoading,
+    error: UserError,
+    refetch,
+  } = useGetCurrentUserQuery();
+
   const pathName = usePathname();
   const [hide, setHide] = useState(true);
 
@@ -56,9 +65,9 @@ export default function Navbar() {
         </Link>
         <ClickToCommand />
         <div className="flex md:gap-3 gap-2 items-center">
-          <Button variant={"link"} className="relative hidden" asChild>
-            <Link href={"/pages/shop"}>
-              <MdOutlineShoppingBag size={30} />
+          <Button variant={"outline"} className="relative px-2" asChild>
+            <Link href={"/pages/writer"}>
+              <LuPenSquare size={25} />
             </Link>
           </Button>
           <ThemesModeToggle />

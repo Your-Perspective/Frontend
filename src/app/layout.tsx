@@ -59,13 +59,13 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Toaster richColors />
-              <Navbar />
               <AlertCompo
                 url="#"
                 link_label="Contact!"
                 title="Contact us to advertisment"
                 variant={"info"}
               />
+              <Navbar />
               {children}
             </ThemeProvider>
           </Suspense>

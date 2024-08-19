@@ -1,7 +1,8 @@
+"use client";
 import { useGetRecentPostQuery } from "@/lib/api/services/AllBlogs";
 import { Badge } from "../ui/badge";
 import { useGetPopularCategoriesQuery } from "@/lib/api/services/AllTabs";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
@@ -9,27 +10,35 @@ import { useGetTopAuthorsQuery } from "@/lib/api/services/Author";
 import AuthorAboutDialog from "../Alert/AuthorAbout";
 import { useGetBannersQuery } from "@/lib/api/services/BannerApi";
 import { showBanners, splitBanners } from "../layout/BlogDetail";
+import { useGetCurrentUserQuery } from "@/lib/api/auth/profile";
+import { HandleImage } from "@/constrain/HandleImage";
+import { useDispatch } from "react-redux";
+import { logOut } from "@/lib/api/auth/authSlice";
+import { useCallback, useEffect, useState } from "react";
+import { LogIn } from "lucide-react";
+import { GetAuthByRoles } from "@/constrain/AuthByRole";
+import { useAppSelector } from "@/lib/hooks";
 
 export default function SidebarLayout({ classNames }: { classNames?: string }) {
-  const { data, isLoading, error } = useGetPopularCategoriesQuery();
-  const { data: Banners } = useGetBannersQuery();
-  const {
-    data: RecentPostData,
-    isLoading: LoadingRecentPost,
-    error: RecentPost,
-  } = useGetRecentPostQuery();
+  const token = useAppSelector((state) => state.auth.accessToken);
+  const [isAdmin, setAdmin] = useState<Boolean>(false);
 
-  const {
-    data: TopAuthor,
-    isLoading: LoadingTopAuthors,
-    error: TopAuthorsError,
-  } = useGetTopAuthorsQuery();
+  const { data: CurrentUser } = useGetCurrentUserQuery();
+
+  const { data, isLoading } = useGetPopularCategoriesQuery();
+
+  const router = useRouter();
+  const dispath = useDispatch();
+  const pathname = usePathname();
+
+  const { data: Banners } = useGetBannersQuery();
+  const { data: RecentPostData, isLoading: LoadingRecentPost } =
+    useGetRecentPostQuery();
+  const { data: TopAuthor } = useGetTopAuthorsQuery();
 
   const handleRoute = (route: string) => {
     return route;
   };
-
-  const pathname = usePathname();
 
   const handleCategories = (categorySlug: string) => {
     if (typeof window !== "undefined") {
@@ -39,8 +48,78 @@ export default function SidebarLayout({ classNames }: { classNames?: string }) {
 
   const { firstPart, secondPart } = splitBanners(Banners);
 
+  const handleLogout = useCallback(() => {
+    dispath(logOut());
+    if (typeof window !== "undefined") {
+      window.location.href = "/pages/auth-form/login";
+    }
+  }, [dispath]);
+
+  const handleGotoDashboard = () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "/pages/admin";
+    }
+  };
+
+  const handleRouteToLogin = () => {
+    router.push("/pages/auth-form/login");
+  };
+
+  useEffect(() => {
+    const GetAuthAdminRole = async () => {
+      const { isAuthorized } = await GetAuthByRoles({
+        token: token,
+        role: ["ADMIN"],
+      });
+      setAdmin(isAuthorized);
+    };
+
+    if (token) {
+      GetAuthAdminRole();
+    }
+  }, [token]);
+
   return (
     <section className={classNames}>
+      {CurrentUser ? (
+        <div className="flex justify-start items-start gap-3 py-5">
+          <Image
+            src={HandleImage({ src: CurrentUser.profileImage })}
+            width={50}
+            height={50}
+            className="w-[40px] h-[40px] rounded-full object-cover"
+            alt={CurrentUser.userName}
+          />
+          <div className="text-left flex flex-col justify-start items-start">
+            <p className="capitalize font-medium ">{CurrentUser.userName}</p>
+            <Button
+              variant={"link"}
+              onClick={handleLogout}
+              className="p-0 text-primaryColor"
+            >
+              Logout
+            </Button>
+            {isAdmin && (
+              <Button
+                variant={"link"}
+                onClick={handleGotoDashboard}
+                className="p-0"
+              >
+                Go to dashbord
+              </Button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <Button
+          onClick={handleRouteToLogin}
+          disabled={isLoading}
+          className="my-5 w-full bg-gradient-to-r from-blue-950 to-primaryColor dark:text-white"
+        >
+          <LogIn className="mr-2 h-4 w-4" />
+          Login
+        </Button>
+      )}
       {RecentPostData && (
         <div>
           <h2 className="font-medium">Recent post</h2>
