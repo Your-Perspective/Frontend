@@ -1,4 +1,4 @@
-import { secureRefresh } from "@/lib/cryptography";
+import { removeRefresh, secureRefresh } from "@/lib/cryptography";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
@@ -17,15 +17,21 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ accessToken: string; refreshToken: string }>
+      action: PayloadAction<{
+        accessToken: string | null;
+        refreshToken: string | null;
+      }>
     ) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
-      secureRefresh(action.payload.refreshToken);
+      if (action.payload.refreshToken !== null) {
+        secureRefresh(action.payload.refreshToken);
+      }
     },
     logOut: (state) => {
       state.accessToken = null;
       state.refreshToken = null;
+      removeRefresh();
     },
   },
 });

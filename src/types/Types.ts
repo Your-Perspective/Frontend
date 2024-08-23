@@ -189,3 +189,21 @@ export interface profileProps {
   profileImage: string;
   formatTotalCountViewer: string;
 }
+
+export interface BlogPost {
+  blogTitle: string;
+  published: boolean;
+  blogContent: string;
+  slug: string;
+  isPin: boolean;
+  thumbnail: string;
+  summary: string;
+  minRead: number;
+  categoryIds: number[];
+  tags: number[];
+}
+
+export interface Tags {
+  id: number;
+  name: string;
+}
