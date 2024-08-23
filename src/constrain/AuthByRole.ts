@@ -15,29 +15,42 @@ export interface RoleProps {
 export interface AuthResult {
   isAuthorized: boolean;
   loading: boolean;
+  error: boolean;
 }
 
 export async function GetAuthByRoles({
   role,
   token,
 }: RoleProps): Promise<AuthResult> {
-  let isAuthorized = false;
-  let loading = false;
+  let result: AuthResult = {
+    isAuthorized: false,
+    loading: true,
+    error: false,
+  };
 
-  if (token && role) {
-    const decodedToken = await decodeJwtToken(token);
-    loading = true;
+  if (!role || !token) {
+    result.loading = false;
+    result.error = true;
+    return result;
+  }
 
-    if (decodedToken && decodedToken.scope && role) {
-      isAuthorized =
+  try {
+    const decodedToken = decodeJwtToken(token);
+
+    if (decodedToken && decodedToken.scope) {
+      result.isAuthorized =
         role.some((r) => decodedToken.scope.includes(r)) &&
         decodedToken.verify_by_admin;
     }
+    
+    if (!result.isAuthorized) {
+      result.error = true;
+    }
+  } catch (e) {
+    result.error = true;
+  } finally {
+    result.loading = false;
   }
 
-  if (isAuthorized) {
-    loading = false;
-  }
-
-  return { isAuthorized, loading };
+  return result;
 }

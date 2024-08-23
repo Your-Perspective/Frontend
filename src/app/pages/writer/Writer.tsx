@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
 import Error from "@/app/error";
@@ -26,15 +25,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+import Loading from "@/app/loading";
+
+import editorJsHtml from "editorjs-html";
+import { OutputData } from "@editorjs/editorjs";
 
 const EditorComponent = dynamic(() => import("@/components/Editor/Editor"), {
   ssr: false,
 });
 
 export default function Writer() {
-  const router = useRouter();
-  const [error, setError] = useState(false);
+  const [loading, isLoading] = useState(true);
+  const [isAuthorized, setAuthorized] = useState(false);
   const token = useAppSelector((state) => state.auth);
   const [contentData, setContentData] = useState<any>();
 
@@ -56,26 +58,21 @@ export default function Writer() {
 
   useEffect(() => {
     async function checkAuthorization() {
-      const { isAuthorized } = await GetAuthByRoles({
+      const { isAuthorized, loading } = await GetAuthByRoles({
         token: token.accessToken,
         role: ["AUTHOR", "ADMIN"],
       });
-      setError(isAuthorized);
+      isLoading(loading);
+      setAuthorized(isAuthorized);
     }
 
-    if (token.accessToken) {
+    if (token) {
       checkAuthorization();
     }
-  }, [router, token, token.accessToken]);
+  }, [token]);
 
-  if (!error) {
-    return (
-      <Error
-        gotoLogin
-        errorCode={403}
-        text_display="this page need authorized user"
-      />
-    );
+  if (loading) {
+    return <Loading />;
   }
 
   const handleChangeCategory = (values: TabItem[]) => {
@@ -91,13 +88,23 @@ export default function Writer() {
     }));
   };
 
+  const edjsParser = editorJsHtml();
+
+  let htmlContent: string[] = [];
+
+  if (contentData) {
+    htmlContent = edjsParser.parse(contentData as OutputData);
+  }
+
+  const combinedHtmlContent = htmlContent.join("");
+
   const onSubmit = async (data: FieldValues) => {
     try {
       const postBlog = await postBLog({
         blogTitle: data.blogTitle,
         slug: data.BlogTitle,
         categoryIds: formData.categoryIds.map((item: TabItem) => item.id),
-        blogContent: JSON.stringify(contentData),
+        blogContent: combinedHtmlContent,
         summary: data.description,
         thumbnail: contentData.blocks[0].data.url,
         tags: formData.tags.map((item: Tags) => item.id),
@@ -106,121 +113,134 @@ export default function Writer() {
         published: true,
       }).unwrap();
       toast.success("Blog posted successfully!");
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      }
     } catch (err) {
       toast.warning("Double check, try again later!");
     }
   };
 
-  return (
-    <Container classNames="py-10">
-      <section id="container-editor" className="flex flex-col gap-3">
-        <div className="flex justify-end items-center">
-          <PopOverDialog
-            key={"popover"}
-            trigger={
-              <Button
-                variant={"default"}
-                className="rounded-full bg-gradient-to-tr hover:bg-gradient-to-r transition-all  from-blue-800 to-primaryColor"
-              >
-                <MdPublish className="mr-2" /> Publish
-              </Button>
-            }
-            title="Ready to publish your content?"
-            description="Fill the required information fields"
-            content={
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="w-full space-y-6 mt-5"
+  if (isAuthorized) {
+    return (
+      <Container classNames="py-10">
+        <section id="container-editor" className="flex flex-col gap-3">
+          <div className="flex justify-end items-center">
+            <PopOverDialog
+              key={"popover"}
+              trigger={
+                <Button
+                  variant={"default"}
+                  className="rounded-full dark:text-white bg-gradient-to-tr hover:bg-gradient-to-r transition-all  from-blue-800 to-primaryColor"
                 >
-                  <FormField
-                    control={form.control}
-                    name="blogTitle"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Title</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="Title" required />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Description"
-                            required
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="categoryId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Categories</FormLabel>
-                        <FormControl>
-                          <div className="flex flex-col gap-2">
-                            <FancyMultiSelect
-                              items={formData.categoryIds}
-                              getSelectedItems={handleChangeCategory}
+                  <MdPublish className="mr-2" /> Publish
+                </Button>
+              }
+              title="Final Steps to Publish"
+              description="Complete the fields below to publish your content."
+              content={
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="w-full space-y-6 mt-5"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="blogTitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="Title" required />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Description"
+                              required
                             />
-                            <TagsMultipleSelect
-                              items={formData.tags}
-                              getSelectedItems={handleChangeTags}
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="categoryId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Categories</FormLabel>
+                          <FormControl>
+                            <div className="flex flex-col gap-2">
+                              <FancyMultiSelect
+                                items={formData.categoryIds}
+                                getSelectedItems={handleChangeCategory}
+                              />
+                              <TagsMultipleSelect
+                                items={formData.tags}
+                                getSelectedItems={handleChangeTags}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="minRead"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Min read</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              {...field}
+                              placeholder="Reader could spend time to read in minutes"
                             />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="minRead"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Min read</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            {...field}
-                            placeholder="Reader could spend time to read in minutes"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div id="container-editor my-3">
-                    <Button
-                      disabled={blogIsPosting}
-                      type="submit"
-                      variant={"default"}
-                      className="w-full"
-                    >
-                      Save Content
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            }
-          />
-        </div>
-        <article>
-          <EditorComponent getData={setContentData} />
-        </article>
-      </section>
-    </Container>
-  );
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div id="container-editor my-3">
+                      <Button
+                        disabled={blogIsPosting}
+                        type="submit"
+                        variant={"default"}
+                        className="w-full"
+                      >
+                        Publish
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              }
+            />
+          </div>
+          <article>
+            <EditorComponent getData={setContentData} />
+          </article>
+        </section>
+      </Container>
+    );
+  } else {
+    return (
+      <Error
+        gotoLogin
+        errorCode={403}
+        text_display="this page need authorized user"
+      />
+    );
+  }
 }

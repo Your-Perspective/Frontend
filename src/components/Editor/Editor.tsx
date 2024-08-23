@@ -10,6 +10,9 @@ import InlineCode from "@editorjs/inline-code";
 import Checklist from "@editorjs/checklist";
 import RawTool from "@editorjs/raw";
 import SimpleImage from "@editorjs/simple-image";
+import Marker from "@editorjs/marker";
+import Embed from "@editorjs/embed";
+import Table from "@editorjs/table";
 
 interface EditorProps {
   getData?: any;
@@ -75,17 +78,31 @@ export default function Editor({
           checklist: Checklist,
           raw: RawTool,
           image: SimpleImage,
+          Marker: Marker,
+          embed: {
+            class: Embed as unknown as ToolConstructable,
+            config: {
+              services: {
+                youtube: true,
+                facebook: true,
+              },
+            },
+          },
+          table: Table,
         },
       });
     }
 
     return () => {
-      if (editorRef.current) {
-        editorRef.current;
+      if (
+        editorRef.current &&
+        typeof editorRef.current.destroy === "function"
+      ) {
+        editorRef.current.destroy();
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div id="editorjs"></div>;
+  return <div id="editorjs" className="text-primary"></div>;
 }
