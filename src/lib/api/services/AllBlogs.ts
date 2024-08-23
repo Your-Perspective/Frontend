@@ -2,6 +2,7 @@ import { apiSlice } from "@/lib/apiSlice";
 import {
   BlogDetailsProps,
   BlogPost,
+  BlogPostBody,
   BlogsProps,
   ContentsTypeProps,
   RecentPostProps,
@@ -36,7 +37,7 @@ export const blogsApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["blogs"],
     }),
-    postBlog: builder.mutation<void, Partial<BlogPost>>({
+    postBlog: builder.mutation<void, Partial<BlogPostBody>>({
       query: (formData) => ({
         url: `/blogs`,
         method: "POST",

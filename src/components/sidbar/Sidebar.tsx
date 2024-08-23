@@ -62,7 +62,9 @@ export default function SidebarLayout({ classNames }: { classNames?: string }) {
   };
 
   const handleRouteToLogin = () => {
-    router.push("/pages/auth-form/login");
+    if (typeof window !== "undefined") {
+      window.location.href = "/pages/auth-form/login";
+    }
   };
 
   useEffect(() => {

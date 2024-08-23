@@ -16,14 +16,16 @@ import { useGetTagsQuery } from "@/lib/api/services/Tags";
 
 export function TagsMultipleSelect({
   getSelectedItems,
+  items,
 }: {
   getSelectedItems: any;
+  items: Tags[];
 }) {
   const { data: Category } = useGetTagsQuery();
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<Tags[]>([]);
+  const [selected, setSelected] = React.useState<Tags[]>(items);
   const [inputValue, setInputValue] = React.useState("");
 
   const handleUnselect = React.useCallback((id: number) => {
@@ -57,7 +59,7 @@ export function TagsMultipleSelect({
 
   React.useEffect(() => {
     if (typeof getSelectedItems === "function") {
-      getSelectedItems(selected.map((item) => item.id));
+      getSelectedItems(selected);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
@@ -97,7 +99,7 @@ export function TagsMultipleSelect({
             onValueChange={setInputValue}
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
-            placeholder="Select blog categories ..."
+            placeholder="Select blog tags ..."
             className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
           />
         </div>

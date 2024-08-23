@@ -112,7 +112,7 @@ export default function BlogDetail({
         <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">
           {content ? (
             <article
-              className="leading-relaxed text-primary"
+              className="leading-relaxed text-primary prose lg:prose-xl"
               dangerouslySetInnerHTML={{ __html: combinedHtmlContent }}
             />
           ) : (
