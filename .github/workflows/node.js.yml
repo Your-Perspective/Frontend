@@ -27,6 +27,8 @@ jobs:
       - run: npm run build --if-present
 
   notifyTelegram:
+    needs: build
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
