@@ -1,0 +1,29 @@
+.ce-header {
+  font-weight: 600 !important;
+}
+
+.ce-block a {
+  color: darkblue !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.ce-popover__items {
+  scrollbar-width: none;
+}
+
+#container-editor {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.codex-editor__redactor {
+  padding-bottom: 100px !important;
+}
+
+.cdx-quote__text {
+  border-left: 2px solid darkblue !important;
+  min-height: fit-content !important;
+} 

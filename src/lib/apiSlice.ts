@@ -12,7 +12,6 @@ import type {
   Middleware,
   SerializedError,
 } from "@reduxjs/toolkit";
-import { toast } from "sonner";
 import { logOut, setCredentials } from "./api/auth/authSlice";
 import { getDecryptedRefresh } from "./cryptography";
 
@@ -99,16 +98,7 @@ export const rtkQueryErrorLogger: Middleware =
     if (isRejectedWithValue(action)) {
       const error = action.payload as CustomSerializedError;
       const message = error.data?.messages ?? "Something went wrong";
-
-      toast.error(`Async error!`, {
-        richColors: true,
-        description: message,
-        position: "bottom-right",
-        action: {
-          label: "Understand",
-          onClick: () => console.log("UnderstandingError"),
-        },
-      });
+      console.error(message);
     }
 
     return next(action);
@@ -117,6 +107,14 @@ export const rtkQueryErrorLogger: Middleware =
 export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["blogs", "tabs", "authors", "banners", "user", "adminBlog","adminUser"],
+  tagTypes: [
+    "blogs",
+    "tabs",
+    "authors",
+    "banners",
+    "user",
+    "adminBlog",
+    "tags",
+  ,"adminUser"],
   endpoints: (builder) => ({}),
 });

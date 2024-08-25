@@ -9,13 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-interface Confirm {
-  title: string;
-  Content: string;
-  isOpen: boolean;
-  onCancel: () => void;
-  onConfirm: () => void;
-}
+import { Confirm } from "@/types/Types";
 
 export default function AlertDialogDemo({
   title,

@@ -26,7 +26,7 @@ import {
   useCreateBlogMutation,
   useUpdateBlogMutation,
   useDeleteBlogMutation,
-} from "@/lib/api/services/Blog";
+} from "@/lib/api/services/AdminBlog";
 import { IoAddCircleOutline } from "react-icons/io5";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
@@ -39,7 +39,6 @@ const Blog = () => {
   const [formData, setFormData] = useState<CreateBlog>({
     id: 0,
     blogTitle: "",
-    slug: "",
     categoryIds: [],
     thumbnail: "",
     published: "true",
@@ -148,7 +147,6 @@ const Blog = () => {
       setFormData({
         id: rowData.id || 0,
         blogTitle: rowData.blogTitle || "",
-        slug: rowData.slug || "",
         categoryIds: catId || [],
         thumbnail: selectedThumbnail?.title || "",
         published: rowData.published ? "true" : "false",
@@ -225,7 +223,6 @@ const Blog = () => {
     setFormData({
       id: 0,
       blogTitle: "",
-      slug: "",
       categoryIds: [],
       thumbnail: "",
       published: "true",
@@ -236,7 +233,6 @@ const Blog = () => {
       tags: [],
     });
   };
-
   return (
     <div>
       <DashBoardLayout>
@@ -349,14 +345,6 @@ const Blog = () => {
                     </SelectContent>
                   </ModifySelect>
                 </div>
-                <div>
-                  <Label>Slug</Label>
-                  <Input
-                    name="slug"
-                    value={formData.slug}
-                    onChange={handleChange}
-                  />
-                </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label>Tags</Label>
@@ -411,6 +399,7 @@ const Blog = () => {
 
         <div className="w-full">
           <DataTable
+            totalItems={listBlog?.length || 0}
             onActionClick={handleActionClick}
             columns={columns}
             data={listBlog || []}

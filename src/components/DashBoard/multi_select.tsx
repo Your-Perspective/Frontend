@@ -51,6 +51,11 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     });
   };
 
+  const getLabelForValue = (value: string | number) => {
+    const option = options.find((opt) => String(opt.value) === value);
+    return option ? option.label : value;
+  };
+
   return (
     <div className="relative w-full">
       <div
@@ -65,7 +70,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
               className="bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 flex items-center gap-2"
             >
               <span className="text-gray-800 dark:text-gray-100 truncate">
-                {value}
+                {getLabelForValue(value)}
               </span>
               <button
                 type="button"

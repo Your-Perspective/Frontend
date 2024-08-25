@@ -18,7 +18,7 @@ import { ThemesModeToggle } from "../darkmode-switcher/ThemesSwitcher";
 import { RiAccountPinCircleLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { TbLogin } from "react-icons/tb";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGetCurrentUserQuery } from "@/lib/api/auth/profile";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/lib/api/auth/authSlice";
@@ -26,13 +26,25 @@ import { HandleImage } from "@/constrain/HandleImage";
 import { removeRefresh } from "@/lib/cryptography";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
+import { GetAuthByRoles } from "@/constrain/AuthByRole";
+import { useAppSelector } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 
 export default function DashBoardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data, isLoading, isSuccess, error } = useGetCurrentUserQuery();
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    error: ProfileError,
+  } = useGetCurrentUserQuery();
+  const router = useRouter();
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const token = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const pathname = usePathname();
@@ -66,30 +78,41 @@ export default function DashBoardLayout({
   }, [dispatch]);
 
   useEffect(() => {
-    if (error) {
-      handleLogout();
-    }
-  }, [error, handleLogout]);
+    async function checkAuthorization() {
+      const { isAuthorized, loading } = await GetAuthByRoles({
+        token: token.accessToken,
+        role: ["ADMIN"],
+      });
 
-  if (isLoading) {
+      setError(isAuthorized);
+    }
+
+    if (token.accessToken) {
+      checkAuthorization();
+    } else {
+      setLoading(false);
+    }
+  }, [router, token, token.accessToken]);
+
+  if (isLoading || loading) {
     return <Loading />;
   }
 
-  if (!isSuccess) {
+  if (!isSuccess || !error || ProfileError) {
     return (
       <Error
-        back_to_home={true}
+        gotoLogin
+        back_to_home
         errorCode={401}
         text_display="authentication need"
       />
     );
   }
-
   return (
     <section>
       <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-        <div className="hidden border-r bg-muted/40 md:block">
-          <div className="flex h-full max-h-screen flex-col gap-2">
+        <div className="sticky top-0 h-screen border-r bg-muted/40 hidden md:block">
+          <div className="flex flex-col gap-2 h-full overflow-hidden">
             <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
               <Image
                 priority
@@ -99,7 +122,7 @@ export default function DashBoardLayout({
                 className="rounded-full"
               />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 overflow-hidden">
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                 {links.map((link, index) => (
                   <Link
@@ -131,7 +154,7 @@ export default function DashBoardLayout({
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-hidden">
           <header className="flex h-14 justify-between items-center gap-4 border-b bg-muted/40 px-4 md:justify-end sm:justify-between lg:h-[60px] lg:px-6">
             <Sheet>
               <SheetTrigger asChild>
@@ -193,7 +216,9 @@ export default function DashBoardLayout({
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>{data.userName}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => router.push("/")}>
+                    Homepage
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout}>
                     Logout
                   </DropdownMenuItem>
@@ -203,7 +228,7 @@ export default function DashBoardLayout({
               <ThemesModeToggle />
             </div>
           </header>
-          <section className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          <section className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-y-auto">
             {children}
           </section>
         </div>
