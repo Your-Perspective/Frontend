@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import DashBoardLayout from "@/components/layout/layout";
 import { DataTable } from "@/components/DashBoard/Table";
 import { CreateUser, ListUser } from "@/types/Types";
@@ -15,18 +14,20 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import DialogConfirm from "@/components/Confirm/confirm";
 import { IoAddCircleOutline, IoEye, IoEyeOff } from "react-icons/io5";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   useGetUserQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
 } from "@/lib/api/services/AdminUser";
+import { Textarea } from "@/components/ui/textarea";
 
 const User = () => {
   const { data: ListUser, refetch: refetchUser } = useGetUserQuery();
   const [createUser] = useCreateUserMutation();
-  const [UpdateUser] = useUpdateUserMutation();
-  const [DeleteUser] = useDeleteUserMutation();
+  const [updateUser] = useUpdateUserMutation();
+  const [deleteUser] = useDeleteUserMutation();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogConfirm, setDialogConfirm] = useState(false);
@@ -42,10 +43,10 @@ const User = () => {
     userName: "",
     bio: "",
     about: "",
-    isVerified: true,
-    verifiedByAdmin: true,
+    isVerified: "true",
+    verifiedByAdmin: "true",
     password: "",
-    isDeleted: true,
+    isDeleted: "true",
   });
 
   useEffect(() => {
@@ -58,11 +59,11 @@ const User = () => {
       header: "Image",
       cell: ({ row }) => (
         <Image
-          src={row.original?.profileImage || Logo} // Provide a default image if necessary
+          src={row.original?.profileImage || Logo}
           alt="profileImage"
           width={50}
           height={50}
-          className="size-[50px] rounded-[10px] object-fit"
+          className="w-[50px] h-[50px] rounded-[10px] object-cover"
         />
       ),
     },
@@ -72,7 +73,7 @@ const User = () => {
     },
     {
       accessorKey: "verifiedByAdmin",
-      header: "verified By Admin",
+      header: "Verified By Admin",
     },
     {
       accessorKey: "top3Count",
@@ -83,10 +84,10 @@ const User = () => {
       cell: ({ row }) => (
         <div className="flex gap-1">
           <button onClick={() => handleActionClick("edit", row.original)}>
-            <CiEdit className="text-[#2AB7A0] border p-1.5 size-7 rounded-md border-[#2AB7A0]" />
+            <CiEdit className="text-[#2AB7A0] border p-1.5 size-7 text-xl rounded-md border-[#2AB7A0]" />
           </button>
           <button onClick={() => handleActionClick("delete", row.original)}>
-            <MdDeleteForever className="text-[#FB6666] border p-1.5 size-7 rounded-md border-[#FB6666]" />
+            <MdDeleteForever className="text-[#FB6666] border p-1.5 size-7 text-xl rounded-md border-[#FB6666]" />
           </button>
         </div>
       ),
@@ -113,7 +114,7 @@ const User = () => {
   const deleteData = async (Id: number) => {
     setDialogConfirm(false);
     try {
-      await DeleteUser(Id).unwrap();
+      await deleteUser(Id).unwrap();
       refetchUser();
     } catch (error) {
       console.error("Failed to delete the user:", error);
@@ -121,7 +122,7 @@ const User = () => {
   };
 
   const handleActionClick = (type: string, rowData: ListUser) => {
-    if (type == "edit") {
+    if (type === "edit") {
       setTitleUser(false);
       setDialogOpen(true);
       setFormData({
@@ -131,12 +132,12 @@ const User = () => {
         userName: rowData?.userName || "",
         bio: rowData?.bio || "",
         about: rowData?.about || "",
-        isVerified: true,
-        verifiedByAdmin: true,
+        isVerified: rowData.isVerified ? "true" : "false",
+        verifiedByAdmin: rowData.verifiedByAdmin ? "true" : "false",
         password: "",
-        isDeleted: true,
+        isDeleted: rowData.isDeleted ? "true" : "false",
       });
-    } else if (type == "delete") {
+    } else if (type === "delete") {
       setDialogConfirm(true);
       setStoreId(rowData?.id);
     }
@@ -145,23 +146,20 @@ const User = () => {
   const handleSave = async () => {
     if (titleUser) {
       try {
-        formData.isDeleted = true;
-        formData.isVerified = true;
-        formData.verifiedByAdmin = true;
         await createUser(formData).unwrap();
         refetchUser();
         setDialogOpen(false);
       } catch (err) {
-        console.error("rejected", err);
+        console.error("Failed to create user:", err);
       }
     } else {
       try {
         const { password, ...allData } = formData;
-        await UpdateUser(allData).unwrap();
+        await updateUser(allData).unwrap();
         refetchUser();
         setDialogOpen(false);
       } catch (err) {
-        console.error("rejected", err);
+        console.error("Failed to update user:", err);
       }
     }
   };
@@ -188,10 +186,10 @@ const User = () => {
       userName: "",
       bio: "",
       about: "",
-      isVerified: true,
-      verifiedByAdmin: true,
+      isVerified: "false",
+      verifiedByAdmin: "false",
       password: "",
-      isDeleted: true,
+      isDeleted: "false",
     });
   };
 
@@ -202,7 +200,8 @@ const User = () => {
           className="gap-1 flex"
           variant="outline"
           onClick={() => {
-            setDialogOpen(true), setTitleUser(true);
+            setDialogOpen(true);
+            setTitleUser(true);
             resetForm();
           }}
         >
@@ -215,14 +214,14 @@ const User = () => {
           isOpen={dialogOpen}
           onClose={() => setDialogOpen(false)}
         >
-          <form className="scroll-auto overflow-y-scroll">
+          <form>
             <div>
               <div className="flex justify-center">
                 {formData.profileImage && (
                   <Image
                     src={formData.profileImage}
                     alt="Selected"
-                    className="mt-2 size-24 rounded-full"
+                    className="mt-2 w-24 h-24 rounded-full"
                     width={60}
                     height={60}
                   />
@@ -239,65 +238,117 @@ const User = () => {
             </div>
             <div className="grid grid-cols-2 gap-4 py-4">
               <div>
-                <Label>UserName</Label>
-                <Input
-                  name="userName"
-                  placeholder="Please Enter"
-                  onChange={handleChange}
-                  value={formData.userName}
-                />
+                <Label>Verified</Label>
+                <RadioGroup
+                  value={formData.isVerified}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({ ...prev, isVerified: value }))
+                  }
+                >
+                  <div className="flex gap-2">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="true" id="r1" />
+                      <Label htmlFor="r1">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="false" id="r2" />
+                      <Label htmlFor="r2">No</Label>
+                    </div>
+                  </div>
+                </RadioGroup>
               </div>
               <div>
-                <Label>Email</Label>
-                <Input
-                  name="email"
-                  placeholder="Please Enter"
-                  onChange={handleChange}
-                  value={formData.email}
-                />
+                <Label>Verified By Admin</Label>
+                <RadioGroup
+                  value={formData.verifiedByAdmin}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      verifiedByAdmin: value,
+                    }))
+                  }
+                >
+                  <div className="flex gap-2">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="true" id="r1" />
+                      <Label htmlFor="r1">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="false" id="r2" />
+                      <Label htmlFor="r2">No</Label>
+                    </div>
+                  </div>
+                </RadioGroup>
               </div>
             </div>
-
-            <div className="grid gap-4">
-              <div className={`${titleUser ? "unset" : "hidden"} relative`}>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1">
+                <Label>Email</Label>
+                <Input
+                  placeholder="example@gmail.com"
+                  type="email"
+                  value={formData.email}
+                  name="email"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Label>User Name</Label>
+                <Input
+                  placeholder="Please enter"
+                  type="text"
+                  value={formData.userName}
+                  name="userName"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
                 <Label>Password</Label>
-                <Input
-                  name="password"
-                  type={showPassword ? "text" : "password"} // Toggle password visibility
-                  placeholder="Please Enter"
-                  onChange={handleChange}
-                  value={formData.password}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)} // Toggle the state
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 mt-6"
-                >
-                  {showPassword ? <IoEyeOff /> : <IoEye />} {/* Toggle icon */}
-                </button>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    name="password"
+                    onChange={handleChange}
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="cursor-pointer absolute top-1/2 right-3 transform -translate-y-1/2"
+                  >
+                    {showPassword ? <IoEyeOff /> : <IoEye />}
+                  </span>
+                </div>
               </div>
-              <div>
-                <Label>bio</Label>
-                <Input
-                  name="bio"
-                  placeholder="Please Enter"
-                  onChange={handleChange}
+              <div className="flex flex-col gap-1">
+                <Label>Bio</Label>
+                <Textarea
+                  placeholder="Please enter"
+                  className="h-40"
                   value={formData.bio}
+                  name="bio"
+                  onChange={handleChange}
                 />
               </div>
-              <div>
-                <Label>about</Label>
-                <Input
-                  name="about"
-                  placeholder="Please Enter"
-                  onChange={handleChange}
+              <div className="flex flex-col gap-1">
+                <Label>About</Label>
+                <Textarea
+                  placeholder="Please enter"
+                  className="h-40"
                   value={formData.about}
+                  name="about"
+                  onChange={handleChange}
                 />
               </div>
             </div>
           </form>
         </DialogAdmin>
       </div>
+      <DataTable
+        totalItems={ListUser?.length || 0}
+        onActionClick={handleActionClick}
+        columns={columns}
+        data={ListUser || []}
+      />
       <DialogConfirm
         title="Confirm"
         Content="Are you sure you want to delete?"
@@ -305,14 +356,6 @@ const User = () => {
         onCancel={() => setDialogConfirm(false)}
         onConfirm={() => storeId && deleteData(storeId)}
       />
-
-      <div className="w-full">
-        <DataTable
-          onActionClick={handleActionClick}
-          columns={columns}
-          data={ListUser || []}
-        />
-      </div>
     </DashBoardLayout>
   );
 };

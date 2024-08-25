@@ -115,6 +115,7 @@ export const apiSlice = createApi({
     "user",
     "adminBlog",
     "tags",
-  ,"adminUser"],
+    "adminUser",
+  ],
   endpoints: (builder) => ({}),
 });

@@ -308,6 +308,7 @@ export interface ListUser {
   userName: string;
   verifiedByAdmin: string;
   isVerified: string;
+  isDeleted: string;
 }
 
 export interface CreateUser {
@@ -317,10 +318,10 @@ export interface CreateUser {
   userName: string;
   bio: string;
   about: string;
-  isVerified: boolean;
-  verifiedByAdmin: boolean;
+  isVerified: string;
+  verifiedByAdmin: string;
   password: string;
-  isDeleted: boolean;
+  isDeleted: string;
 }
 
 export interface UpdateUser {
@@ -330,10 +331,10 @@ export interface UpdateUser {
   userName: string;
   bio: string;
   about: string;
-  isVerified: boolean;
-  verifiedByAdmin: boolean;
+  isVerified: string;
+  verifiedByAdmin: string;
   password: string;
-  isDeleted: boolean;
+  isDeleted: string;
 }
 
 export interface DeleteUser {
