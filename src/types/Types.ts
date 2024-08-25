@@ -1,4 +1,5 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { ReactNode } from "react";
 
 export type Pokemon = {
   id: number;
@@ -190,6 +191,96 @@ export interface profileProps {
   formatTotalCountViewer: string;
 }
 
+export interface CategoriesProp {
+  id: string;
+  title: string;
+  slug: string;
+}
+
+export interface ThumbnailProp {
+  isDeleted: boolean;
+  createdAt: string;
+  lastModifiedAt: string;
+  id: string;
+  title: string;
+  imageUrl: string;
+  link: string;
+}
+
+export interface TagProps {
+  id: number;
+  name: string;
+}
+
+export interface ListBlog {
+  id: number;
+  blogTitle: string;
+  published: string;
+  blogContent: string;
+  slug: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categories: any[];
+  categoryIds: any[];
+  tags: any[];
+}
+
+export interface CreateBlog {
+  id: number;
+  blogTitle: string;
+  published: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categoryIds: string[];
+  blogContent: string;
+  tags: string[];
+}
+
+export interface updateBlog {
+  id: number;
+  blogTitle: string;
+  published: string;
+  slug: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categoryIds: string[];
+  blogContent: string;
+  tags: string[];
+}
+
+export interface DeleteBlog {
+  Id: number;
+}
+
+export interface DialogAdminProp {
+  title: string;
+  children: ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: () => void;
+}
+
+export interface Confirm {
+  title: string;
+  Content: string;
+  isOpen: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}
+
+export interface PaginationProps {
+  pageIndex: number;
+  pageSize: number;
+  totalItems: number;
+  onPageChange: (pageIndex: number) => void;
+}
+
 export interface BlogPost {
   blogTitle: string;
   published: boolean;
@@ -206,4 +297,46 @@ export interface BlogPost {
 export interface Tags {
   id: number;
   name: string;
+}
+
+export interface ListUser {
+  id: number;
+  profileImage: string;
+  bio: string;
+  about: string;
+  email: string;
+  userName: string;
+  verifiedByAdmin: string;
+  isVerified: string;
+  isDeleted: string;
+}
+
+export interface CreateUser {
+  id: number;
+  profileImage: string;
+  email: string;
+  userName: string;
+  bio: string;
+  about: string;
+  isVerified: string;
+  verifiedByAdmin: string;
+  password: string;
+  isDeleted: string;
+}
+
+export interface UpdateUser {
+  id: number;
+  profileImage: string;
+  email: string;
+  userName: string;
+  bio: string;
+  about: string;
+  isVerified: string;
+  verifiedByAdmin: string;
+  password: string;
+  isDeleted: string;
+}
+
+export interface DeleteUser {
+  id: number;
 }
