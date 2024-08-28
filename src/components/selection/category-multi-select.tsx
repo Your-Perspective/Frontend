@@ -16,14 +16,16 @@ import { TabItem } from "@/types/Types";
 
 export function FancyMultiSelect({
   getSelectedItems,
+  items,
 }: {
   getSelectedItems: any;
+  items: TabItem[];
 }) {
   const { data: Category } = useGetAllCategoriesQuery();
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<TabItem[]>([]);
+  const [selected, setSelected] = React.useState<TabItem[]>(items);
   const [inputValue, setInputValue] = React.useState("");
 
   const handleUnselect = React.useCallback((id: number) => {
@@ -57,9 +59,9 @@ export function FancyMultiSelect({
 
   React.useEffect(() => {
     if (typeof getSelectedItems === "function") {
-      getSelectedItems(selected.map((item) => item.id));
+      getSelectedItems(selected);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   return (

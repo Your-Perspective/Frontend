@@ -199,6 +199,18 @@ export interface BlogPost {
   thumbnail: string;
   summary: string;
   minRead: number;
+  categoryIds: TabItem[];
+  tags: Tags[];
+}
+export interface BlogPostBody {
+  blogTitle: string;
+  published: boolean;
+  blogContent: string;
+  slug: string;
+  isPin: boolean;
+  thumbnail: string;
+  summary: string;
+  minRead: number;
   categoryIds: number[];
   tags: number[];
 }

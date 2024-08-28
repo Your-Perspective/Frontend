@@ -18,8 +18,6 @@ import { isBlog } from "../Tabs/Tabs";
 import Link from "next/link";
 import TooltipComponent from "../tooltip/Tooltip";
 import ShareButton from "../share/ShareOptions";
-import editorJsHtml from "editorjs-html";
-import { OutputData } from "@editorjs/editorjs";
 
 export default function BlogDetail({
   slug,
@@ -51,18 +49,6 @@ export default function BlogDetail({
       ? process.env.NEXT_PUBLIC_METADATA_BASE
       : process.env.NEXT_PUBLIC_METADATA_BASE_PRO
   }${pathanme}`;
-
-  const edjsParser = editorJsHtml();
-
-  let htmlContent: string[] = [];
-
-  if (content?.blogContent) {
-    htmlContent = edjsParser.parse(
-      JSON.parse(content?.blogContent) as OutputData
-    );
-  }
-
-  const combinedHtmlContent = htmlContent.join("");
 
   return (
     <section
@@ -112,8 +98,8 @@ export default function BlogDetail({
         <CardContent className="border-y-2 border-b-0 text-primary md:text-lg text-base px-0 py-5">
           {content ? (
             <article
-              className="leading-relaxed text-primary"
-              dangerouslySetInnerHTML={{ __html: combinedHtmlContent }}
+              className="leading-relaxed text-primary prose lg:prose-xl"
+              dangerouslySetInnerHTML={{ __html: content?.blogContent }}
             />
           ) : (
             <NotFoundPage text_display="content not found" />
