@@ -205,6 +205,7 @@ export default function Writer() {
                           <FormControl>
                             <Input
                               type="number"
+                              min={0}
                               {...field}
                               placeholder="Reader could spend time to read in minutes"
                             />
