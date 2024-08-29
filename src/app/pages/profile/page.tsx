@@ -70,7 +70,7 @@ export default function Page() {
                 priority
                 width={200}
                 height={200}
-                src={HandleImage({ src: data.profileImage })}
+                src={HandleImage({ src: data?.profileImage })}
                 alt={data.userName}
                 className="object-cover repeat-0 w-[100px] h-[100px] rounded-full"
               />
@@ -116,53 +116,47 @@ export default function Page() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="blogs">
-              {Blogs && Blogs.length >= 0 ? (
-                <section className="md:col-span-2 col-span-3">
-                  <div className="flex justify-between items-center py-3">
-                    <p>All Blogs</p>
-                    <Button
-                      className="text-lg text-primary"
-                      variant={"link"}
-                      onClick={handleChange}
+              <section className="md:col-span-2 col-span-3">
+                <div className="flex justify-between items-center py-3">
+                  <p>All Blogs</p>
+                  <Button
+                    className="text-lg text-primary"
+                    variant={"link"}
+                    onClick={handleChange}
+                  >
+                    {style !== "column" ? (
+                      <BsFillGridFill />
+                    ) : (
+                      <HiViewColumns />
+                    )}
+                  </Button>
+                </div>
+                {Blogs && Blogs.length <= 0 && (
+                  <NotFoundPage text_display="Blogs not found" />
+                )}
+                {isBlogSuccess && (
+                  <section className="w-full rounded-md h-screen relative mt-3">
+                    <div
+                      className={`${
+                        style === "column"
+                          ? "grid xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
+                          : ""
+                      }`}
                     >
-                      {style !== "column" ? (
-                        <BsFillGridFill />
-                      ) : (
-                        <HiViewColumns />
-                      )}
-                    </Button>
-                  </div>
-                  {isBlogLoadingError && (
-                    <NotFoundPage text_display="Blogs not found" />
-                  )}
-                  {isBlogSuccess && (
-                    <section className="w-full rounded-md h-screen relative mt-3">
-                      <div
-                        className={`${
-                          style === "column"
-                            ? "grid xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
-                            : ""
-                        }`}
-                      >
-                        {Blogs?.map((item, index) => (
-                          <ContentCard
-                            editable={true}
-                            option={{
-                              option: style,
-                            }}
-                            props={{ ...item }}
-                            key={isBlog(item) ? item.slug : index.toString()}
-                          />
-                        ))}
-                      </div>
-                    </section>
-                  )}
-                </section>
-              ) : (
-                <section className="flex justify-center items-center">
-                  No blogs post
-                </section>
-              )}
+                      {Blogs?.map((item, index) => (
+                        <ContentCard
+                          editable={true}
+                          option={{
+                            option: style,
+                          }}
+                          props={{ ...item }}
+                          key={isBlog(item) ? item.slug : index.toString()}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </section>
             </TabsContent>
             <TabsContent value="about" className="my-5">
               {data.about}
