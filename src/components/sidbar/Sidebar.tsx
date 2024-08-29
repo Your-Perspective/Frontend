@@ -93,7 +93,7 @@ export default function SidebarLayout({ classNames }: { classNames?: string }) {
             alt={CurrentUser.userName}
           />
           <div className="text-left flex flex-col justify-start items-start">
-            <Link target="_blank" href={'/pages/profile'} className="capitalize font-medium ">{CurrentUser.userName}</Link>
+            <Link href={'/pages/profile'} className="capitalize font-medium ">{CurrentUser.userName}</Link>
             <Button
               variant={"link"}
               onClick={handleLogout}

@@ -9,7 +9,6 @@ import { useGetCurrentUserQuery } from "@/lib/api/auth/profile";
 import { PenIcon, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetBlogByAuthorQuery } from "@/lib/api/services/Author";
 import { BsFillGridFill } from "react-icons/bs";
@@ -18,6 +17,7 @@ import NotFoundPage from "@/app/not-found";
 import ContentCard from "@/components/Card/Card";
 import { isBlog } from "@/components/Tabs/Tabs";
 import { useState } from "react";
+
 export default function Page() {
   const {
     data,
@@ -86,7 +86,7 @@ export default function Page() {
                 Edit <PenIcon size={15} />
               </Button>
               <Button
-                className="md:w-fit w-full flex gap-3 bg-background_gradient hover:bg-gradient-to-r from-blue-800 to-primaryColor"
+                className="md:w-fit w-full flex gap-3 bg-background_gradient hover:bg-gradient-to-r from-blue-800 to-primaryColor text-white dark:text-white"
                 asChild
               >
                 <Link href={"/pages/writer"}>

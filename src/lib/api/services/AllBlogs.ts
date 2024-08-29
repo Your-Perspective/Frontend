@@ -1,7 +1,6 @@
 import { apiSlice } from "@/lib/apiSlice";
 import {
   BlogDetailsProps,
-  BlogPost,
   BlogPostBody,
   BlogsProps,
   ContentsTypeProps,
@@ -44,6 +43,19 @@ export const blogsApi = apiSlice.injectEndpoints({
         body: formData,
       }),
     }),
+    UpdateBlog: builder.mutation<void, Partial<BlogPostBody>>({
+      query: (formData) => {
+        const { blogId, ...BlogPostBody } = formData;
+        console.log(formData);
+        return {
+          url: `/blogs/${blogId}`,
+          method: "PUT",
+          body: {
+            ...BlogPostBody,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -53,5 +65,6 @@ export const {
   useGetBlogDetailByAuthorSlugQuery,
   useGetRelatedBlogPostsBySlugQuery,
   useGetRecentPostQuery,
-  usePostBlogMutation
+  usePostBlogMutation,
+  useUpdateBlogMutation
 } = blogsApi;

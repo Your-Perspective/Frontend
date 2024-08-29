@@ -17,6 +17,7 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useDeleteBlogMutation } from "@/lib/api/services/Author";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const handleSummeryCharacters = (summary: string): string[] => {
   const summaryChunks: string[] = [];
@@ -36,6 +37,7 @@ export default function ContentCard({
   editable?: Boolean;
 }) {
   const [DeleteBlog, { isLoading: isBlogDeleting }] = useDeleteBlogMutation();
+  const router = useRouter();
 
   if (isBlog(props)) {
     const handleRoute = () => {
@@ -122,13 +124,20 @@ export default function ContentCard({
                     <BsThreeDotsVertical />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        router.push(
+                          `/pages/writer/${props.author.userName}/${props.slug}`
+                        )
+                      }
+                    >
+                      Edit
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleRoute}>
                       View detail
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={handleDeleteBlog}
-                      className="bg-red-700 text-white"
                     >
                       Delete
                     </DropdownMenuItem>
