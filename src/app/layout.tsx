@@ -35,6 +35,13 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "your perspective",
+  description: "Discover untold stories and whispered tales on our channel",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,6 +55,10 @@ export default function RootLayout({
           content="script-src 'self' 'unsafe-eval' 'unsafe-inline'"
         />
         <link rel="canonical" href={enviromentURL} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased")}>
         <StoreProvider>
