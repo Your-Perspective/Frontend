@@ -53,5 +53,5 @@ export const {
   useGetBlogDetailByAuthorSlugQuery,
   useGetRelatedBlogPostsBySlugQuery,
   useGetRecentPostQuery,
-  usePostBlogMutation,
+  usePostBlogMutation
 } = blogsApi;

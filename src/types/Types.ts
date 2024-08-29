@@ -11,6 +11,7 @@ export interface Author {
 }
 
 export interface ContentsTypeProps {
+  id: number;
   slug: string;
   thumbnail?: string | StaticImport | undefined;
   summary: string;

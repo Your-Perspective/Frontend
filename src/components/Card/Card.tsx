@@ -8,6 +8,16 @@ import { HandleImage } from "@/constrain/HandleImage";
 import { BlogsProps, Option } from "@/types/Types";
 import { isBlog } from "../Tabs/Tabs";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { useDeleteBlogMutation } from "@/lib/api/services/Author";
+import { toast } from "sonner";
+
 export const handleSummeryCharacters = (summary: string): string[] => {
   const summaryChunks: string[] = [];
   for (let i = 0; i < summary.length; i += 20) {
@@ -19,10 +29,14 @@ export const handleSummeryCharacters = (summary: string): string[] => {
 export default function ContentCard({
   props,
   option,
+  editable = false,
 }: {
   props: BlogsProps;
   option: Option;
+  editable?: Boolean;
 }) {
+  const [DeleteBlog, { isLoading: isBlogDeleting }] = useDeleteBlogMutation();
+
   if (isBlog(props)) {
     const handleRoute = () => {
       if (typeof window !== "undefined") {
@@ -30,10 +44,26 @@ export default function ContentCard({
       }
     };
 
+    const handleDeleteBlog = async () => {
+      try {
+        const deleteBlog = await DeleteBlog(props.id);
+        if (isBlogDeleting) {
+          toast.loading("Blog deleting...");
+        }
+        toast.success("Blog deleted");
+      } catch (err: any) {
+        toast.error(err.message);
+      }
+    };
+
     return (
       <Card
         title={props.blogTitle}
-        onClick={handleRoute}
+        onClick={() => {
+          if (!editable) {
+            handleRoute();
+          }
+        }}
         aria-label={props.blogTitle}
         className="transition-all rounded-none border-x-0 border-t-0 border-b-2 shadow-none cursor-pointer dark:hover:bg-white/5 hover:bg-slate-100 px-1"
       >
@@ -68,18 +98,45 @@ export default function ContentCard({
               {handleSummeryCharacters(props.summary)}...
             </p>
           </div>
-          <Image
-            priority
-            width={200}
-            height={100}
-            src={HandleImage({ src: props.thumbnail })}
-            className={`${
-              option.option?.includes("grid")
-                ? "md:h-[200px] h-[100px] order-2 w-[250px] mx-auto"
-                : "lg:h-[150px] md:h-[200px] h-[250px] order-1"
-            } col-span-1 object-cover rounded-lg w-full`}
-            alt={props.blogTitle}
-          />
+          <div
+            className={`relative col-span-1 object-cover rounded-lg w-full ${
+              option.option?.includes("grid") ? "order-2" : "order-1"
+            }`}
+          >
+            <Image
+              priority
+              width={200}
+              height={100}
+              src={HandleImage({ src: props.thumbnail })}
+              alt={props.blogTitle}
+              className={`${
+                option.option?.includes("grid")
+                  ? "md:h-[200px] h-[100px] w-[250px] mx-auto"
+                  : "lg:h-[150px] md:h-[200px] h-[250px]"
+              } col-span-1 object-cover rounded-lg w-full`}
+            />
+            {editable && (
+              <div className="absolute top-1 right-1">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="bg-white p-2 rounded-md">
+                    <BsThreeDotsVertical />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleRoute}>
+                      View detail
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={handleDeleteBlog}
+                      className="bg-red-700 text-white"
+                    >
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
+          </div>
         </CardContent>
         <CardFooter
           className={`px-0 flex flex-wrap gap-2 items-center text-gray-500 ${
