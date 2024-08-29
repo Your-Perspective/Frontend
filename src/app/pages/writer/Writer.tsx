@@ -150,7 +150,7 @@ export default function Writer({
       if (BlogUpdateSuccess || BlogPostSuccess) {
         toast.success("Blog posted successfully!");
         if (typeof window !== "undefined") {
-          // window.location.reload();
+          window.location.reload();
         }
       }
     } catch (err) {
