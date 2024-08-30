@@ -67,7 +67,7 @@ export default function Writer({
   const token = useAppSelector((state) => state.auth);
   const [contentData, setContentData] = useState<any>(FormData.formData);
   const router = useRouter();
-  console.log(contentData);
+
   const [
     postBLog,
     {
