@@ -42,7 +42,7 @@ export default function ContentCard({
             option.option?.includes("grid")
               ? "grid grid-cols-3"
               : "flex flex-col"
-          } gap-3 py-3 px-0 md:items-center items-start`}
+          } gap-3 py-3 px-0 items-start`}
         >
           <div
             className={`col-span-2 flex flex-col gap-4 ${
@@ -59,7 +59,7 @@ export default function ContentCard({
               {props.blogTitle}
             </h3>
             <p
-              className={`text-gray-500 ${
+              className={`text-left text-gray-500 ${
                 option.option?.includes("grid")
                   ? "lg:text-base text-xs"
                   : "text-sm md:text-clip"
