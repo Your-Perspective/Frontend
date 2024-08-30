@@ -230,14 +230,14 @@ export interface ListBlog {
 export interface CreateBlog {
   id: number;
   blogTitle: string;
-  published: string;
-  isPin: string;
+  published: boolean;
+  isPin: boolean;
   thumbnail: string;
   summary: string;
   minRead: string;
-  categoryIds: string[];
+  categoryIds: TabItem[];
   blogContent: string;
-  tags: string[];
+  tags: Tags[];
 }
 
 export interface updateBlog {
@@ -249,9 +249,9 @@ export interface updateBlog {
   thumbnail: string;
   summary: string;
   minRead: string;
-  categoryIds: string[];
+  categoryIds: TabItem[];
   blogContent: string;
-  tags: string[];
+  tags: Tags[];
 }
 
 export interface DeleteBlog {

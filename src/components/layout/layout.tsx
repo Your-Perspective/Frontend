@@ -99,7 +99,8 @@ export default function DashBoardLayout({
     return <Loading />;
   }
 
-  if (isAuthenticated && isSuccess) {    return (
+  if (isAuthenticated && isSuccess) {
+    return (
       <section>
         <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
           <div className="sticky top-0 h-screen border-r bg-muted/40 hidden md:block">
@@ -216,14 +217,15 @@ export default function DashBoardLayout({
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-              <ThemesModeToggle />
-            </div>
-          </header>
-          <section className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-y-auto">
-            {children}
-          </section>
+                <ThemesModeToggle />
+              </div>
+            </header>
+            <section className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-y-auto">
+              {children}
+            </section>
+          </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  }
 }

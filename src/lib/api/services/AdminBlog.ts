@@ -35,7 +35,7 @@ export const dashboardBlogApi = apiSlice.injectEndpoints({
       providesTags: ["adminBlog"],
     }),
 
-    CreateBlog: builder.mutation<CreateBlog, Partial<CreateBlog>>({
+    CreateBlog: builder.mutation<void, Partial<CreateBlog>>({
       query: (formData) => ({
         url: `/admin/blog`,
         method: "POST",
@@ -43,7 +43,7 @@ export const dashboardBlogApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    UpdateBlog: builder.mutation<updateBlog, Partial<updateBlog>>({
+    UpdateBlog: builder.mutation<void, Partial<updateBlog>>({
       query: (formData) => {
         const { id, ...restFormData } = formData;
         return {

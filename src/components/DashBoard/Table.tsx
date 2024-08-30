@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
     <div className="flex-grow p-3 bg-[#FAFBFB] dark:bg-[#0E1421] rounded-2xl">
       <div className="overflow-x-auto">
         <div className="max-h-[450px]">
-          <Table className="overflow-auto divide-y text-black dark:text-white divide-gray-200 w-full">
+          <Table className="overflow-auto ypt-scroll divide-y text-black dark:text-white divide-gray-200 w-full">
             <TableHeader className="sticky top-0 bg-[#FAFBFB] dark:bg-[#0E1421] z-10">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
