@@ -216,11 +216,10 @@ export interface editorjson extends BlogPost {
 }
 
 export interface BlogPostBody {
-  blogId?: number;
+  blogSlug?: string;
   blogTitle: string;
   published: boolean;
   blogContent: string;
-  slug: string;
   isPin: boolean;
   thumbnail: string;
   summary: string;

@@ -45,10 +45,9 @@ export const blogsApi = apiSlice.injectEndpoints({
     }),
     UpdateBlog: builder.mutation<void, Partial<BlogPostBody>>({
       query: (formData) => {
-        const { blogId, ...BlogPostBody } = formData;
-        console.log(formData);
+        const { blogSlug, ...BlogPostBody } = formData;
         return {
-          url: `/blogs/${blogId}`,
+          url: `/blogs/${blogSlug}`,
           method: "PUT",
           body: {
             ...BlogPostBody,

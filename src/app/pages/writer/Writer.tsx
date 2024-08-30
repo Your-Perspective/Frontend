@@ -38,6 +38,7 @@ import Loading from "@/app/loading";
 
 import editorJsHtml from "editorjs-html";
 import { OutputData } from "@editorjs/editorjs";
+import { useRouter } from "next/navigation";
 
 const EditorComponent = dynamic(() => import("@/components/Editor/Editor"), {
   ssr: false,
@@ -45,10 +46,10 @@ const EditorComponent = dynamic(() => import("@/components/Editor/Editor"), {
 
 export default function Writer({
   FormData = {
+    slug: "",
     blogTitle: "",
     published: true,
     blogContent: "",
-    slug: "",
     isPin: false,
     thumbnail: "",
     summary: "",
@@ -59,18 +60,29 @@ export default function Writer({
   isUpdateComponent = false,
 }: {
   FormData?: editorjson;
-  isUpdateComponent?: Boolean;
+  isUpdateComponent?: boolean | undefined;
 }) {
   const [loading, isLoading] = useState(true);
   const [isAuthorized, setAuthorized] = useState(false);
   const token = useAppSelector((state) => state.auth);
   const [contentData, setContentData] = useState<any>(FormData.formData);
-
-  const [postBLog, { isLoading: blogIsPosting, isSuccess: BlogPostSuccess }] =
-    usePostBlogMutation();
+  const router = useRouter();
+  console.log(contentData);
+  const [
+    postBLog,
+    {
+      isLoading: blogIsPosting,
+      isSuccess: BlogPostSuccess,
+      error: ErrorBlogPost,
+    },
+  ] = usePostBlogMutation();
   const [
     UpdateBlog,
-    { isLoading: blogIsUpdating, isSuccess: BlogUpdateSuccess },
+    {
+      isLoading: blogIsUpdating,
+      isSuccess: BlogUpdateSuccess,
+      error: BlogUpdateError,
+    },
   ] = useUpdateBlogMutation();
   const form = useForm();
 
@@ -121,7 +133,6 @@ export default function Writer({
   const onSubmit = async (data: FieldValues) => {
     const blogData: BlogPostBody = {
       blogTitle: data.blogTitle ?? formData.blogTitle,
-      slug: data.BlogTitle ?? formData.blogTitle,
       categoryIds:
         formData?.categories && formData.categories.length > 0
           ? formData.categories.map((item: TabItem) => item.id)
@@ -140,18 +151,16 @@ export default function Writer({
     try {
       if (isUpdateComponent) {
         const updateBlog = await UpdateBlog({
-          blogId: data.blogTitle,
+          blogSlug: formData.slug,
           ...blogData,
-        });
+        }).unwrap();
       } else {
         const postBlog = await postBLog(blogData).unwrap();
       }
 
-      if (BlogUpdateSuccess || BlogPostSuccess) {
-        toast.success("Blog posted successfully!");
-        if (typeof window !== "undefined") {
-          window.location.reload();
-        }
+      toast.success("Blog posted successfully!");
+      if (typeof window !== "undefined") {
+        router.push(`/pages/profile`);
       }
     } catch (err) {
       toast.warning("Double check, try again later!");
@@ -254,7 +263,7 @@ export default function Writer({
                     />
                     <div id="container-editor my-3">
                       <Button
-                        disabled={blogIsPosting || blogIsUpdating}
+                        disabled={isUpdateComponent}
                         type="submit"
                         variant={"default"}
                         className="w-full"

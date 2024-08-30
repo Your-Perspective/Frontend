@@ -105,22 +105,24 @@ export default function ContentCard({
               option.option?.includes("grid") ? "order-2" : "order-1"
             }`}
           >
-            <Image
-              priority
-              width={200}
-              height={100}
-              src={HandleImage({ src: props.thumbnail })}
-              alt={props.blogTitle}
-              className={`${
-                option.option?.includes("grid")
-                  ? "md:h-[200px] h-[100px] w-[250px] mx-auto"
-                  : "lg:h-[150px] md:h-[200px] h-[250px]"
-              } col-span-1 object-cover rounded-lg w-full`}
-            />
+            {props.thumbnail && (
+              <Image
+                priority
+                width={200}
+                height={100}
+                src={HandleImage({ src: props.thumbnail })}
+                alt={props.blogTitle}
+                className={`${
+                  option.option?.includes("grid")
+                    ? "md:h-[200px] h-[100px] w-[250px] mx-auto"
+                    : "lg:h-[150px] md:h-[200px] h-[250px]"
+                } col-span-1 object-cover rounded-lg w-full`}
+              />
+            )}
             {editable && (
               <div className="absolute top-1 right-1">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="bg-white p-2 rounded-md">
+                  <DropdownMenuTrigger className="bg-white p-2 rounded-md dark:text-black text-black">
                     <BsThreeDotsVertical />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -136,9 +138,7 @@ export default function ContentCard({
                     <DropdownMenuItem onClick={handleRoute}>
                       View detail
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={handleDeleteBlog}
-                    >
+                    <DropdownMenuItem onClick={handleDeleteBlog}>
                       Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -153,14 +153,16 @@ export default function ContentCard({
           }`}
         >
           <div className="flex justify-center items-center gap-2">
-            <Image
-              priority
-              src={HandleImage({ src: props.author?.profileImage || "" })}
-              alt={props.blogTitle}
-              width={20}
-              height={20}
-              className="object-cover w-[20px] h-[20px] rounded-full"
-            />
+            {props.author?.profileImage && (
+              <Image
+                priority
+                src={HandleImage({ src: props.author?.profileImage })}
+                alt={props.blogTitle}
+                width={20}
+                height={20}
+                className="object-cover w-[20px] h-[20px] rounded-full"
+              />
+            )}
             <p className="capitalize font-medium text-primaryColor">
               {props.author?.userName || ""}
             </p>
@@ -198,19 +200,21 @@ export default function ContentCard({
           option.option !== "grid" ? "grid" : "flex flex-col"
         } gap-5 py-5 px-0 md:items-center items-start`}
       >
-        <Image
-          priority
-          unoptimized={true}
-          width={200}
-          height={100}
-          src={HandleImage({ src: props.imageUrl })}
-          className={`${
-            option.option?.includes("grid")
-              ? " md:h-[270px] h-[200px] order-2 w-[250px] mx-auto"
-              : " order-1"
-          } col-span-1 object-cover w-full`}
-          alt={props.title}
-        />
+        {props.imageUrl && (
+          <Image
+            priority
+            unoptimized={true}
+            width={200}
+            height={100}
+            src={HandleImage({ src: props.imageUrl })}
+            className={`${
+              option.option?.includes("grid")
+                ? " md:h-[270px] h-[200px] order-2 w-[250px] mx-auto"
+                : " order-1"
+            } col-span-1 object-cover w-full`}
+            alt={props.title}
+          />
+        )}
       </CardContent>
     </Card>
   );

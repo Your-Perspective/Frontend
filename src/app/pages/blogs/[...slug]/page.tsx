@@ -33,7 +33,7 @@ export async function generateMetadata(
   return {
     title: `${blogData.blogTitle} | Your Perspective` || "404 not found",
     description: blogData.summary || "404 not found",
-    keywords: blogData.blogTitle.split(" "),
+    keywords: blogData.blogTitle?.split(" ") || "",
     category: blogData.blogTitle,
     openGraph: {
       type: "website",

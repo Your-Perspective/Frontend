@@ -95,6 +95,7 @@ export default function Page() {
               </Button>
             </div>
           </section>
+          <article className="my-5">{data.bio}</article>
           <Tabs
             defaultValue="blogs"
             className="pb-5 sticky top-10 z-10 h-screen my-10"
