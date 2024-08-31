@@ -11,6 +11,7 @@ export interface Author {
 }
 
 export interface ContentsTypeProps {
+  id: number;
   slug: string;
   thumbnail?: string | StaticImport | undefined;
   summary: string;
@@ -37,6 +38,8 @@ export interface AdsProps {
 export type BlogsProps = AdsProps | ContentsTypeProps;
 
 export interface BlogDetailsProps {
+  tags: Tags[] | [];
+  categories: TabItem[] | [];
   slug: string;
   blogContent: string;
   summary: string;
@@ -193,20 +196,30 @@ export interface profileProps {
 export interface BlogPost {
   blogTitle: string;
   published: boolean;
-  blogContent: string;
+  blogContent?: string;
   slug: string;
-  isPin: boolean;
-  thumbnail: string;
+  isPin?: boolean;
+  thumbnail?: string | StaticImport;
   summary: string;
   minRead: number;
-  categoryIds: TabItem[];
-  tags: Tags[];
+  categoryIds?: TabItem[];
+  tags?: Tags[];
 }
+export interface editorjson extends BlogPost {
+  formData?: {
+    time?: number;
+    blocks?: { type: string; data: any }[];
+    version?: string;
+  } | null;
+  categories?: TabItem[];
+  detailtags?: Tags[];
+}
+
 export interface BlogPostBody {
+  blogSlug?: string;
   blogTitle: string;
   published: boolean;
   blogContent: string;
-  slug: string;
   isPin: boolean;
   thumbnail: string;
   summary: string;
