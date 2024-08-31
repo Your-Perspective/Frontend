@@ -18,6 +18,7 @@ import { useCallback, useEffect, useState } from "react";
 import { LogIn } from "lucide-react";
 import { GetAuthByRoles } from "@/constrain/AuthByRole";
 import { useAppSelector } from "@/lib/hooks";
+import { Router } from "@/constrain/Router";
 
 export default function SidebarLayout({ classNames }: { classNames?: string }) {
   const token = useAppSelector((state) => state.auth.accessToken);
@@ -96,9 +97,13 @@ export default function SidebarLayout({ classNames }: { classNames?: string }) {
           )}
 
           <div className="text-left flex flex-col justify-start items-start">
-            <Link href={"/pages/profile"} className="capitalize font-medium ">
+            <Button
+              variant={'link'}
+              className="capitalize font-medium px-0"
+              onClick={() => Router({ url: "/pages/profile" })}
+            >
               {CurrentUser.userName}
-            </Link>
+            </Button>
             <Button
               variant={"link"}
               onClick={handleLogout}
