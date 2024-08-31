@@ -42,7 +42,7 @@ export default function DashBoardLayout({
     error: ProfileError,
   } = useGetCurrentUserQuery();
   const router = useRouter();
-  const [error, setError] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const token = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -84,7 +84,8 @@ export default function DashBoardLayout({
         role: ["ADMIN"],
       });
 
-      setError(isAuthorized);
+      setIsAuthenticated(isAuthorized);
+      setLoading(loading);
     }
 
     if (token.accessToken) {
@@ -98,86 +99,23 @@ export default function DashBoardLayout({
     return <Loading />;
   }
 
-  if (!isSuccess || !error || ProfileError) {
+  if (isAuthenticated && isSuccess) {
     return (
-      <Error
-        gotoLogin
-        back_to_home
-        errorCode={401}
-        text_display="authentication need"
-      />
-    );
-  }
-
-  return (
-    <section>
-      <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-        <div className="hidden border-r bg-muted/40 md:block">
-          <div className="flex h-full max-h-screen flex-col gap-2">
-            <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-              <Image
-                priority
-                width={40}
-                src={logo}
-                alt="your-perspective - logo"
-                className="rounded-full"
-              />
-            </div>
-            <div className="flex-1">
-              <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                {links.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                      link.isActive
-                        ? "text-primary bg-muted"
-                        : "text-muted-foreground hover:text-primary"
-                    }`}
-                  >
-                    {link.icon}
-                    {link.text}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-            <div className="text-sm font-medium p-4">
-              <div>
-                <Button
-                  variant={"ghost"}
-                  onClick={handleLogout}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-muted-foreground hover:text-primary"
-                >
-                  <TbLogin className="size-4" />
-                  Logout
-                </Button>
+      <section>
+        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+          <div className="hidden border-r bg-muted/40 md:block">
+            <div className="flex h-full max-h-screen flex-col gap-2">
+              <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+                <Image
+                  priority
+                  width={40}
+                  src={logo}
+                  alt="your-perspective - logo"
+                  className="rounded-full"
+                />
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <header className="flex h-14 justify-between items-center gap-4 border-b bg-muted/40 px-4 md:justify-end sm:justify-between lg:h-[60px] lg:px-6">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="shrink-0 md:hidden"
-                >
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle navigation menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="flex flex-col">
-                <nav className="grid gap-2 text-lg font-medium">
-                  <Image
-                    priority
-                    width={40}
-                    src={logo}
-                    alt="your-perspective - logo"
-                    className="rounded-full"
-                  />
-
+              <div className="flex-1">
+                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                   {links.map((link, index) => (
                     <Link
                       key={index}
@@ -193,47 +131,108 @@ export default function DashBoardLayout({
                     </Link>
                   ))}
                 </nav>
-              </SheetContent>
-            </Sheet>
-            <div className="flex gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+              </div>
+              <div className="text-sm font-medium p-4">
+                <div>
                   <Button
-                    variant="secondary"
-                    size="icon"
-                    className="rounded-full"
+                    variant={"ghost"}
+                    onClick={handleLogout}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-muted-foreground hover:text-primary"
                   >
-                    <Image
-                      width={25}
-                      height={25}
-                      priority
-                      src={HandleImage({ src: data.profileImage })}
-                      alt="profile"
-                      className="w-8 h-8 object-cover rounded-full"
-                    />
-                    <span className="sr-only">Toggle user menu</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>{data.userName}</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push("/")}>
-                    Homepage
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout}>
+                    <TbLogin className="size-4" />
                     Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <ThemesModeToggle />
+                  </Button>
+                </div>
+              </div>
             </div>
-          </header>
-          <section className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-            {children}
-          </section>
+          </div>
+          <div className="flex flex-col">
+            <header className="flex h-14 justify-between items-center gap-4 border-b bg-muted/40 px-4 md:justify-end sm:justify-between lg:h-[60px] lg:px-6">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="shrink-0 md:hidden"
+                  >
+                    <Menu className="h-5 w-5" />
+                    <span className="sr-only">Toggle navigation menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="flex flex-col">
+                  <nav className="grid gap-2 text-lg font-medium">
+                    <Image
+                      priority
+                      width={40}
+                      src={logo}
+                      alt="your-perspective - logo"
+                      className="rounded-full"
+                    />
+
+                    {links.map((link, index) => (
+                      <Link
+                        key={index}
+                        href={link.href}
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
+                          link.isActive
+                            ? "text-primary bg-muted"
+                            : "text-muted-foreground hover:text-primary"
+                        }`}
+                      >
+                        {link.icon}
+                        {link.text}
+                      </Link>
+                    ))}
+                  </nav>
+                </SheetContent>
+              </Sheet>
+              <div className="flex gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      className="rounded-full"
+                    >
+                      <Image
+                        width={25}
+                        height={25}
+                        priority
+                        src={HandleImage({ src: data.profileImage })}
+                        alt="profile"
+                        className="w-8 h-8 object-cover rounded-full"
+                      />
+                      <span className="sr-only">Toggle user menu</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>{data.userName}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => router.push("/")}>
+                      Homepage
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <ThemesModeToggle />
+              </div>
+            </header>
+            <section className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+              {children}
+            </section>
+          </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  } else {
+    <Error
+      gotoLogin
+      back_to_home
+      errorCode={401}
+      text_display="authentication need"
+    />;
+  }
 }

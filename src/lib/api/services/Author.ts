@@ -22,6 +22,13 @@ const Authors = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["authors"],
     }),
+    deleteBlog: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/blogs/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ['authors']
+    }),
   }),
 });
 
@@ -29,4 +36,5 @@ export const {
   useGetTopAuthorsQuery,
   useGetAuthorAboutQuery,
   useGetBlogByAuthorQuery,
+  useDeleteBlogMutation
 } = Authors;
