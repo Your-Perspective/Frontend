@@ -72,14 +72,12 @@ const Blog = () => {
           </Button>
         </header>
 
-        <div className="w-full">
-          <DataTable
-            totalItems={listBlog?.length || 0}
-            onActionClick={handleActionClick}
-            columns={columns}
-            data={listBlog || []}
-          />
-        </div>
+        <DataTable
+          totalItems={listBlog?.length || 0}
+          onActionClick={handleActionClick}
+          columns={columns}
+          data={listBlog || []}
+        />
       </DashBoardLayout>
     </main>
   );
