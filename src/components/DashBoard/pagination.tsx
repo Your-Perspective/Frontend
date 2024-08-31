@@ -1,4 +1,3 @@
-// components/Pagination.tsx
 import React from "react";
 import { PaginationProps } from "@/types/Types";
 
@@ -15,7 +14,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-end items-center mt-4">
+    <div className="flex justify-center items-center mt-4">
       <section aria-label="Pagination">
         <ul className="inline-flex -space-x-px">
           <li>

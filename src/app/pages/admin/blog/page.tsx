@@ -32,9 +32,6 @@ const Blog = () => {
     {
       accessorKey: "blogTitle",
       header: "Title",
-      cell: ({ row }) => (
-        <div className="truncate w-12">{row.original?.blogTitle}</div>
-      ),
     },
     {
       accessorKey: "countViewer",
@@ -43,9 +40,6 @@ const Blog = () => {
     {
       accessorKey: "summary",
       header: "Summary",
-      cell: ({ row }) => (
-        <div className="truncate max-w-[450px]">{row.original?.summary}</div>
-      ),
     },
     {
       header: "Actions",
