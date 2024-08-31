@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import DashBoardLayout from "@/components/layout/layout";
 import { DataTable } from "@/components/DashBoard/Table";
 import { ColumnDef } from "@tanstack/react-table";
@@ -8,40 +7,13 @@ import { MdDeleteForever } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { ListBlog } from "@/types/Types";
 import Image from "next/image";
-import DialogConfirm from "@/components/Confirm/confirm";
-import {
-  useGetListThumbnailQuery,
-  useGetListBlogQuery,
-  useDeleteBlogMutation,
-} from "@/lib/api/services/AdminBlog";
+import { useGetListBlogQuery } from "@/lib/api/services/AdminBlog";
 import { IoAddCircleOutline } from "react-icons/io5";
 
 const Blog = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const { data: listBlog } = useGetListBlogQuery();
 
-  const [dialogConfirm, setDialogConfirm] = useState(false);
-  const [storeId, setStoreId] = useState<number | null>(null);
-
-  const { data: thumbnail, refetch: refetchThumbnail } =
-    useGetListThumbnailQuery();
-
-  const { data: listBlog, refetch: refetchBlog } = useGetListBlogQuery();
-  const [deleteBlog] = useDeleteBlogMutation();
-
-  useEffect(() => {
-    refetchThumbnail();
-
-    refetchBlog();
-  }, [refetchThumbnail, refetchBlog]);
-
-  const handleActionClick = (type: string, rowData: ListBlog) => {
-    if (type === "edit") {
-      setDialogOpen(true);
-    } else if (type === "delete") {
-      setDialogConfirm(true);
-      setStoreId(rowData?.id);
-    }
-  };
+  const handleActionClick = (type: string, rowData: ListBlog) => {};
 
   const columns: ColumnDef<ListBlog, any>[] = [
     {
@@ -90,47 +62,25 @@ const Blog = () => {
     },
   ];
 
-  const deleteData = async (Id: number) => {
-    setDialogConfirm(false);
-    try {
-      await deleteBlog(Id).unwrap();
-      refetchBlog();
-    } catch (error) {
-      console.error("Failed to delete the blog:", error);
-    }
-  };
-
   return (
     <main>
-      <section>
-        <DashBoardLayout>
-          <header className="justify-end flex">
-            <Button className="gap-1 flex">
-              <IoAddCircleOutline />
-              Create
-            </Button>
-          </header>
+      <DashBoardLayout>
+        <header className="justify-end flex">
+          <Button className="gap-1 flex">
+            <IoAddCircleOutline />
+            Create
+          </Button>
+        </header>
 
-          <div className={dialogOpen ? "hidden" : "block w-full"}>
-            <DataTable
-              totalItems={listBlog?.length || 0}
-              onActionClick={handleActionClick}
-              columns={columns}
-              data={listBlog || []}
-            />
-          </div>
-        </DashBoardLayout>
-      </section>
-
-      <section>
-        <DialogConfirm
-          title="Confirm"
-          Content="Are you sure you want to delete?"
-          isOpen={dialogConfirm}
-          onCancel={() => setDialogConfirm(false)}
-          onConfirm={() => storeId && deleteData(storeId)}
-        />
-      </section>
+        <div className="w-full">
+          <DataTable
+            totalItems={listBlog?.length || 0}
+            onActionClick={handleActionClick}
+            columns={columns}
+            data={listBlog || []}
+          />
+        </div>
+      </DashBoardLayout>
     </main>
   );
 };
