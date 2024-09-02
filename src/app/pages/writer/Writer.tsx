@@ -10,10 +10,19 @@ import { GetAuthByRoles } from "@/constrain/AuthByRole";
 import { useAppSelector } from "@/lib/hooks";
 import { MdPublish } from "react-icons/md";
 import PopOverDialog from "@/components/Dialog/Dialog";
-import { BlogPost, TabItem, Tags } from "@/types/Types";
+import {
+  BlogPost,
+  BlogPostBody,
+  editorjson,
+  TabItem,
+  Tags,
+} from "@/types/Types";
 import { FancyMultiSelect } from "@/components/selection/category-multi-select";
 import { TagsMultipleSelect } from "@/components/selection/tags-multi-select";
-import { usePostBlogMutation } from "@/lib/api/services/AllBlogs";
+import {
+  usePostBlogMutation,
+  useUpdateBlogMutation,
+} from "@/lib/api/services/AllBlogs";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { FieldValues, useForm } from "react-hook-form";
@@ -29,32 +38,55 @@ import Loading from "@/app/loading";
 
 import editorJsHtml from "editorjs-html";
 import { OutputData } from "@editorjs/editorjs";
+import { useRouter } from "next/navigation";
 
 const EditorComponent = dynamic(() => import("@/components/Editor/Editor"), {
   ssr: false,
 });
 
-export default function Writer() {
-  const [loading, isLoading] = useState(true);
-  const [isAuthorized, setAuthorized] = useState(false);
-  const token = useAppSelector((state) => state.auth);
-  const [contentData, setContentData] = useState<any>();
-
-  const [postBLog, { isLoading: blogIsPosting }] = usePostBlogMutation();
-  const form = useForm();
-
-  const [formData, setFormData] = useState<BlogPost>({
+export default function Writer({
+  FormData = {
+    slug: "",
     blogTitle: "",
     published: true,
     blogContent: "",
-    slug: "",
     isPin: false,
     thumbnail: "",
     summary: "",
     minRead: 5,
-    categoryIds: [],
-    tags: [],
-  });
+    categories: [],
+    detailtags: [],
+  },
+  isUpdateComponent = false,
+}: {
+  FormData?: editorjson;
+  isUpdateComponent?: boolean | undefined;
+}) {
+  const [loading, isLoading] = useState(true);
+  const [isAuthorized, setAuthorized] = useState(false);
+  const token = useAppSelector((state) => state.auth);
+  const [contentData, setContentData] = useState<any>(FormData.formData);
+  const router = useRouter();
+
+  const [
+    postBLog,
+    {
+      isLoading: blogIsPosting,
+      isSuccess: BlogPostSuccess,
+      error: ErrorBlogPost,
+    },
+  ] = usePostBlogMutation();
+  const [
+    UpdateBlog,
+    {
+      isLoading: blogIsUpdating,
+      isSuccess: BlogUpdateSuccess,
+      error: BlogUpdateError,
+    },
+  ] = useUpdateBlogMutation();
+  const form = useForm();
+
+  const [formData, setFormData] = useState<editorjson>(FormData);
 
   useEffect(() => {
     async function checkAuthorization() {
@@ -78,7 +110,7 @@ export default function Writer() {
   const handleChangeCategory = (values: TabItem[]) => {
     setFormData((pre) => ({
       ...pre,
-      categoryIds: values,
+      categories: values,
     }));
   };
   const handleChangeTags = (values: Tags[]) => {
@@ -99,22 +131,36 @@ export default function Writer() {
   const combinedHtmlContent = htmlContent.join("");
 
   const onSubmit = async (data: FieldValues) => {
+    const blogData: BlogPostBody = {
+      blogTitle: data.blogTitle ?? formData.blogTitle,
+      categoryIds:
+        formData?.categories && formData.categories.length > 0
+          ? formData.categories.map((item: TabItem) => item.id)
+          : [],
+      blogContent: combinedHtmlContent,
+      summary: data.description ?? formData.summary,
+      thumbnail: contentData?.blocks[0].data.url,
+      tags:
+        formData?.tags && formData.tags.length > 0
+          ? formData.tags.map((item: Tags) => item.id)
+          : [],
+      isPin: formData.isPin ?? false,
+      minRead: data.minRead ?? formData.minRead,
+      published: formData.published ?? false,
+    };
     try {
-      const postBlog = await postBLog({
-        blogTitle: data.blogTitle,
-        slug: data.BlogTitle,
-        categoryIds: formData.categoryIds.map((item: TabItem) => item.id),
-        blogContent: combinedHtmlContent,
-        summary: data.description,
-        thumbnail: contentData.blocks[0].data.url,
-        tags: formData.tags.map((item: Tags) => item.id),
-        isPin: false,
-        minRead: data.minRead,
-        published: true,
-      }).unwrap();
+      if (isUpdateComponent) {
+        const updateBlog = await UpdateBlog({
+          blogSlug: formData.slug,
+          ...blogData,
+        }).unwrap();
+      } else {
+        const postBlog = await postBLog(blogData).unwrap();
+      }
+
       toast.success("Blog posted successfully!");
       if (typeof window !== "undefined") {
-        window.location.reload();
+        router.push(`/pages/profile`);
       }
     } catch (err) {
       toast.warning("Double check, try again later!");
@@ -133,7 +179,8 @@ export default function Writer() {
                   variant={"default"}
                   className="rounded-full dark:text-white bg-gradient-to-tr hover:bg-gradient-to-r transition-all  from-blue-800 to-primaryColor"
                 >
-                  <MdPublish className="mr-2" /> Publish
+                  <MdPublish className="mr-2" />{" "}
+                  {isUpdateComponent ? "Update" : "Publish"}
                 </Button>
               }
               title="Final Steps to Publish"
@@ -150,7 +197,7 @@ export default function Writer() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Title</FormLabel>
-                          <FormControl>
+                          <FormControl defaultValue={formData.blogTitle}>
                             <Input {...field} placeholder="Title" required />
                           </FormControl>
                           <FormMessage />
@@ -163,7 +210,7 @@ export default function Writer() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Description</FormLabel>
-                          <FormControl>
+                          <FormControl defaultValue={formData.summary}>
                             <Input
                               {...field}
                               placeholder="Description"
@@ -183,11 +230,11 @@ export default function Writer() {
                           <FormControl>
                             <div className="flex flex-col gap-2">
                               <FancyMultiSelect
-                                items={formData.categoryIds}
+                                items={formData?.categories || []}
                                 getSelectedItems={handleChangeCategory}
                               />
                               <TagsMultipleSelect
-                                items={formData.tags}
+                                items={formData?.detailtags || []}
                                 getSelectedItems={handleChangeTags}
                               />
                             </div>
@@ -202,7 +249,7 @@ export default function Writer() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Min read</FormLabel>
-                          <FormControl>
+                          <FormControl defaultValue={formData.minRead}>
                             <Input
                               type="number"
                               min={0}
@@ -216,12 +263,12 @@ export default function Writer() {
                     />
                     <div id="container-editor my-3">
                       <Button
-                        disabled={blogIsPosting}
+                        disabled={isUpdateComponent}
                         type="submit"
                         variant={"default"}
                         className="w-full"
                       >
-                        Publish
+                        {isUpdateComponent ? "Update" : "Publish"}
                       </Button>
                     </div>
                   </form>
@@ -230,7 +277,10 @@ export default function Writer() {
             />
           </div>
           <article>
-            <EditorComponent getData={setContentData} />
+            <EditorComponent
+              data={FormData.formData}
+              getData={setContentData}
+            />
           </article>
         </section>
       </Container>

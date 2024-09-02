@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Express your thoughts on any topic by writing a blog post. Whether it’s a personal story, a review, or an opinion, this is your chance to share your voice.",
 };
 
-export default function page() {
+export default function WriterPage() {
   return <Writer />;
 }
