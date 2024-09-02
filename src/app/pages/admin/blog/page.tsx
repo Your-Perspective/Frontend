@@ -17,19 +17,6 @@ const Blog = () => {
 
   const columns: ColumnDef<ListBlog, any>[] = [
     {
-      accessorKey: "thumbnail",
-      header: "Thumbnail",
-      cell: ({ row }) => (
-        <Image
-          src={row.original.thumbnail || "/path/to/default-image.jpg"}
-          alt="Thumbnail"
-          width={50}
-          height={50}
-          className="size-[50px] rounded-[10px] object-fit"
-        />
-      ),
-    },
-    {
       accessorKey: "blogTitle",
       header: "Title",
       cell: ({ row }) => (
