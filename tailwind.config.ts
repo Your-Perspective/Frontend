@@ -15,6 +15,10 @@ const config = {
       padding: "2rem",
     },
     extend: {
+      backgroundImage: {
+        background_gradient:
+          "linear-gradient(to top right, #1E3A8A, var(--tw-gradient-stops))",
+      },
       colors: {
         primaryColor: "#09B8FE",
         border: "hsl(var(--border))",

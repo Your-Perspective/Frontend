@@ -6,7 +6,7 @@ export const ProfileAuth = apiSlice.injectEndpoints({
     getCurrentUser: builder.query<profileProps, void>({
       query: () => `/auth/profile`,
       keepUnusedDataFor: 5,
-      providesTags: ["user"],
+      providesTags: ["user", "blogs", "authors"],
     }),
   }),
 });

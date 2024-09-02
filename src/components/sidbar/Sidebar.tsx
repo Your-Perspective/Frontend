@@ -18,6 +18,7 @@ import { useCallback, useEffect, useState } from "react";
 import { LogIn } from "lucide-react";
 import { GetAuthByRoles } from "@/constrain/AuthByRole";
 import { useAppSelector } from "@/lib/hooks";
+import { Router } from "@/constrain/Router";
 
 export default function SidebarLayout({ classNames }: { classNames?: string }) {
   const token = useAppSelector((state) => state.auth.accessToken);
@@ -85,15 +86,24 @@ export default function SidebarLayout({ classNames }: { classNames?: string }) {
     <section className={classNames}>
       {CurrentUser ? (
         <div className="flex justify-start items-start gap-3 py-5">
-          <Image
-            src={HandleImage({ src: CurrentUser.profileImage })}
-            width={50}
-            height={50}
-            className="w-[40px] h-[40px] rounded-full object-cover"
-            alt={CurrentUser.userName}
-          />
+          {CurrentUser.profileImage && (
+            <Image
+              src={HandleImage({ src: CurrentUser.profileImage })}
+              width={50}
+              height={50}
+              className="w-[40px] h-[40px] rounded-full object-cover"
+              alt={CurrentUser.userName}
+            />
+          )}
+
           <div className="text-left flex flex-col justify-start items-start">
-            <p className="capitalize font-medium ">{CurrentUser.userName}</p>
+            <Button
+              variant={'link'}
+              className="capitalize font-medium px-0"
+              onClick={() => Router({ url: "/pages/profile" })}
+            >
+              {CurrentUser.userName}
+            </Button>
             <Button
               variant={"link"}
               onClick={handleLogout}
@@ -173,13 +183,15 @@ export default function SidebarLayout({ classNames }: { classNames?: string }) {
               key={item.username + index}
               className="flex justify-start items-center gap-3"
             >
-              <Image
-                src={item.profileImage}
-                width={50}
-                height={50}
-                className="w-[40px] h-[40px] rounded-full object-cover"
-                alt={item.username + item.formattedTotalCountViewer}
-              />
+              {item.profileImage && (
+                <Image
+                  src={item.profileImage}
+                  width={50}
+                  height={50}
+                  className="w-[40px] h-[40px] rounded-full object-cover"
+                  alt={item.username + item.formattedTotalCountViewer}
+                />
+              )}
               <div className="text-left">
                 <p className="capitalize font-medium ">{item.username}</p>
                 <p className="text-gray-500">
