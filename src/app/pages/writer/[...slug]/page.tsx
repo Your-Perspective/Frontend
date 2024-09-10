@@ -119,6 +119,12 @@ export default function UpdateBlogs({
             });
             break;
           default:
+            blocks.push({
+              type: "raw",
+              data: {
+                html: (node as HTMLElement).outerHTML,
+              },
+            });
             break;
         }
       }

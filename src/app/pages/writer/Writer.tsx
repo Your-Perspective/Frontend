@@ -119,14 +119,27 @@ export default function Writer({
       tags: values,
     }));
   };
+  const escapeHtml = (html: string) => {
+    return html
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  };
+  const customParsers = {
+    raw: (block: any) => {
+      const escapedHtml = escapeHtml(block.data.html || "");
+      return `<pre><code>${escapedHtml}</code></pre>`;
+    },
+  };
 
-  const edjsParser = editorJsHtml();
-
+  const edjsParser = editorJsHtml(customParsers);
   let htmlContent: string[] = [];
-
   if (contentData) {
     htmlContent = edjsParser.parse(contentData as OutputData);
   }
+
 
   const combinedHtmlContent = htmlContent.join("");
 
