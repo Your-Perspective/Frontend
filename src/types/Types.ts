@@ -1,4 +1,5 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { ReactNode } from "react";
 
 export type Pokemon = {
   id: number;
@@ -191,6 +192,96 @@ export interface profileProps {
   about: string;
   profileImage: string;
   formatTotalCountViewer: string;
+}
+
+export interface CategoriesProp {
+  id: string;
+  title: string;
+  slug: string;
+}
+
+export interface ThumbnailProp {
+  isDeleted: boolean;
+  createdAt: string;
+  lastModifiedAt: string;
+  id: string;
+  title: string;
+  imageUrl: string;
+  link: string;
+}
+
+export interface TagProps {
+  id: number;
+  name: string;
+}
+
+export interface ListBlog {
+  id: number;
+  blogTitle: string;
+  published: string;
+  blogContent: string;
+  slug: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categories: any[];
+  categoryIds: any[];
+  tags: any[];
+}
+
+export interface CreateBlog {
+  id: number;
+  blogTitle: string;
+  published: boolean;
+  isPin: boolean;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categoryIds: TabItem[];
+  blogContent: string;
+  tags: Tags[];
+}
+
+export interface updateBlog {
+  id: number;
+  blogTitle: string;
+  published: string;
+  slug: string;
+  isPin: string;
+  thumbnail: string;
+  summary: string;
+  minRead: string;
+  categoryIds: TabItem[];
+  blogContent: string;
+  tags: Tags[];
+}
+
+export interface DeleteBlog {
+  Id: number;
+}
+
+export interface DialogAdminProp {
+  title: string;
+  children: ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: () => void;
+}
+
+export interface Confirm {
+  title: string;
+  Content: string;
+  isOpen: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}
+
+export interface PaginationProps {
+  pageIndex: number;
+  pageSize: number;
+  totalItems: number;
+  onPageChange: (pageIndex: number) => void;
 }
 
 export interface BlogPost {
